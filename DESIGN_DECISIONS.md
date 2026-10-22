@@ -6,6 +6,8 @@ The owner approved Minecraft Java 1.21.1 / NeoForge, Uneasy default dread, the f
 
 ## P0 implementation choices
 
+- Owner clarified the intended art style after P0: chunky, dimensional 3D voxel forms with stylized animation. Gameplay models must establish that direction; use modeled depth and stepped silhouettes, supported by pixel textures and the supplied reference palette. Keep P0 placeholders explicitly provisional. This clarifies presentation without changing gameplay scope.
+
 - Pin Java 21, Gradle 9.2.1, NeoForge 21.1.264 and ModDevGradle 2.0.148, following the inspected official 1.21.1 MDK. Use Mojang mappings without Parchment, matching the brief. The wrapper verifies the distribution SHA-256.
 - Preserve the original brief and images. DESIGN.md is the living copy with an implementation-status preface. Assets are generated as small placeholders, rather than cropping the reference sheets into final textures.
 - Start with two registered developer objects: decorative Dewstone and Glow Cell. The cell's amethyst/copper recipe exercises the datagen pipeline and is explicitly provisional. Neither object implies that power, plant simulation or worldgen exists yet.

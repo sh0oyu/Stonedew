@@ -4,6 +4,20 @@ A Minecraft Java **1.21.1 / NeoForge** mod: a cozy underground cultivation cave 
 
 **Current milestone: P0 — foundations.** This build adds a Stonedew creative tab, decorative Dewstone, a Glow Cell item and developer recipe, configuration, reloadable datapack definitions, persistent story state, and operator debug commands. Growing, watering, processing, the Ledger and all later gameplay are not implemented yet. The reference images describe the intended appearance, not the current build.
 
+## Run in Minecraft
+
+1. Use **Minecraft Java Edition 1.21.1**. Install [NeoForge 21.1.264](https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.264/neoforge-21.1.264-installer.jar) using its **Install client** option.
+2. Open the Minecraft Launcher, select the NeoForge installation, launch it once, and close the game.
+3. Open that installation's game directory (Launcher → Installations → the NeoForge profile's folder icon). Create a `mods` folder if needed.
+4. Copy `stonedew-0.1.0-p0.jar` into `mods`. Keep the file as a JAR; do not extract it. The build produces it under `build/libs/`; successful GitHub Actions builds also upload a `stonedew` artifact containing the JAR.
+5. Launch the NeoForge installation again. Confirm Stonedew is in the Mods list, then create a Creative world and find the Stonedew creative tab.
+
+For a development launch directly from this project, install a **Java 21 JDK**, open a terminal in the project folder, and run `.\gradlew.bat runClient` on Windows or `./gradlew runClient` on macOS/Linux. Gradle downloads the required development dependencies and launches Minecraft with Stonedew loaded.
+
+## Art direction
+
+Chunky, stylized **3D voxel** models and expressive animation: stepped silhouettes, modeled leaves/buds and equipment details, pixel-textured materials, gentle leaf sway, and springy pour/snip/growth feedback. Dark wooden beds, copper fittings, visible jar contents and violet/cyan lighting follow the supplied references. Assets should read as dimensional voxel objects from multiple gameplay angles. The P0 cubes/icons are temporary tooling placeholders; the target style begins with gameplay models and develops through later art passes. See DESIGN.md for the recorded direction.
+
 ## Develop
 
 Install a **Java 21 JDK**, then use the checked-in Gradle wrapper. Python 3 is needed only to regenerate placeholder textures.

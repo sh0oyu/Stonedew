@@ -1,5 +1,9 @@
 # Changelog
 
+## Documentation follow-up — 2026-10-22
+
+- Added client installation and development-launch steps, and recorded the owner's stylized, animated 3D voxel art direction in the living design and asset guidance. Gameplay and the P0 JAR are unchanged.
+
 ## 0.1.0-p0 — 2026-10-22
 
 First implementation phase: a loadable NeoForge foundation. This is not the playable cultivation loop.

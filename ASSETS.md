@@ -2,6 +2,8 @@
 
 The root reference PNGs guide the final visual direction. Every in-game asset currently implemented is a placeholder or foundation, not final game art. No reference image has been modified.
 
+**Owner's art clarification:** target stylized, animated **3D voxel** assets with chunky geometry, stepped silhouettes and modeled depth. Plants, leaves, buds, jars, lamps and equipment must carry that dimensional language. Pixel textures and the violet/cyan palette support the forms. Include gentle sway and springy interaction animations as those systems arrive. P0's cubes and inventory icons do not establish the final model quality.
+
 | ID / source | Kind | Status | Replacement / generation |
 | --- | --- | --- | --- |
 | `Pixel cannabis farm automation sprite sheet.png` | Reference image | Reference only | Preserve original; use for palette, silhouette and equipment direction |
