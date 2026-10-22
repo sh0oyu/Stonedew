@@ -10,6 +10,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 @Mod(value = Stonedew.ID, dist = Dist.CLIENT)
 public final class StonedewClient {
   public StonedewClient(ModContainer container, net.neoforged.bus.api.IEventBus bus) {
+    bus.addListener(PaintedMaterialSource::register);
     bus.addListener(ClientRegistration::models);
     bus.addListener(ClientRegistration::renderers);
     bus.addListener(ClientRegistration::screens);

@@ -1,0 +1,24 @@
+[
+  {
+    "path": "src/main/resources/assets/stonedew/textures/art/leaf_fan.png",
+    "purpose": "Transparent painted foliage card",
+    "sha256": "ccbc66a8368da98baa35496fc45df2d6dd1d76a2d5b431875c95b8b44bbb9afd",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "creation": "Original imagegen artwork, created for Stonedew; source PNG preserved unchanged",
+    "date": "2026-10-22"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/art/painted_materials.png",
+    "purpose": "Painted 4 by 4 material source sheet",
+    "sha256": "ae11052fb552a817e13fea1bd71a2d9ce70e6c2f0ed0fc774111a1b95b24b966",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "creation": "Original imagegen artwork, created for Stonedew; source PNG preserved unchanged",
+    "date": "2026-10-22"
+  }
+]

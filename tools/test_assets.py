@@ -71,14 +71,42 @@ class AssetTests(unittest.TestCase):
         for path in (ASSETS / "models").rglob("*.mtl"):
             for line in path.read_text().splitlines():
                 if line.startswith("map_Kd "):
-                    texture = line.split()[1].split(":", 1)[1]
-                    self.assertTrue((ASSETS / "textures" / (texture+".png")).is_file())
+                    texture = line.split()[1]
+                    if texture == "stonedew:block/painted_leaf":
+                        self.assertTrue((ASSETS / "textures/art/leaf_fan.png").is_file())
+                    elif texture.startswith("stonedew:"):
+                        self.assertTrue((ASSETS / "textures" / (texture.split(":", 1)[1]+".png")).is_file())
 
-    def test_material_textures_keep_vanilla_pixel_density(self):
+    def test_texture_dimensions_and_painted_sources(self):
         for path in (ASSETS / "textures").rglob("*.png"):
             data = path.read_bytes()
             self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
-            self.assertEqual(struct.unpack(">II", data[16:24]), (16, 16), path)
+            width, height = struct.unpack(">II", data[16:24])
+            if path.parent.name == "art":
+                self.assertEqual(width, height)
+                self.assertGreaterEqual(width, 256)
+                self.assertLessEqual(width, 2048)
+                if path.name == "leaf_fan.png":
+                    self.assertEqual(data[25], 6, "Leaf cards must preserve alpha")
+                else:
+                    self.assertIn(data[25], (2, 6))
+            else:
+                self.assertEqual((width, height), (16, 16), path)
+        for name in ("leaf_fan", "painted_materials"):
+            self.assertTrue((ASSETS / "textures/art" / (name+".png")).is_file())
+
+    def test_painted_sprite_source_and_card_binding_are_packaged(self):
+        source_path = ROOT / "src/main/resources/assets/minecraft/atlases/blocks.json"
+        sources = json.loads(source_path.read_text())["sources"]
+        self.assertIn({"type": "stonedew:painted_materials", "resource": "stonedew:art/painted_materials"}, sources)
+        materials = (ASSETS / "models/block/plants/plants.mtl").read_text()
+        self.assertIn("map_Kd stonedew:block/painted_leaf", materials)
+        self.assertIn("neoforge_TintIndex 3", materials)
+        provenance = json.loads((ROOT / "docs/art/painted-sources.json").read_text())
+        import hashlib
+        for entry in provenance:
+            path = ROOT / entry["path"]
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), entry["sha256"])
 
     def test_source_attribution_is_present(self):
         for path in (ASSETS / "models").rglob("*.json"):

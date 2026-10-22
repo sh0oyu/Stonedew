@@ -108,14 +108,22 @@ class Mesh:
                 self.face(material, vertices, uv=uv)
                 self.face(material, list(reversed(vertices)), uv=list(reversed(uv)))
 
-    def fan(self, center, angle, size, simple=False, sugar=False):
-        joint = add(center, (math.cos(angle)*1.35, .35, math.sin(angle)*1.35))
-        self.tube(center, joint, .10 if sugar else .13)
-        fingers = (-.78, -.38, 0, .38, .78) if not simple else (-.5, 0, .5)
-        for finger in fingers:
-            length = size * (1 - abs(finger)*.58)
-            self.blade(joint, angle+finger, length, length*.14,
-                       lift=length*.16, material="sugar" if sugar else "leaf", simple=simple)
+    def card(self, base, angle, length, width=None, pitch=.24, material="leaf"):
+        """Painted, alpha-cutout fan on two hinged planes, with fixed world orientation."""
+        width = width or length*1.10
+        forward = (math.cos(angle), 0, math.sin(angle))
+        sideways = (-math.sin(angle), 0, math.cos(angle))
+        rows = []
+        for t in (0, .50, 1):
+            center = add(base, add(mul(forward, length*t*math.cos(pitch)),
+                                   (0, length*t*math.sin(pitch) + .55*math.sin(math.pi*t), 0)))
+            rows.append([add(center, mul(sideways, width*(u-.5))) for u in (0, 1)])
+        for row in range(2):
+            vertices = [rows[row][1], rows[row+1][1], rows[row+1][0], rows[row][0]]
+            uv = [(1, 1-row*.5), (1, .5-row*.5), (0, .5-row*.5), (0, 1-row*.5)]
+            # Upward foliage normals keep painted cards readable from either side.
+            self.face(material, vertices, [(0, 1, 0)]*4, uv)
+            self.face(material, list(reversed(vertices)), [(0, 1, 0)]*4, list(reversed(uv)))
 
     def write(self, path):
         lines = ["# Original Stonedew organic plant art; tools/plant_art.py", "mtllib plants.mtl", "o plant"]
@@ -138,66 +146,58 @@ class Mesh:
 
 def plant(stage, habit, lod=False):
     mesh = Mesh()
-    height = (3.2, 8.8, 12.3, 14.2)[stage]
-    tall = 1.18 if habit == "tall" else .92 if habit == "bushy" else 1
-    wide = .84 if habit == "tall" else 1.08 if habit == "bushy" else 1
+    height = (3.0, 8.2, 12.6, 14.2)[stage]
+    tall = 1.15 if habit == "tall" else .94 if habit == "bushy" else 1
+    wide = .86 if habit == "tall" else 1.08 if habit == "bushy" else 1
     height *= tall
-    lean = .65 if habit == "tall" else .35
-    mesh.tube((0, 0, 0), (lean, height, -.15), .17 if stage else .12, sides=5)
+    mesh.tube((0, 0, 0), (.25, height, 0), .16 if stage else .10, sides=5)
     if stage == 0:
-        for angle in (.3, math.pi+.3):
-            mesh.blade((0, 2.3, 0), angle, 2.5, .65, lift=.6, simple=lod)
-        if not lod:
-            for angle in (1.9, 5):
-                mesh.blade((0, 3, 0), angle, 1.4, .27, lift=.5)
+        mesh.card((0, .8, 0), .25, 2.6, pitch=.45)
+        mesh.card((0, 1.2, 0), 3.4, 2.1, pitch=.55)
         return mesh
     if lod:
-        for tier, y in enumerate((height*.3, height*.65)):
+        for tier, y in enumerate((height*.18, height*.45, height*.72)):
             for i in range(3):
-                angle = i*math.tau/3 + tier*.9
-                mesh.blade((0, y, 0), angle, (6.3-tier*1.7)*wide, 1.15, simple=True)
+                mesh.card((0, y, 0), i*math.tau/3+tier*1.2,
+                          (7.8-tier*2.0)*wide, pitch=.20)
         if stage >= 2:
-            for x, y, z in ((lean, height, 0), (2.8, height*.64, 1), (-2.8, height*.62, -1)):
-                mesh.puff((x, y, z), (1.7, 2.0, 1.7), material="bud", sides=5, bands=3)
+            for x, y, z in ((0, height, 0), (2.5, height*.66, 1), (-2.5, height*.60, -1)):
+                mesh.puff((x, y, z), (1.1, 1.5, 1.1), material="bud", sides=5, bands=3)
         return mesh
-    tiers = [(height*.24, 4, 5.8*wide), (height*.53, 3, 4.7*wide)]
+    # Broad base, overlapping staggered skirts, progressively smaller toward the tip.
+    # The canopy, rather than exposed branches, carries the plant silhouette.
+    tiers = [(height*.12, 7, 6.6), (height*.34, 6, 5.6), (height*.56, 5, 4.4), (height*.76, 3, 3.0)]
     if stage >= 2:
-        tiers += [(height*.74, 3, 4.5*wide), (height*.89, 3, 3.5*wide)]
-    for tier, (y, count, size) in enumerate(tiers):
+        tiers = [(height*fraction, count, length) for fraction, count, length in (
+            (.12, 8, 7.8), (.25, 8, 7.0), (.38, 7, 6.2), (.51, 6, 5.4),
+            (.64, 5, 4.6), (.76, 4, 3.7), (.86, 3, 2.9), (.94, 3, 2.0))]
+    for tier, (y, count, length) in enumerate(tiers):
         for i in range(count):
-            angle = i*math.tau/count + tier*1.1 + .35
-            mesh.fan((lean*y/height, y, 0), angle, size)
-    if stage >= 2:
-        sites = [(lean, height-.25, 0, 2.0)]
-        for i in range(4):
-            angle = i*math.tau/4 + .4
-            radius = 3.5*wide
-            sites.append((math.cos(angle)*radius, height*.66 + (i%2)*.9,
-                          math.sin(angle)*radius, 1.55))
+            angle = i*math.tau/count + tier*1.43 + .25
+            pitch = .15 + .12*((i+tier)%3)
+            mesh.card((.25*y/height, y, 0), angle, length*wide, pitch=pitch)
+    # Upright inner cards fill gaps between the outward layers.
+    for tier, y in enumerate((height*.27, height*.53)):
         for i in range(3):
-            angle = i*math.tau/3 + 1.2
-            sites.append((math.cos(angle)*4.7*wide, height*.39,
-                          math.sin(angle)*4.7*wide, 1.25))
+            mesh.card((0, y, 0), i*math.tau/3+tier*.8, 3.8*wide, pitch=.95)
+    if stage >= 2:
+        sites = [(0, height+.1, 0, 1.45)]
+        for tier, (fraction, count, radius, size) in enumerate(((.30, 6, 4.8, .90), (.56, 5, 3.4, 1.10), (.77, 3, 2.0, 1.15))):
+            for i in range(count):
+                angle = i*math.tau/count + tier*1.43
+                sites.append((math.cos(angle)*radius*wide, height*fraction+.3,
+                              math.sin(angle)*radius*wide, size))
         for i, (x, y, z, size) in enumerate(sites):
-            size *= .68 if stage == 2 else .90
-            mesh.tube((lean*.6, y*.65, 0), (x, y, z), .13)
-            # Green bracts cradle the colored flower, rather than a single solid column.
-            mesh.puff((x, y-.65, z), (size*.82, size*.45, size*.82), i, "bract", sides=6, bands=3)
-            mesh.puff((x, y+.25, z), (size*.86, size*.98, size*.86), i*.7,
-                      "bud", sides=8, bands=3)
-            for tuft in range(5):
-                angle = tuft*math.tau/5 + i
-                center = (x+math.cos(angle)*size*.65, y+.30+math.sin(tuft*1.7)*size*.20, z+math.sin(angle)*size*.65)
+            size *= .67 if stage == 2 else 1
+            mesh.tube((0, y*.85, 0), (x, y, z), .10)
+            mesh.puff((x, y-.32, z), (size*.87, size*.50, size*.85), i, "bract", sides=6, bands=3)
+            mesh.puff((x, y+.25, z), (size*.80, size*1.0, size*.80), i*.7, "bud", sides=8, bands=3)
+            for tuft in range(4):
+                angle = tuft*math.tau/4+i
+                center = (x+math.cos(angle)*size*.62, y+.35+math.sin(tuft*1.7)*size*.18, z+math.sin(angle)*size*.62)
                 mesh.puff(center, (size*.36, size*.46, size*.36), i+tuft,
                           "bud_light" if tuft == 1 else "bud", sides=6, bands=3)
-            mesh.puff((x+.12*size, y+size*1.05, z),
-                      (size*.60, size*.57, size*.58), i, "bud_light", sides=6, bands=3)
-            for tip in range(2):
-                angle = i + tip*2.8
-                base = (x+math.cos(angle)*size*.65, y+size*.8, z+math.sin(angle)*size*.65)
-                mesh.blade(base, angle, .4, .06, lift=.25, material="hair", simple=True)
-            if i < 8:
-                mesh.fan((x, y-.5, z), i*1.9, 3.3*wide, simple=True, sugar=True)
+            mesh.puff((x, y+size*1.05, z), (size*.52, size*.52, size*.52), i, "bud_light", sides=6, bands=3)
     return mesh
 
 
@@ -207,8 +207,8 @@ def generate(root):
     materials = ["# Original Stonedew organic plant materials; tools/plant_art.py"]
     for name, texture, tint, color in [
         ("stem", "plant_stem", -1, (1, 1, 1)),
-        ("leaf", "plant_leaf", 0, (1, 1, 1)),
-        ("sugar", "plant_leaf", 0, (.88, .97, .88)),
+        ("leaf", "painted_leaf", 3, (1, 1, 1)),
+
         ("bract", "plant_bud", 0, (.82, .92, .73)),
         ("bud", "plant_bud", 1, (.83, .92, .88)),
         ("bud_light", "plant_bud", 1, (1, 1, 1)),

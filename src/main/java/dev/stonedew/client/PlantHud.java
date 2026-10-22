@@ -17,23 +17,23 @@ public final class PlantHud {
     int width = graphics.guiWidth();
     Component primary = Component.translatable(PlayerProgress.clientDirective(client.player));
     int goalWidth = Math.min(width - 20, font.width(primary) + 24), goalX = 8;
-    graphics.fill(goalX, 6, goalX + goalWidth, 23, 0xC91E1528);
-    graphics.fill(goalX, 6, goalX + 2, 23, 0xFFB8693A);
-    graphics.drawString(font, primary, goalX + 8, 11, 0xF2E8FF, false);
+    PaintedUi.material(graphics, 0, goalX, 6, goalWidth, 17);
+    graphics.fill(goalX, 6, goalX + 2, 23, 0xFFCA9854);
+    graphics.drawString(font, primary, goalX + 8, 11, 0xFFEAC6, false);
     var target = dev.stonedew.plant.TrayTargeting.find(client.level, client.player);
     if (target == null) return;
     var plant = target.tray().view(target.slot());
     if (plant == null) return;
-    int x = width / 2 - 104, y = 29;
-    graphics.fill(x - 1, y - 1, x + 209, y + 65, 0xB05A3A7A);
-    graphics.fill(x, y, x + 208, y + 64, 0xEF1E1528);
+    int x = width - 216, y = 30;
+    PaintedUi.panel(graphics, x, y, 208, 68);
+    PaintedUi.leaf(graphics, x + 7, y + 4, 16);
     graphics.drawString(
         font,
         Component.translatable(
             "plant.stonedew.wild", Component.translatable("pigment.stonedew." + plant.pigment())),
-        x + 8,
+        x + 27,
         y + 6,
-        plant.bud(),
+        0x315630,
         false);
     graphics.drawString(
         font,
@@ -43,16 +43,16 @@ public final class PlantHud {
             plant.progress()),
         x + 8,
         y + 20,
-        0xF2E8FF,
+        0x503C29,
         false);
-    graphics.fill(x + 8, y + 34, x + 200, y + 37, 0xFF3E3050);
-    graphics.fill(x + 8, y + 34, x + 8 + 192 * plant.water() / 100, y + 37, 0xFF4FE8E0);
+    graphics.fill(x + 8, y + 34, x + 200, y + 37, 0xFF96784E);
+    graphics.fill(x + 8, y + 34, x + 8 + 192 * plant.water() / 100, y + 37, 0xFF2A9585);
     graphics.drawString(
         font,
         Component.translatable("hud.stonedew.metrics", plant.water(), plant.light(), plant.vigor()),
         x + 8,
         y + 43,
-        plant.water() < 20 ? 0xFFB347 : 0xBEAEC8,
+        plant.water() < 20 ? 0xA23E26 : 0x624B34,
         false);
     graphics.drawString(
         font,
@@ -65,7 +65,7 @@ public final class PlantHud {
                     : plant.stage() == 3 ? "status.stonedew.ripe" : "status.stonedew.growing")),
         x + 8,
         y + 54,
-        plant.water() < 20 ? 0xFFB347 : 0xBEAEC8,
+        plant.water() < 20 ? 0xA23E26 : 0x624B34,
         false);
   }
 

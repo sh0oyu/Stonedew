@@ -9,7 +9,7 @@ Use Minecraft Java 1.21.1 / NeoForge 21.1.264 with **only the P1 Stonedew JAR**.
 5. **Identity:** compare four seed colors. Try `genome show` and `genome set habit tall tall` on a targeted plant. Observe color/silhouette changes. This is persistent identity, not the later breeding system.
 6. **Save:** save/quit and reopen. Confirm stages, water, genomes, lamp fuel and directive. Break a planted tray in Survival: seed identity drops, while growth progress resets.
 7. **Ledger:** in a fresh world, plant, water and fuel a lamp. Follow the top-left directive and open the Ledger. It should progress to tending, then ripe inspection. Esc closes it.
-8. **Art/feel:** run `/stonedew debug demo` in clear loaded space. Inspect models from several angles and beyond 24 blocks. Check sway, pouring motion, clipping, HUD readability and your shader setup. Report screenshots and what feels wrong.
+8. **Art/feel:** run `/stonedew debug demo` in clear loaded space. Inspect models from several angles and beyond 24 blocks. Check the tapered painted leaf-card canopy, solid flowers, shared painted prop materials, parchment HUD/Ledger, sway, pouring motion, clipping and your shader setup. Report screenshots and what feels wrong.
 
 ## Still provisional / unimplemented
 

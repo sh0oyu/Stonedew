@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2-p1 — painted 2D/3D art direction — 2026-10-22
+
+Owner clarified the whole mod's target: a painted fantasy style, using Hytale / World of Warcraft as shorthand. The weed bush should have a dense tapered Christmas-tree silhouette, painted 2D leaves and solid 3D flowers. This replaces the earlier all-modeled leaf treatment.
+
+- Original imagegen foliage fan and shared 4×4 material painting, preserved unchanged with source hashes/provenance and prompt briefs. These are shipped texture inputs, not concept images used as screenshots.
+- Fixed, slightly hinged alpha foliage cards in eight staggered canopy skirts, inner fill, smaller nested 3D flower clusters, all growth stages/habits and distant detail. Most of the trunk is hidden. Geometry max 2260 faces near / 86 distant, under the existing 3000 / 100 limits.
+- Native SpriteSource import creates 256px material sprites and 512px foliage, preserving ordinary world mip levels. Vanilla entity shader layer enables foliage mip filtering; it fixes the noisy direct-texture prototype without a custom GLSL shader or dependency.
+- Painted material bindings cover every existing Stonedew prop, tool, packet, lamp/cell and Dewstone. Ledger and HUD share painted wood/copper/parchment and the leaf emblem. Plant HUD moved to the upper right to leave chat and the bush visible. Vanilla world blocks remain vanilla.
+- Existing plant saves, genome identity and P1 gameplay retained; foliage targeting widened for the new canopy. New mod-wide guide applies to future art as well.
+
+Validation: Java 21 / NeoForge build passes; 53 JUnit tests, no failures/errors/skips; six asset checks pass. Regeneration is byte-identical across 126 resource/report files; datagen writes zero changes. Client loads existing P1 world and imported paintings with the block atlas retaining mip level 4. Real Survival watering of the new canopy consumes one pour (8→7); painted Ledger opens. Resource reload retains the paintings and mip level 4; side/back views retain alpha foliage. Actual game captures document plants, props, HUD and Ledger. Performance target, shader packs, broader hardware/multiplayer and final visual acceptance remain unvalidated.
+
 ## 0.2.1-p1 — organic plant art correction — 2026-10-22
 
 The owner rejected the rigid, sparse all-voxel plants. This revision replaces their geometry rather than recoloring the old columns.

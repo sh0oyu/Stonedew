@@ -4,7 +4,7 @@ A Minecraft Java **1.21.1 / NeoForge 21.1.264** mod about a cozy underground cul
 
 **Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes one-slot pots, four-slot beds, persistent genome identity, a plant HUD and a working Ledger directive screen. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
 
-[**Download stonedew-0.2.1-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.1-p1.jar)
+[**Download stonedew-0.2.2-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.2-p1.jar)
 
 ## Install
 
@@ -38,11 +38,11 @@ See the [eight-step playtest and remaining placeholders](docs/P1_PLAYTEST.md). D
 
 ## Art direction
 
-The plants use **organic 3D forms**: puffy clustered buds, green bracts, curved serrated leaf fans and a fuller tapered canopy. The owner rejected the previous literal all-voxel plants. Equipment keeps its blockier Minecraft construction. Gentle plant sway and can pouring remain. This revision follows the supplied reference silhouettes; final visual approval belongs to the owner.
+The mod now follows a **painted 2D/3D fantasy style**. Plants form a dense tapered bush, with painted 2D leaf cards and solid 3D flower clusters. The same painted wood, copper, ceramic, teal and parchment palette covers the current props, tools, HUD and Ledger. This is the owner's direction for future mod assets too, using Hytale / World of Warcraft as visual shorthand.
 
-![Actual revised plants in-game](docs/screenshots/p1-organic-plants.png)
+![Actual painted plants and equipment in-game](docs/screenshots/p1-painted-plants.png)
 
-[Rejected 0.2.0 plant pass for comparison](docs/screenshots/p1-grow-room.png)
+[Painted Ledger screen](docs/screenshots/p1-painted-ledger.png) · [Style guide](docs/art/ART_DIRECTION.md) · [Previous plant pass](docs/screenshots/p1-organic-plants.png)
 
 See [asset sources/status](ASSETS.md) and [research/production notes](docs/art/ART_DIRECTION.md). Screenshots are actual game captures.
 
@@ -54,7 +54,7 @@ Install a **Java 21 JDK**. Python 3 regenerates equipment and organic plant asse
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
-./gradlew build       # build/libs/stonedew-0.2.1-p1.jar
+./gradlew build       # build/libs/stonedew-0.2.2-p1.jar
 ./gradlew runClient
 ```
 

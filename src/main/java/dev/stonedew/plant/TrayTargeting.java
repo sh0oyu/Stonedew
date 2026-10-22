@@ -42,7 +42,7 @@ public final class TrayTargeting {
         String habit = view != null ? view.habit() : state.genome().habit();
         double centerX = pos.getX() + (slot % grid + 0.5) / grid;
         double centerZ = pos.getZ() + (slot / grid + 0.5) / grid;
-        double radius = (grid == 1 ? 0.44 : 0.28) * (stage == 0 ? 0.5 : 1);
+        double radius = (grid == 1 ? 0.60 : 0.36) * (stage == 0 ? 0.5 : 1);
         double height =
             switch (stage) {
               case 0 -> 0.3;

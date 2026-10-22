@@ -6,13 +6,8 @@ neoforge_TintIndex -1
 
 newmtl leaf
 Kd 1 1 1
-map_Kd stonedew:block/plant_leaf
-neoforge_TintIndex 0
-
-newmtl sugar
-Kd 0.88 0.97 0.88
-map_Kd stonedew:block/plant_leaf
-neoforge_TintIndex 0
+map_Kd stonedew:block/painted_leaf
+neoforge_TintIndex 3
 
 newmtl bract
 Kd 0.82 0.92 0.73

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Original Stonedew equipment and organic plant art. Reproducible geometry and materials.
+"""Stonedew equipment and hybrid plants: deterministic geometry and fallback materials.
 
-Model sources are these authored shape recipes; no third-party art is bundled.
+Geometry is authored here and in plant_art.py. Painted source PNGs in textures/art are retained.
 The reference images guide silhouette, material hierarchy and color.
 """
 from pathlib import Path
@@ -203,7 +203,7 @@ def generate():
     report=Path(__file__).resolve().parents[1]/"docs/art/mesh-budget.json"
     report.parent.mkdir(parents=True,exist_ok=True)
     report.write_text(json.dumps(stats,indent=2)+"\n")
-    print("Generated original equipment, 20 material textures and 24 organic plant meshes.")
+    print("Generated equipment, fallback materials and 24 hybrid plant meshes; painted source PNGs retained.")
     print("Maximum plant faces (near / distant):", max(row["faces"] for row in stats if not row["lod"]), "/", max(row["faces"] for row in stats if row["lod"]))
 
 

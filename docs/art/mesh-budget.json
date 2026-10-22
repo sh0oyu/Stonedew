@@ -3,168 +3,168 @@
     "habit": "bushy",
     "stage": 0,
     "lod": false,
-    "faces": 85,
-    "vertices": 308
+    "faces": 13,
+    "vertices": 52
   },
   {
     "habit": "bushy",
     "stage": 0,
     "lod": true,
-    "faces": 21,
-    "vertices": 68
+    "faces": 13,
+    "vertices": 52
   },
   {
     "habit": "bushy",
     "stage": 1,
     "lod": false,
-    "faces": 740,
-    "vertices": 2680
+    "faces": 113,
+    "vertices": 452
   },
   {
     "habit": "bushy",
     "stage": 1,
     "lod": true,
-    "faces": 53,
+    "faces": 41,
     "vertices": 164
   },
   {
     "habit": "bushy",
     "stage": 2,
     "lod": false,
-    "faces": 2970,
-    "vertices": 10240
+    "faces": 2260,
+    "vertices": 7720
   },
   {
     "habit": "bushy",
     "stage": 2,
     "lod": true,
-    "faces": 98,
+    "faces": 86,
     "vertices": 314
   },
   {
     "habit": "bushy",
     "stage": 3,
     "lod": false,
-    "faces": 2970,
-    "vertices": 10240
+    "faces": 2260,
+    "vertices": 7720
   },
   {
     "habit": "bushy",
     "stage": 3,
     "lod": true,
-    "faces": 98,
+    "faces": 86,
     "vertices": 314
   },
   {
     "habit": "hybrid",
     "stage": 0,
     "lod": false,
-    "faces": 85,
-    "vertices": 308
+    "faces": 13,
+    "vertices": 52
   },
   {
     "habit": "hybrid",
     "stage": 0,
     "lod": true,
-    "faces": 21,
-    "vertices": 68
+    "faces": 13,
+    "vertices": 52
   },
   {
     "habit": "hybrid",
     "stage": 1,
     "lod": false,
-    "faces": 740,
-    "vertices": 2680
+    "faces": 113,
+    "vertices": 452
   },
   {
     "habit": "hybrid",
     "stage": 1,
     "lod": true,
-    "faces": 53,
+    "faces": 41,
     "vertices": 164
   },
   {
     "habit": "hybrid",
     "stage": 2,
     "lod": false,
-    "faces": 2970,
-    "vertices": 10240
+    "faces": 2260,
+    "vertices": 7720
   },
   {
     "habit": "hybrid",
     "stage": 2,
     "lod": true,
-    "faces": 98,
+    "faces": 86,
     "vertices": 314
   },
   {
     "habit": "hybrid",
     "stage": 3,
     "lod": false,
-    "faces": 2970,
-    "vertices": 10240
+    "faces": 2260,
+    "vertices": 7720
   },
   {
     "habit": "hybrid",
     "stage": 3,
     "lod": true,
-    "faces": 98,
+    "faces": 86,
     "vertices": 314
   },
   {
     "habit": "tall",
     "stage": 0,
     "lod": false,
-    "faces": 85,
-    "vertices": 308
+    "faces": 13,
+    "vertices": 52
   },
   {
     "habit": "tall",
     "stage": 0,
     "lod": true,
-    "faces": 21,
-    "vertices": 68
+    "faces": 13,
+    "vertices": 52
   },
   {
     "habit": "tall",
     "stage": 1,
     "lod": false,
-    "faces": 740,
-    "vertices": 2680
+    "faces": 113,
+    "vertices": 452
   },
   {
     "habit": "tall",
     "stage": 1,
     "lod": true,
-    "faces": 53,
+    "faces": 41,
     "vertices": 164
   },
   {
     "habit": "tall",
     "stage": 2,
     "lod": false,
-    "faces": 2970,
-    "vertices": 10240
+    "faces": 2260,
+    "vertices": 7720
   },
   {
     "habit": "tall",
     "stage": 2,
     "lod": true,
-    "faces": 98,
+    "faces": 86,
     "vertices": 314
   },
   {
     "habit": "tall",
     "stage": 3,
     "lod": false,
-    "faces": 2970,
-    "vertices": 10240
+    "faces": 2260,
+    "vertices": 7720
   },
   {
     "habit": "tall",
     "stage": 3,
     "lod": true,
-    "faces": 98,
+    "faces": 86,
     "vertices": 314
   }
 ]

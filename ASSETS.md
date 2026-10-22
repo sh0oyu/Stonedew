@@ -1,48 +1,54 @@
-# Asset manifest — P1, organic plant revision 0.2.1
+# Asset manifest — painted 2D/3D revision 0.2.2
 
-The owner's original reference PNGs remain unchanged at the repository root. Corrected target: dimensional stylized plants with puffy irregular buds and fuller curved leaf fans; dark wood/copper equipment can remain blockier. The owner rejected the literal all-voxel plant pass. **P1 is the first gameplay art pass**, not a declaration of final art approval. No third-party art/model pack is bundled.
+The owner wants an illustrated fantasy style, using Hytale / World of Warcraft as visual shorthand: a dense puffy Christmas-tree bush, painted 2D leaves and solid 3D flowers. Apply the same color/shading/material language across the entire mod. The supplied reference PNGs remain unchanged; the earlier all-voxel and sparse organic passes are historical/intermediate work.
 
-## Original asset sources
+## Current sources and bindings
 
-`tools/generate_game_assets.py` authors equipment/materials and delegates organic plant meshes to `tools/plant_art.py`, both deterministic and original. `tools/generate_placeholder_assets.py` remains a compatibility entrypoint. Change source recipes and regenerate; do not hand-edit output JSON. All paths below are relative to `src/main/resources/assets/stonedew` unless stated.
+Paths below are relative to `src/main/resources/assets/stonedew` unless stated.
 
-| IDs / paths | Kind and status | Revision / replacement source |
+| Source / IDs | Purpose and status | How to revise |
 | --- | --- | --- |
-| Root `Pixel cannabis farm automation sprite sheet.png`, `StoneDew Underground Voxel Garden.png` | Owner references only | Preserve originals; guide palette, silhouette, equipment and atmosphere |
-| `textures/block/{ceramic,wood,wood_edge,copper,iron,soil,soil_wet,leaf,bud,hair,stem,glow,glass,paper,teal,dewstone}.png` | 16 original 16×16 material textures; P1 first pass | Generator material palettes/grain recipes |
-| `textures/effect/lamp_halo.png` | Original radial alpha emissive halo; P1 first pass | Generator halo function; LampRenderer controls quad |
-| `textures/item/glow_cell.png` | Legacy P0 icon retained, no longer item model source | Generator compatibility texture |
-| `models/block/clay_pot{,_wet}.json` | Hollow stepped ceramic pot, inset soil/copper plate | Generator equipment recipe; first gameplay pass |
-| `models/block/planter_bed{,_wet}.json` | Dimensional wood rails/posts/copper bands and soil | Same; first gameplay pass |
-| `models/block/bulb_lamp{,_lit}.json` | Hanging iron/copper frame, modeled chain, emissive core | Same; LampRenderer adds shader-free halo |
-| `models/block/ledger.json` | Wood/brass paper terminal with violet fitting | Same; LedgerScreen supplies functional UI |
-| `models/item/{glow_cell,watering_can,wild_seed}.json` | Volumetric fuel cell, open-handled can/spout, paper packet | Same; seed tint follows genome; can has first-person pour transform |
-| `models/block/plants/{bushy,hybrid,tall}_{0,1,2,3}{,_lod}.{json,obj}`, `plants.mtl` | 24 organic plant meshes, loader definitions and shared material library; revised art | `tools/plant_art.py`; smooth lobed bud clusters, green bracts, curved serrated leaf fans; separate tint channels and sway |
-| `textures/block/plant_{leaf,bud,stem,pistil}.png` | Four original 16×16 organic materials | Main generator: leaf veins, grouped bud texture/resin glints, stem and pistils |
-| Generated Dewstone cube / block item | Decorative foundation; revised restrained stone texture | StonedewData; still not a gameplay machine |
-| Generated blockstates / block-item parents | Pot/bed wet variants, lamp lit variants, Ledger | `StonedewData`, under `src/generated/resources` |
-| Generated loot/mining tags/recipes/advancements | Registered blocks and P1 craftable supplies | Same; seed acquisition and balance remain provisional |
-| Generated `lang/en_us.json` | UI/item/command/config labels + merged directive prose | StonedewData labels; prose in `src/main/narrative/en_us.json` |
-| Vanilla amethyst, water, particle and block sound references | Temporary sound/feedback palette | Java feedback hooks; no custom sound recordings yet |
-| Vanilla deepslate/dark oak/glass/chains/lanterns in debug exhibit | Registry references, not redistributed artwork | DebugShowcase; optional checked developer scene, not worldgen |
-| `docs/screenshots/p1-*.png` | Actual P1 development-client captures | Capture game window; never substitute concept art |
-| `docs/screenshots/p0-creative-tab.png` | Historical P0 evidence | Preserved; not current art benchmark |
+| Root owner reference PNGs | Visual brief, unchanged | Preserve; use for canopy, palette and atmosphere |
+| `textures/art/leaf_fan.png` | Original imagegen painted seven-leaf fan, true RGBA transparency; actual foliage/UI texture | Intentionally replace the source painting and review cards in-game; provenance/hash in docs/art/painted-sources.json |
+| `textures/art/painted_materials.png` | Original imagegen 4×4 painted material source sheet | Keep layout contract; prompts/layout in docs/art/PAINTED_TEXTURE_SOURCES.md |
+| `models/block/plants/{bushy,hybrid,tall}_{0,1,2,3}{,_lod}.{json,obj}`, `plants.mtl` | 24 meshes: 2D alpha cards + solid flower/branch geometry | `tools/plant_art.py`; staggered canopy skirts and nested flowers, shared baked stage/habit meshes |
+| `stonedew:block/painted_leaf` | Runtime 512px foliage sprite, separate tint channel | PaintedMaterialSource imports unchanged leaf source; PaintedFoliageLayer uses vanilla cutout shader with mip filtering |
+| `stonedew:block/{wood,wood_edge,ceramic,teal,copper,iron,soil,soil_wet,paper,glow,glass,dewstone,plant_bud,plant_leaf,plant_stem,plant_pistil}` | Runtime 256px material sprites from painted sheet | PaintedMaterialSource tile contract; native texture import preserves world mip level |
+| `stonedew:block/{leaf,bud,hair,stem}` | Legacy material aliases, now painted too | Same importer; ordinary texture identities retained |
+| `textures/block/*.png`, `textures/item/glow_cell.png` | Earlier small procedural textures, retained as resource/datagen fallback | Main asset generator; current appearance uses imported paintings |
+| `models/block/clay_pot{,_wet}.json` | Hollow ceramic pot, inset soil, copper plaque; painted surfaces | Equipment geometry in tools/generate_game_assets.py; material source sheet |
+| `models/block/planter_bed{,_wet}.json` | Wood rails/posts/copper bands with four plant slots; painted surfaces | Same |
+| `models/block/bulb_lamp{,_lit}.json` | Hanging iron/copper lamp, emissive core and fuel state; painted surfaces | Same; LampRenderer halo remains |
+| `models/block/ledger.json` | Wood/copper paper terminal; painted surfaces | Same; functional LedgerScreen now uses matching parchment UI |
+| `models/item/{glow_cell,watering_can,wild_seed}.json` | 3D cell/can/packet with painted materials | Same; seed tint and can pour pose retained |
+| Generated Dewstone block/item | Decorative material, now painted stone | StonedewData geometry + painted sprite import |
+| `textures/effect/lamp_halo.png` | Shader-free alpha halo | Main generator + LampRenderer |
+| `assets/minecraft/atlases/blocks.json` | Adds Stonedew's client SpriteSource to the shared atlas | Preserves vanilla sources; imports only Stonedew material IDs |
+| HUD / Ledger screen | Shared painted wood/copper/parchment and leaf emblem | PaintedUi, PlantHud, LedgerScreen; standard Minecraft font, no external UI library |
+| Generated blockstates, block-item parents, loot/tags/recipes/advancements | P1 functional resources | StonedewData; runData before build |
+| Generated language | Labels + separate authored directive prose | StonedewData labels; src/main/narrative/en_us.json prose |
+| Vanilla sounds/particles | Temporary sound/interaction palette | No custom audio recordings yet |
+| Vanilla debug-room blocks | Registry references, not copied textures | DebugShowcase; optional checked exhibit, not worldgen |
+| `docs/screenshots/p1-painted-*.png` | Current actual game captures | Capture the game; never substitute generated texture/concept art |
+| Earlier P0/P1 screenshot files | Historical and intermediate evidence | Preserved for comparison, not current approved art |
 
-Genome schema, cultivar/Wing bindings, growth profile and introductory directive have P1 runtime consumers. Process/effect definitions and generic future content categories remain foundations, as documented in docs/DATAPACKS.md. Original authoring provenance, version-matched API research and mesh budgets are in [art notes](docs/art/ART_DIRECTION.md). Mesh report: `docs/art/mesh-budget.json`.
+## Provenance and regeneration
 
-## Review and remaining work
+Painted sources were created with imagegen specifically for this project, guided by the owner's art direction. No third-party game assets or reference-image crops are bundled. The two source PNGs are immutable versioned inputs with hashes/dimensions/creation method in `docs/art/painted-sources.json`. Geometry/bindings regenerate deterministically; procedural generation does not recreate the stochastic imagegen process. Original tool outputs remain intact.
 
-Revised organic meshes max 2970 baked faces near / 98 distant, with explicit ceilings 3000 / 100. Five Python checks validate bounded OBJ geometry, face indices, normals, materials, pixel density and provenance. These replace the historical 925 / 40 cuboid meshes. The in-game review covers stage silhouettes, tints, soil contact, hand framing, lamp light/halo and Ledger readability. These checks do not establish final quality, shader compatibility or the 500-plant performance target.
+`tools/generate_game_assets.py` delegates plant meshes to `tools/plant_art.py`; the legacy placeholder entrypoint still works. Runtime texture import converts paintings to mip-compatible sprites without rewriting source artwork. Near mesh ceiling 3000 faces, distant 100; measured 2260 / 86. These are asset bounds, not a 500-plant performance result. See docs/art/ART_DIRECTION.md for rendering research and the mod-wide style rules.
 
-Still pending: further art iteration against owner feedback, richer stage/interaction animation, custom audio, jars and processing gear (P3), later machines/NPCs/structures and accessibility/theme presentation variants. No reference artwork has been cropped into shipped textures.
+## Remaining art work
+
+Owner feedback still guides final visual acceptance. Richer animations/custom audio, jars and processing gear, machines/NPCs/structures and accessibility/theme variants remain with their gameplay phases. Every future asset inherits this painted 2D/3D direction. Vanilla world blocks remain vanilla. Shader packs, broader hardware/multiplayer and the full performance target remain unvalidated.
 
 ## Dead-End Audit
 
-| Item | Current use | Later use / story hook | Status |
-| --- | --- | --- | --- |
-| Dewstone | Decorative material | Terroir/generation; Dew/Heart thread | Later systems pending |
-| Glow Cell | Bulb Lamp fuel | Machine component; inherited Keeper equipment | P1 fuel active; second use later |
-| Seed / pot / bed / can / lamp | Planting and tending | Breeding, infrastructure/upgrades, Keeper progression | P1 loop active; later hooks pending |
-| Ledger | Introductory directive screen | Journals, clues, contracts and Cycles | Intro active; full narrative later |
+| Item | Active use | Later second use / story hook |
+| --- | --- | --- |
+| Dewstone | Decorative material | Terroir/generation; Dew/Heart thread |
+| Glow Cell | Bulb Lamp fuel | Machine component; inherited Keeper equipment |
+| Seed / trays / can / lamp | Planting and tending | Breeding, upgrades and Keeper progression |
+| Ledger | Introductory directive screen | Journals, clues, contracts and Cycles |
 
-The full two-uses/story-hook audit is not claimed complete for phase-limited items.
+The complete two-uses/story-hook audit remains phase-dependent and is not claimed finished.

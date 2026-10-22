@@ -7,14 +7,32 @@ import dev.stonedew.plant.GrowTrayBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.RandomSource;
 
 public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEntity> {
   private static final float[] BRIGHTNESS = {1, 1, 1, 1};
   private final RandomSource random = RandomSource.create(0);
+  private final java.util.Map<BakedModel, Parts> meshCache = new java.util.WeakHashMap<>();
+
+  private record Parts(java.util.List<BakedQuad> flowers, java.util.List<BakedQuad> cards) {}
+
+  private Parts unpack(BakedModel model) {
+    var flowers = new java.util.ArrayList<BakedQuad>();
+    var cards = new java.util.ArrayList<BakedQuad>();
+    for (var quad : model.getQuads(null, null, random)) {
+      if (quad.getTintIndex() != 3) {
+        flowers.add(quad);
+        continue;
+      }
+      cards.add(quad);
+    }
+    return new Parts(java.util.List.copyOf(flowers), java.util.List.copyOf(cards));
+  }
 
   public TrayRenderer(BlockEntityRendererProvider.Context context) {}
 
@@ -82,8 +100,8 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
           net.minecraft.client.renderer.LevelRenderer.getLightColor(
               tray.getLevel(), tray.getBlockPos().above(plant.stage() >= 2 ? 2 : 1));
       int[] lighting = {sampledLight, sampledLight, sampledLight, sampledLight};
-      var quads = model.getQuads(null, null, random);
-      for (var quad : quads) {
+      var parts = meshCache.computeIfAbsent(model, this::unpack);
+      for (var quad : parts.flowers()) {
         int color =
             switch (quad.getTintIndex()) {
               case 0 -> plant.leaf();
@@ -103,6 +121,14 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
             lighting,
             overlay,
             true);
+      }
+      var foliage = buffers.getBuffer(PaintedFoliageLayer.LAYER);
+      float leafR = .78F + .22F * ((plant.leaf() >> 16) & 255) / 255F;
+      float leafG = .78F + .22F * ((plant.leaf() >> 8) & 255) / 255F;
+      float leafB = .78F + .22F * (plant.leaf() & 255) / 255F;
+      for (var card : parts.cards()) {
+        foliage.putBulkData(
+            pose.last(), card, BRIGHTNESS, leafR, leafG, leafB, 1F, lighting, overlay, true);
       }
       pose.popPose();
     }
