@@ -141,4 +141,3 @@ def generate(root):
             row.append((190,103,255,round(max(0,1-radius)**2*155)))
         halo.append(row)
     write_png(root/'textures/effect/lamp_halo.png',halo)
-
