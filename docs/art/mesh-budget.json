@@ -3,168 +3,168 @@
     "habit": "bushy",
     "stage": 0,
     "lod": false,
-    "elements": 50,
-    "quads": 50
+    "faces": 85,
+    "vertices": 308
   },
   {
     "habit": "bushy",
     "stage": 0,
     "lod": true,
-    "elements": 2,
-    "quads": 12
+    "faces": 21,
+    "vertices": 68
   },
   {
     "habit": "bushy",
     "stage": 1,
     "lod": false,
-    "elements": 466,
-    "quads": 466
+    "faces": 740,
+    "vertices": 2680
   },
   {
     "habit": "bushy",
     "stage": 1,
     "lod": true,
-    "elements": 3,
-    "quads": 18
+    "faces": 53,
+    "vertices": 164
   },
   {
     "habit": "bushy",
     "stage": 2,
     "lod": false,
-    "elements": 772,
-    "quads": 772
+    "faces": 2970,
+    "vertices": 10240
   },
   {
     "habit": "bushy",
     "stage": 2,
     "lod": true,
-    "elements": 5,
-    "quads": 30
+    "faces": 98,
+    "vertices": 314
   },
   {
     "habit": "bushy",
     "stage": 3,
     "lod": false,
-    "elements": 849,
-    "quads": 849
+    "faces": 2970,
+    "vertices": 10240
   },
   {
     "habit": "bushy",
     "stage": 3,
     "lod": true,
-    "elements": 6,
-    "quads": 36
+    "faces": 98,
+    "vertices": 314
   },
   {
     "habit": "hybrid",
     "stage": 0,
     "lod": false,
-    "elements": 62,
-    "quads": 62
+    "faces": 85,
+    "vertices": 308
   },
   {
     "habit": "hybrid",
     "stage": 0,
     "lod": true,
-    "elements": 2,
-    "quads": 12
+    "faces": 21,
+    "vertices": 68
   },
   {
     "habit": "hybrid",
     "stage": 1,
     "lod": false,
-    "elements": 522,
-    "quads": 522
+    "faces": 740,
+    "vertices": 2680
   },
   {
     "habit": "hybrid",
     "stage": 1,
     "lod": true,
-    "elements": 3,
-    "quads": 18
+    "faces": 53,
+    "vertices": 164
   },
   {
     "habit": "hybrid",
     "stage": 2,
     "lod": false,
-    "elements": 843,
-    "quads": 843
+    "faces": 2970,
+    "vertices": 10240
   },
   {
     "habit": "hybrid",
     "stage": 2,
     "lod": true,
-    "elements": 5,
-    "quads": 30
+    "faces": 98,
+    "vertices": 314
   },
   {
     "habit": "hybrid",
     "stage": 3,
     "lod": false,
-    "elements": 925,
-    "quads": 925
+    "faces": 2970,
+    "vertices": 10240
   },
   {
     "habit": "hybrid",
     "stage": 3,
     "lod": true,
-    "elements": 6,
-    "quads": 36
+    "faces": 98,
+    "vertices": 314
   },
   {
     "habit": "tall",
     "stage": 0,
     "lod": false,
-    "elements": 50,
-    "quads": 50
+    "faces": 85,
+    "vertices": 308
   },
   {
     "habit": "tall",
     "stage": 0,
     "lod": true,
-    "elements": 2,
-    "quads": 12
+    "faces": 21,
+    "vertices": 68
   },
   {
     "habit": "tall",
     "stage": 1,
     "lod": false,
-    "elements": 374,
-    "quads": 374
+    "faces": 740,
+    "vertices": 2680
   },
   {
     "habit": "tall",
     "stage": 1,
     "lod": true,
-    "elements": 3,
-    "quads": 18
+    "faces": 53,
+    "vertices": 164
   },
   {
     "habit": "tall",
     "stage": 2,
     "lod": false,
-    "elements": 645,
-    "quads": 645
+    "faces": 2970,
+    "vertices": 10240
   },
   {
     "habit": "tall",
     "stage": 2,
     "lod": true,
-    "elements": 5,
-    "quads": 30
+    "faces": 98,
+    "vertices": 314
   },
   {
     "habit": "tall",
     "stage": 3,
     "lod": false,
-    "elements": 754,
-    "quads": 754
+    "faces": 2970,
+    "vertices": 10240
   },
   {
     "habit": "tall",
     "stage": 3,
     "lod": true,
-    "elements": 6,
-    "quads": 36
+    "faces": 98,
+    "vertices": 314
   }
 ]

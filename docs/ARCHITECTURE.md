@@ -51,4 +51,4 @@ Seeds store immutable Genome values through Codec/StreamCodec data components. W
 
 Player introductory flags use versioned per-player persisted data, clone hooks and a compact progress payload. A typed directive definition selects the localized primary instruction. Ledger uses vanilla server-opened menu validation.
 
-Baked plant meshes are shared by stage/habit, tinted at render time, culled with expanded BE bounds and simplified beyond 24 blocks. Lamp halos use an existing emissive render type. No client-only registration is performed by the common entrypoint. See the art notes for geometry budgets and limitations.
+Organic OBJ plant meshes are baked through NeoForge, shared by stage/habit, tinted at render time while retaining material color/normals, culled with expanded BE bounds and simplified beyond 24 blocks. Lamp halos use an existing emissive render type. No client-only registration is performed by the common entrypoint. See the art notes for geometry budgets and limitations.

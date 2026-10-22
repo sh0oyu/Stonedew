@@ -13,6 +13,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.RandomSource;
 
 public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEntity> {
+  private static final float[] BRIGHTNESS = {1, 1, 1, 1};
   private final RandomSource random = RandomSource.create(0);
 
   public TrayRenderer(BlockEntityRendererProvider.Context context) {}
@@ -77,6 +78,10 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
       pose.scale(scale * grow, (grid == 1 ? 1.35F : 1.12F) * grow, scale * grow);
       pose.translate(-0.5, 0, -0.5);
       var vertices = buffers.getBuffer(Sheets.cutoutBlockSheet());
+      int sampledLight =
+          net.minecraft.client.renderer.LevelRenderer.getLightColor(
+              tray.getLevel(), tray.getBlockPos().above(plant.stage() >= 2 ? 2 : 1));
+      int[] lighting = {sampledLight, sampledLight, sampledLight, sampledLight};
       var quads = model.getQuads(null, null, random);
       for (var quad : quads) {
         int color =
@@ -86,23 +91,18 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
               case 2 -> plant.hair();
               default -> 0xFFFFFF;
             };
-        float shade =
-            switch (quad.getDirection()) {
-              case DOWN -> 0.5F;
-              case NORTH, SOUTH -> 0.8F;
-              case EAST, WEST -> 0.65F;
-              default -> 1F;
-            };
+        // OBJ vertex normals and baked material colors preserve the curved forms.
         vertices.putBulkData(
             pose.last(),
             quad,
-            ((color >> 16) & 255) / 255F * shade,
-            ((color >> 8) & 255) / 255F * shade,
-            (color & 255) / 255F * shade,
+            BRIGHTNESS,
+            ((color >> 16) & 255) / 255F,
+            ((color >> 8) & 255) / 255F,
+            (color & 255) / 255F,
             1F,
-            net.minecraft.client.renderer.LevelRenderer.getLightColor(
-                tray.getLevel(), tray.getBlockPos().above(plant.stage() >= 2 ? 2 : 1)),
-            overlay);
+            lighting,
+            overlay,
+            true);
       }
       pose.popPose();
     }

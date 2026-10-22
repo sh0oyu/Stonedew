@@ -35,3 +35,10 @@ The owner approved Minecraft Java 1.21.1 / NeoForge, Uneasy default dread, the f
 - Provide craftable P1 items. Seed crafting is a provisional acquisition route before progression/worldgen. Optional operator demo checks loaded empty space before building, and does not overwrite occupied blocks.
 - Debug commands for future rooms/events/contracts/progression explicitly fail with a deferred-phase explanation. Keep implemented commands useful rather than simulate unbuilt systems.
 - Keep P0 download archived and publish a new versioned P1 JAR/checksum. Users must remove the old JAR to avoid duplicate mod IDs. P1 worlds are not downgrade-compatible with P0.
+
+## 0.2.1 — owner art correction
+
+- Owner rejected the literal all-voxel plant interpretation. Replace the rigid column buds/sparse foliage with organic puffy flower clusters, green bracts and a dense tapered canopy of arched serrated leaf fans. This overrides the earlier P1 art interpretation; it is not a gameplay scope change.
+- Use NeoForge's built-in OBJ loader (inspected exact 21.1.264 ObjLoader/ObjModel/ObjMaterialLibrary sources), with baked smooth normals, material tints and original authored meshes. Do not attempt rounded flowers using only vanilla cuboid elements. No added rendering dependency or custom shader.
+- Separate plant authoring into tools/plant_art.py; retain cuboid equipment where appropriate. The renderer preserves baked material color and vertex normals. Organic plants have a revised explicit ceiling of 3000 faces near / 100 distant; the measured maxima are 2970 / 98. Full 500-plant performance remains unproven.
+- Preserve P1 save identities and mechanics; adjust foliage selection bounds to fit the fuller canopy. Publish a versioned art correction JAR rather than overwrite the prior artifact. Judge the result using real before/after game captures, not a concept render.

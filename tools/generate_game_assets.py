@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Original Stonedew voxel art. Reproducible geometry, 16px palettes, exposed-face meshes.
+"""Original Stonedew equipment and organic plant art. Reproducible geometry and materials.
 
 Model sources are these authored shape recipes; no third-party art is bundled.
-The reference images guide silhouette, material hierarchy and color only.
+The reference images guide silhouette, material hierarchy and color.
 """
 from pathlib import Path
-from collections import defaultdict
 import json
 import math
 import struct
@@ -82,6 +81,30 @@ def textures():
             row.append((176,76,255,alpha))
         halo.append(row)
     png("effect/lamp_halo",halo)
+    # Organic foliage materials. The leaf's central vein follows the modeled ridge;
+    # the bud uses soft grouped bracts and small resin glints, not voxel stripes.
+    for material in ("plant_leaf", "plant_bud", "plant_stem", "plant_pistil"):
+        pixels = []
+        for y in range(16):
+            row = []
+            for x in range(16):
+                if material == "plant_leaf":
+                    ridge = max(0, 1-abs(x-7.5)/7.5)
+                    vein = x in (7, 8) or (y+int(abs(x-7.5)*.6)) % 5 == 0
+                    value = int(161 + ridge*55 + (14 if vein else 0))
+                    color = (min(255,value), min(255,value+13), max(0,value-10))
+                elif material == "plant_bud":
+                    puff = (math.sin(x*1.4+y*.6)+math.cos(y*1.7-x*.4))*.5
+                    value = int(207 + puff*19)
+                    if (x*7+y*11) % 43 == 0: value = 251
+                    color = (value, min(255,value+6), max(0,value-7))
+                elif material == "plant_stem":
+                    color = (91+x%3*8, 126+x%3*8, 52+x%3*5)
+                else:
+                    color = (255, 234, 199)
+                row.append(tuple(color)+(255,))
+            pixels.append(row)
+        png("block/"+material, pixels)
     # Legacy item texture remains a particle fallback, while the item itself is volumetric.
     png("item/glow_cell", [[(176, 76, 255, 255) for _ in range(16)] for _ in range(16)])
 
@@ -172,94 +195,16 @@ def equipment():
     model("ledger", ledger)
 
 
-def plant_mesh(stage, habit, lod=False):
-    voxels = {}
-    def add(x, y, z, mat): voxels[(round(x), round(y), round(z))] = mat
-    tall = 1.2 if habit == "tall" else .9 if habit == "bushy" else 1
-    height = (6, 18, 27, 30)[stage]
-    for y in range(round(height*tall)): add(0, y, 0, "stem")
-    if lod:
-        elements = [box((7.5, 0, 7.5), (8.5, height*tall/2, 8.5), "stem")]
-        for index in range(stage+1):
-            y=height*tall/2*(index+1)/(stage+2)
-            elements.append(box((5, y, 5), (11, y+2.5, 11), "leaf", 0))
-        if stage>1:elements.append(box((6.5,height*tall/2-2,6.5),(9.5,height*tall/2+1,9.5),"bud",1))
-        return elements
-    rings = [(3, 2, 5)] if stage==0 else [(5, 4, 8), (12, 4, 7)]
-    if stage>=2:rings += [(20, 3, 5)]
-    for ring,(base,leaves,length) in enumerate(rings):
-        for leaf in range(leaves):
-            angle=leaf*math.tau/leaves+ring*.7
-            # Five palmate fingers radiate from each petiole; every leaf has modeled thickness.
-            ox, oz = math.cos(angle)*2, math.sin(angle)*2
-            for t in range(3):add(math.cos(angle)*t,base*tall,math.sin(angle)*t,"stem")
-            fingers = (0,) if stage==0 else (-.75,-.38,0,.38,.75)
-            for finger in fingers:
-                size=max(2,round(length*(1-abs(finger)*.6)*(0.85 if habit=="tall" else 1)))
-                direction=angle+finger
-                for t in range(size):
-                    xx=ox+math.cos(direction)*t;zz=oz+math.sin(direction)*t
-                    yy=base*tall+math.sin(t/max(1,size)*math.pi)*1.4-t*.18
-                    add(xx,yy,zz,"leaf")
-                    if 1<t<size-2:add(xx+math.sin(direction),yy,zz-math.cos(direction),"leaf")
-    if stage>=2:
-        for bx,bz,by in [(0,0,height*tall-3),(3,2,height*tall-8),(-3,1,height*tall-10),(1,-3,height*tall-7)]:
-            radius=2 if stage==2 else 3
-            for y in range(-2,5 if stage==3 else 3):
-                r=max(1,radius-abs(y)//2)
-                for x in range(-r,r+1):
-                    for z in range(-r,r+1):
-                        if abs(x)+abs(z)<=r+1:add(bx+x,by+y,bz+z,"bud")
-            for angle in range(0,360,90):
-                a=math.radians(angle);add(bx+math.cos(a)*(radius+1),by+2,bz+math.sin(a)*(radius+1),"hair")
-    # Exposed faces are greedily merged on each material/plane. This keeps the
-    # stepped silhouette while reducing draw geometry compared with individual cubes.
-    directions={"down":(0,-1,0),"up":(0,1,0),"north":(0,0,-1),"south":(0,0,1),"west":(-1,0,0),"east":(1,0,0)}
-    groups=defaultdict(set)
-    for (x,y,z),material in voxels.items():
-        for side,(dx,dy,dz) in directions.items():
-            if (x+dx,y+dy,z+dz) in voxels:continue
-            axis=0 if dx else 1 if dy else 2
-            coord=(x,y,z);plane=coord[axis]+(1 if dx+dy+dz>0 else 0)
-            axes=[a for a in range(3) if a!=axis]
-            groups[(side,axis,plane,material)].add((coord[axes[0]],coord[axes[1]]))
-    elements=[]
-    for (side,axis,plane,material),cells in sorted(groups.items()):
-        axes=[a for a in range(3) if a!=axis]
-        while cells:
-            u,v=min(cells);w=1
-            while (u+w,v) in cells:w+=1
-            h=1
-            while all((u+i,v+h) in cells for i in range(w)):h+=1
-            for i in range(w):
-                for j in range(h):cells.remove((u+i,v+j))
-            lo=[0,0,0];hi=[0,0,0];lo[axis]=hi[axis]=plane
-            lo[axes[0]]=u;hi[axes[0]]=u+w;lo[axes[1]]=v;hi[axes[1]]=v+h
-            lo=[n*.5+(8 if a!=1 else 0) for a,n in enumerate(lo)]
-            hi=[n*.5+(8 if a!=1 else 0) for a,n in enumerate(hi)]
-            element = box(lo,hi,material,{"leaf":0,"bud":1,"hair":2}.get(material),(side,))
-            # Keep vanilla pixel density on tiny voxel surfaces, rather than
-            # repeating a complete 16px texture on every half-unit cell.
-            element["faces"][side]["uv"] = [0, 0, w*.5, h*.5]
-            elements.append(element)
-
-    return elements
-
 
 def generate():
     textures();containers();equipment()
-    stats=[]
-    for habit in ("bushy","hybrid","tall"):
-        for stage in range(4):
-            for lod in (False,True):
-                mesh=plant_mesh(stage,habit,lod)
-                model("plants/"+habit+"_"+str(stage)+("_lod" if lod else ""),mesh,particle="leaf")
-                stats.append((habit,stage,lod,len(mesh),sum(len(e["faces"]) for e in mesh)))
+    from plant_art import generate as generate_plants
+    stats = generate_plants(ROOT)
     report=Path(__file__).resolve().parents[1]/"docs/art/mesh-budget.json"
     report.parent.mkdir(parents=True,exist_ok=True)
-    report.write_text(json.dumps([dict(zip(("habit","stage","lod","elements","quads"),s)) for s in stats],indent=2)+"\n")
-    print("Generated original voxel equipment, 16 material textures and 24 plant meshes.")
-    print("Maximum near-plant quads:",max(row[-1] for row in stats if not row[2]))
+    report.write_text(json.dumps(stats,indent=2)+"\n")
+    print("Generated original equipment, 20 material textures and 24 organic plant meshes.")
+    print("Maximum plant faces (near / distant):", max(row["faces"] for row in stats if not row["lod"]), "/", max(row["faces"] for row in stats if row["lod"]))
 
 
 if __name__=="__main__":generate()

@@ -1,10 +1,10 @@
-# Asset manifest — P1
+# Asset manifest — P1, organic plant revision 0.2.1
 
-The owner's original reference PNGs remain unchanged at the repository root. Target: dimensional, animated, stylized voxel forms, layered leaves/buds, dark wood, copper and violet/cyan cave lighting. **P1 is the first gameplay art pass**, not a declaration of final art approval. No third-party art/model pack is bundled.
+The owner's original reference PNGs remain unchanged at the repository root. Corrected target: dimensional stylized plants with puffy irregular buds and fuller curved leaf fans; dark wood/copper equipment can remain blockier. The owner rejected the literal all-voxel plant pass. **P1 is the first gameplay art pass**, not a declaration of final art approval. No third-party art/model pack is bundled.
 
 ## Original asset sources
 
-`tools/generate_game_assets.py` deterministically authors textures and geometry. `tools/generate_placeholder_assets.py` remains a compatibility entrypoint. Change source recipes and regenerate; do not hand-edit output JSON. All paths below are relative to `src/main/resources/assets/stonedew` unless stated.
+`tools/generate_game_assets.py` authors equipment/materials and delegates organic plant meshes to `tools/plant_art.py`, both deterministic and original. `tools/generate_placeholder_assets.py` remains a compatibility entrypoint. Change source recipes and regenerate; do not hand-edit output JSON. All paths below are relative to `src/main/resources/assets/stonedew` unless stated.
 
 | IDs / paths | Kind and status | Revision / replacement source |
 | --- | --- | --- |
@@ -17,7 +17,8 @@ The owner's original reference PNGs remain unchanged at the repository root. Tar
 | `models/block/bulb_lamp{,_lit}.json` | Hanging iron/copper frame, modeled chain, emissive core | Same; LampRenderer adds shader-free halo |
 | `models/block/ledger.json` | Wood/brass paper terminal with violet fitting | Same; LedgerScreen supplies functional UI |
 | `models/item/{glow_cell,watering_can,wild_seed}.json` | Volumetric fuel cell, open-handled can/spout, paper packet | Same; seed tint follows genome; can has first-person pour transform |
-| `models/block/plants/{bushy,hybrid,tall}_{0,1,2,3}{,_lod}.json` | 24 stepped volumetric plant meshes | Generator plant/mesh recipes; independent leaf/bud/hair tint channels; sway in TrayRenderer |
+| `models/block/plants/{bushy,hybrid,tall}_{0,1,2,3}{,_lod}.{json,obj}`, `plants.mtl` | 24 organic plant meshes, loader definitions and shared material library; revised art | `tools/plant_art.py`; smooth lobed bud clusters, green bracts, curved serrated leaf fans; separate tint channels and sway |
+| `textures/block/plant_{leaf,bud,stem,pistil}.png` | Four original 16×16 organic materials | Main generator: leaf veins, grouped bud texture/resin glints, stem and pistils |
 | Generated Dewstone cube / block item | Decorative foundation; revised restrained stone texture | StonedewData; still not a gameplay machine |
 | Generated blockstates / block-item parents | Pot/bed wet variants, lamp lit variants, Ledger | `StonedewData`, under `src/generated/resources` |
 | Generated loot/mining tags/recipes/advancements | Registered blocks and P1 craftable supplies | Same; seed acquisition and balance remain provisional |
@@ -31,9 +32,9 @@ Genome schema, cultivar/Wing bindings, growth profile and introductory directive
 
 ## Review and remaining work
 
-Near plant meshes max 925 quads; distant variants at most 40. Four Python tests validate geometry/material references/pixel density/original source credits. The in-game review covers stage silhouettes, tints, soil contact, hand framing, lamp light/halo and Ledger readability. These checks do not establish final quality, shader compatibility or the 500-plant performance target.
+Revised organic meshes max 2970 baked faces near / 98 distant, with explicit ceilings 3000 / 100. Five Python checks validate bounded OBJ geometry, face indices, normals, materials, pixel density and provenance. These replace the historical 925 / 40 cuboid meshes. The in-game review covers stage silhouettes, tints, soil contact, hand framing, lamp light/halo and Ledger readability. These checks do not establish final quality, shader compatibility or the 500-plant performance target.
 
-Still pending: final art iteration against owner feedback, richer stage/interaction animation, custom audio, jars and processing gear (P3), later machines/NPCs/structures and accessibility/theme presentation variants. No reference artwork has been cropped into shipped textures.
+Still pending: further art iteration against owner feedback, richer stage/interaction animation, custom audio, jars and processing gear (P3), later machines/NPCs/structures and accessibility/theme presentation variants. No reference artwork has been cropped into shipped textures.
 
 ## Dead-End Audit
 

@@ -42,13 +42,13 @@ public final class TrayTargeting {
         String habit = view != null ? view.habit() : state.genome().habit();
         double centerX = pos.getX() + (slot % grid + 0.5) / grid;
         double centerZ = pos.getZ() + (slot / grid + 0.5) / grid;
-        double radius = (grid == 1 ? 0.32 : 0.24) * (stage == 0 ? 0.5 : 1);
+        double radius = (grid == 1 ? 0.44 : 0.28) * (stage == 0 ? 0.5 : 1);
         double height =
             switch (stage) {
               case 0 -> 0.3;
-              case 1 -> 0.7;
-              case 2 -> 1.1;
-              default -> 1.3;
+              case 1 -> 0.9;
+              case 2 -> 1.3;
+              default -> 1.5;
             };
         height *= grid == 1 ? 1 : 0.83;
         if (habit.equals("tall")) height *= 1.25;

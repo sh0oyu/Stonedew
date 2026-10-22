@@ -4,12 +4,12 @@ A Minecraft Java **1.21.1 / NeoForge 21.1.264** mod about a cozy underground cul
 
 **Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes one-slot pots, four-slot beds, persistent genome identity, a plant HUD and a working Ledger directive screen. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
 
-[**Download stonedew-0.2.0-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.0-p1.jar)
+[**Download stonedew-0.2.1-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.1-p1.jar)
 
 ## Install
 
 1. Install [NeoForge 21.1.264](https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.264/neoforge-21.1.264-installer.jar) for **Minecraft Java 1.21.1**, using **Install client**. Launch that installation once, then close it.
-2. Open its game directory (Launcher → Installations → NeoForge profile → folder icon). Put the downloaded JAR in `mods`, creating the folder if necessary. **Remove the old P0 JAR**; keep only one Stonedew JAR. Do not extract it.
+2. Open its game directory (Launcher → Installations → NeoForge profile → folder icon). Put the downloaded JAR in `mods`, creating the folder if necessary. **Remove older Stonedew JARs**; keep only one Stonedew JAR. Do not extract it.
 3. Launch the NeoForge installation. No other mods are required. Use the launcher's Java 21 runtime.
 
 Back up existing worlds before updating development builds. P0 worlds can load P1; do not downgrade P1 plant saves to P0.
@@ -38,21 +38,23 @@ See the [eight-step playtest and remaining placeholders](docs/P1_PLAYTEST.md). D
 
 ## Art direction
 
-Original **dimensional, stylized voxel** geometry: stepped palmate leaves, separate colored buds, dark wooden beds, copper fittings, hanging violet lamps and a teal can. Gentle plant sway and a pouring motion are included. This is the first gameplay art pass, with further art, animation and audio refinement planned against the supplied references.
+The plants use **organic 3D forms**: puffy clustered buds, green bracts, curved serrated leaf fans and a fuller tapered canopy. The owner rejected the previous literal all-voxel plants. Equipment keeps its blockier Minecraft construction. Gentle plant sway and can pouring remain. This revision follows the supplied reference silhouettes; final visual approval belongs to the owner.
 
-![Actual P1 grow-room capture](docs/screenshots/p1-grow-room.png)
+![Actual revised plants in-game](docs/screenshots/p1-organic-plants.png)
+
+[Rejected 0.2.0 plant pass for comparison](docs/screenshots/p1-grow-room.png)
 
 See [asset sources/status](ASSETS.md) and [research/production notes](docs/art/ART_DIRECTION.md). Screenshots are actual game captures.
 
 ## Develop
 
-Install a **Java 21 JDK**. Python 3 regenerates voxel assets without external packages. Windows uses `gradlew.bat`.
+Install a **Java 21 JDK**. Python 3 regenerates equipment and organic plant assets without external packages. Windows uses `gradlew.bat`.
 
 ```sh
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
-./gradlew build       # build/libs/stonedew-0.2.0-p1.jar
+./gradlew build       # build/libs/stonedew-0.2.1-p1.jar
 ./gradlew runClient
 ```
 

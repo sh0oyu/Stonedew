@@ -1,41 +1,35 @@
-# P1 voxel art direction and production notes
+# Plant art correction — 0.2.1
 
-## Target and references
+## Owner direction and references
 
-The owner requested dimensional, animated, stylized voxel art. The two owner-supplied reference PNGs remain the visual brief: stepped plant silhouettes, layered leaves and dense colored buds, dark wooden raised beds, copper fittings, hanging violet lighting, glass and warm cave contrast. P0's cubes/icons were tooling checks and are not the art benchmark.
+The owner rejected the first P1 plant pass: rigid column buds, sparse stems and literal voxel geometry did not resemble the supplied references. The correction is **puffy organic weed plants with fuller leaves**, not an all-voxel requirement. Equipment and the Minecraft room may remain blockier.
 
-P1 assets are original shape/material recipes authored in `tools/generate_game_assets.py`. No downloaded third-party artwork, model pack, texture pack or AI concept image is represented as a shipped game model. The source recipes are editable and regenerate every texture/model deterministically. The room exhibit uses ordinary Minecraft blocks through registry references; no vanilla texture copies are redistributed.
+The unchanged root references are `Pixel cannabis farm automation sprite sheet.png` and `StoneDew Underground Voxel Garden.png`. Their useful plant cues are a tapered bush silhouette, broad palmate serrated leaves, dense layered foliage, rounded irregular flower clusters among green bracts, and distinct seedling/vegetative/flowering forms. Purple/teal/amber accents should not erase the foliage structure.
+
+## Authored assets
+
+- `tools/plant_art.py` authors OBJ surface meshes: folded/arched leaflets with serrated edges and explicit back faces; branching stems; lobed ellipsoid flower bodies with overlapping rounded tufts, green bracts, small sugar leaves and pistils. Four stages × three habits × near/distant detail = 24 models.
+- `tools/generate_game_assets.py` authors blockier equipment and original material textures. Four new organic materials provide leaf veins, grouped bud detail/resin glints, stems and pistils. These remain 16×16; geometry provides the silhouette.
+- Matching JSON definitions use NeoForge's built-in `neoforge:obj` loader and a shared `plants.mtl`. Tint channels remain driven by persistent genome data. No external rendering library or custom shader is required.
+- TrayRenderer preserves baked material color and per-vertex normals. It shares baked meshes, samples foliage light and adds gentle sway. Equipment, pouring animation and gameplay remain P1.
+
+No third-party artwork/model pack, reference-image crop or generated concept image is bundled as a game asset. Every custom mesh/material is reproducible from the authored source. Vanilla room blocks are registry references, not copied textures.
 
 ## Technical research
 
-- Inspected the version-matched **NeoForge 21.1.264 sources** distributed at https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.264/neoforge-21.1.264-sources.jar and the Minecraft 1.21.1 sources prepared by NeoForm `20240808.144430`.
-- Confirmed additional-model registration through `ModelResourceLocation.standalone`, block-entity renderer registration/culling bounds, client item transforms, per-item tint handlers and the block texture atlas rendering path.
-- Confirmed the difference between initial chunk update tags and later block-entity data packets; presentation snapshots have separate decode paths from full persisted plant state.
-- Consulted the official NeoForge BER/model documentation URLs; their host returned HTTP 403 in this environment. Implementation therefore uses the exact installed sources, rather than guessing from another Minecraft version's API.
-- Looked to the owner references and the game's existing art language for pixel density, material hierarchy, silhouettes and in-hand readability. All custom shapes and material textures are authored for Stonedew.
+Inspected the exact **NeoForge 21.1.264** `ObjLoader`, `ObjModel` and `ObjMaterialLibrary` sources from https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.264/neoforge-21.1.264-sources.jar. Confirmed loader JSON fields, relative MTL resolution, namespaced material textures, `neoforge_TintIndex`, triangle/quad baking and explicit normals. Inspected Minecraft 1.21.1/NeoForm `20240808.144430` VertexConsumer and Sheets sources to retain baked colors/normals and correct foliage back faces. Earlier additional-model, BER, component and update-packet research remains applicable. Official web docs returned HTTP 403; version-matched installed sources supplied the API evidence.
 
-## Asset language
+## Budgets and review
 
-- **Plants:** stepped volumetric stems, branching palmate leaves and separate modeled bud/pistil clusters. Four visibly different stages and three habits. Leaf, bud and hair colors are separate channels driven by the seed genome. Gentle whole-plant sway is rendered without altering simulation state.
-- **Clay pot:** inset soil, an open modeled rim, stepped ceramic walls and a small copper maker plate. Wet soil gets a separate darker material.
-- **Planter:** open soil bed, dark wood rails, structural posts and copper corner bands; four independently rendered plant slots.
-- **Bulb Lamp:** suspended iron frame, chain geometry, copper end fittings and an emissive violet bulb. Burning fuel changes the actual block's light and appearance. The larger UV Tube tier remains a later gameplay tier.
-- **Watering can:** modeled body, handle opening, lid, stepped spout and copper rose. Its custom first-person transform tilts during pouring; water particles/sounds accompany a successful pour.
-- **Seed packet / Glow Cell:** volumetric paper packet and copper-framed violet energy cell. Seed packet accents reflect the genome pigment.
-- **Ledger:** wooden/brass terminal with paper and violet side light; a usable framed Directive screen.
+The organic revision changes the geometry budget explicitly: at most **3000 baked faces near / 100 distant**, measured **2970 / 98**. Distant models switch beyond 24 blocks. `mesh-budget.json` records each mesh. This is a geometry bound, not proof of the future 500-plant performance target.
 
-## Rendering and budgets
-
-Materials are 16×16 RGBA, using restrained three-tone ramps and low-frequency grain. Plants use opaque voxel surfaces, with interior faces removed and coplanar material faces greedily merged. Tiny voxel faces use proportional UV coverage to maintain readable pixel density, and plants sample light at foliage height. Stage/habit meshes are baked and shared; per-tray presentation changes tint and transforms only. Near meshes are capped at 1000 quads and LOD meshes at 40 by `tools/test_assets.py`; the current mesh report is `mesh-budget.json`. LOD switches beyond 24 blocks. No custom shader or external animation library is required.
-
-These budgets are asset checks, not a claim that the future 500-plant performance target has been measured. Test the complete scene in-game, including silhouette, soil contact, hand framing, light-on/off readability, distant plants, and view-frustum edges. Screen captures must be real game captures, not concept renders.
-
-## Reproduce and revise
+Five Python tests validate model coverage/bounds/budgets, OBJ indices/unit normals/materials, texture references, pixel density and source credits. Review actual in-game close-ups, bed density, multiple angles, all stages/pigments/habits, underside foliage and distant silhouettes. Compare with `docs/screenshots/p1-grow-room.png`, the rejected previous pass. Current captures use `p1-organic-*.png`.
 
 ```sh
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
+./gradlew build
 ```
 
-Change the source recipes and regenerate. Do not edit output JSON by hand. Record each revision and its in-game review in ASSETS.md. This is the first gameplay art pass; later art/animation/audio work stays in the roadmap and must be judged against the owner references.
+Edit source recipes and regenerate. Do not hand-edit OBJ/JSON output. Further visual iteration remains subject to the owner's feedback; tests cannot certify aesthetics.

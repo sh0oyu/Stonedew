@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.1-p1 — organic plant art correction — 2026-10-22
+
+The owner rejected the rigid, sparse all-voxel plants. This revision replaces their geometry rather than recoloring the old columns.
+
+- Original curved serrated leaf fans, fuller tapered foliage, green bracts and irregular rounded bud clusters with smaller overlapping tufts, sugar leaves and short pistils. Equipment retains its Minecraft cuboid construction.
+- 24 OBJ plant meshes across stages/habits/detail levels, shared MTL, four original organic material textures, built-in NeoForge OBJ loader. Renderer preserves baked colors and vertex normals. No extra mod dependency/custom shader.
+- Foliage selection bounds expanded to fit the new canopy. Existing genome identities, plant saves and growth mechanics retained.
+- Revised geometry ceiling 3000 faces near / 100 distant; measured maxima 2970 / 98. These replace the previous cuboid limits, not a performance certification.
+- Updated owner art direction, source/asset notes, current screenshot and versioned downloadable JAR. Rejected 0.2.0 capture/artifact retained for comparison/history.
+
+Validation: Java 21/NeoForge build passes; 53 JUnit tests with no failures/errors/skips; five asset checks pass. Regeneration is byte-identical across 123 resource/report files; datagen writes zero changed outputs. Development client loads existing P1 plants with new models, resource reload succeeds, and upper-canopy Survival watering consumes one pour (8→7). Pigment/habit changes render correctly. Real screenshots document the visual review. Broader performance/shader/multiplayer testing and final owner art approval remain outstanding.
+
 ## 0.2.0-p1 — 2026-10-22
 
 Playable Plant Core: seed → watering/fueled light → four visible stages → ripe plants. Harvest and processing remain P3.
