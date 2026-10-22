@@ -6,6 +6,8 @@ A Minecraft Java **1.21.1 / NeoForge** mod: a cozy underground cultivation cave 
 
 ## Run in Minecraft
 
+[**Download the Stonedew P0 JAR**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.1.0-p0.jar) — Minecraft Java 1.21.1 / NeoForge 21.1.264.
+
 1. Use **Minecraft Java Edition 1.21.1**. Install [NeoForge 21.1.264](https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.264/neoforge-21.1.264-installer.jar) using its **Install client** option.
 2. Open the Minecraft Launcher, select the NeoForge installation, launch it once, and close the game.
 3. Open that installation's game directory (Launcher → Installations → the NeoForge profile's folder icon). Create a `mods` folder if needed.

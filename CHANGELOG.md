@@ -1,5 +1,9 @@
 # Changelog
 
+## Download follow-up — 2026-10-22
+
+- Added the verified P0 JAR and SHA-256 to `downloads/`, with a direct GitHub download link. Mod code and gameplay are unchanged.
+
 ## Documentation follow-up — 2026-10-22
 
 - Added client installation and development-launch steps, and recorded the owner's stylized, animated 3D voxel art direction in the living design and asset guidance. Gameplay and the P0 JAR are unchanged.
