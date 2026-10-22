@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.4-p1 — broader foliage, authored materials and shaded lighting — 2026-10-22
+
+The owner rejected 0.2.3 as unlike the reference shapes/textures and missing convincing shading. This revision replaces that presentation and fixes the renderer's equal-brightness flower faces and forced-up leaf normals. CODEX_REFERENCE_NEW remains the target; aesthetic approval is not implied by validation.
+
+- Broad seven-finger serrated fans, five canopy whorls, crown collar, upright fill and branch-tip leaves. Connected, outward-leaning flower clusters emit only exposed bract faces, with cultivar-derived top highlights and five visible pistil caps. Four saved layouts, 5/9/13 mature flower sites and persistent proportion/rotation variation remain.
+- Original authored 32px material tiles, 64px foliage/emblem/halo, shared UI sheet, dimension-based equipment UVs and a shaded pot-lip undercut. Rejected imagegen PNGs are archived unchanged outside the mod resources; the old atlas importer and foliage shader wrapper were removed. No reference crops or third-party game assets are used.
+- Geometric directional shading, vertex canopy occlusion, real leaf underside normals, height-based world light and soil contact shadows. Fueled lamps add cached, obstruction-aware colored plant bounce and a soft local floor projection. Ambient daylight limits the tint so it preserves the leaf palette. Ray checks start below the fixture's collision hull to avoid blocking their own emitter. These are local effects, not global shadow maps.
+- 64 shared plant meshes; maximum 2376 near / 64 distant faces within 2400/100 limits. Equipment maximum 534. Source/budget/integrity manifests regenerate deterministically. Updated guide and actual close-up, equipment, night and daylight on/off captures. No additional mod or shader pack is required.
+
+Validation: Java 21 / NeoForge build passes; **60 JUnit tests**, no failures/errors/skips; **nine asset checks** pass, including exposed-pistil and underside-normal regressions. Regeneration leaves **187 files byte-identical**; datagen succeeds with zero changed outputs. Client loads existing P1 plants and all rebuilt assets, and resource reload retains mip level 4 (1024×512 block atlas). Same-camera fueled on/off captures verify UV effects and daylight attenuation. Survival watering consumes one pour (8→7), water ~34.6→64.3, preserving appearance seed 3, genome, stage and care. The JAR excludes rejected texture PNGs and deleted renderer/importer classes. Studio captures use an elevated camera and 45° FOV; equipment tools use enlarged display entities. Shader packs, broad hardware/multiplayer, the 500-plant target and owner art acceptance remain outstanding. Gameplay remains P1; P3 Fun Gate still precedes automation.
+
 ## 0.2.3-p1 — exact-reference rebuild and plant individuality — 2026-10-22
 
 The four owner uploads in CODEX_REFERENCE_NEW replace the generic painted interpretation as the mod-wide visual brief. Preserve those images unchanged and apply their crisp leaf silhouettes, stepped flowers, terracotta, timber and cool steel/violet material language to current and future mod art.

@@ -3,7 +3,7 @@ Original authored geometry. References in CODEX_REFERENCE_NEW are preserved unch
 """
 import json
 import math
-from plant_art import Mesh
+from plant_art import Mesh, unit, cross, add, mul
 
 DISPLAY = {
     'gui': {'rotation': [25, 225, 0], 'translation': [0, 1, 0], 'scale': [.8]*3},
@@ -16,6 +16,12 @@ DISPLAY = {
 class Prop(Mesh):
     def face(self, material, vertices, normals=None, uv=None):
         # Geometry below is authored in the familiar absolute 0..16 block coordinates.
+        if uv is None:
+            normal = unit(cross(add(vertices[1], mul(vertices[0], -1)), add(vertices[2], mul(vertices[0], -1))))
+            axis = max(range(3), key=lambda a: abs(normal[a]))
+            # Consistent 32 texels per block, including narrow rails, bolts and angled walls.
+            axes = (0,2) if axis == 1 else (2,1) if axis == 0 else (0,1)
+            uv = [(v[axes[0]]/16, 1-v[axes[1]]/16) for v in vertices]
         super().face(material, [(x-8,y,z-8) for x,y,z in vertices], normals, uv)
 
     def beam(self, a, b, width, material='iron'):
@@ -67,6 +73,7 @@ def pot(wet):
     m.taper(.3,1,3.35,3.7,'ceramic')
     m.taper(1,7.1,3.7,4.85,'ceramic',cap=False)
     m.taper(6.8,7.4,4.85,5.3,'ceramic',cap=False)
+    m.taper(6.4,6.85,4.8,5.05,'ceramic_dark',cap=False)
     m.rim(7.4,5.3,4.25,1.1,'ceramic_light')
     m.taper(7.5,8.5,4.25,4.25,'ceramic_dark',cap=False)
     m.block((3.75,6.9,3.75),(12.25,7.5,12.25),'soil_wet' if wet else 'soil')
@@ -189,7 +196,7 @@ def ledger():
 def generate(root):
     directory=root/'models/block/equipment';directory.mkdir(parents=True,exist_ok=True)
     mtl=[]
-    specs=[('wood','wood',(1,1,1)),('wood_dark','wood',(.58,.56,.60)),('ceramic','ceramic',(1,1,1)),('ceramic_light','ceramic',(1,.98,.92)),('ceramic_dark','ceramic',(.60,.54,.53)),('iron','iron',(.72,.70,.76)),('iron_light','iron',(1,1,1)),('rivet','copper',(1,1,1)),('teal','teal',(1,1,1)),('glass','glass',(.6,.55,.68)),('soil','soil',(1,1,1)),('soil_wet','soil_wet',(1,1,1)),('paper','paper',(1,1,1)),('paper_dark','paper',(.65,.61,.61)),('ink','iron',(.6,.6,.6)),('leaf','plant_leaf',(1,1,1)),('seed_bud','plant_bud',(1,1,1)),('emission','glow',(1,1,1))]
+    specs=[('wood','wood',(1,1,1)),('wood_dark','wood',(.58,.56,.60)),('ceramic','ceramic',(1,1,1)),('ceramic_light','ceramic_rim',(1,1,1)),('ceramic_dark','ceramic_inner',(1,1,1)),('iron','iron',(1,1,1)),('iron_light','iron_light',(1,1,1)),('rivet','copper',(1,1,1)),('teal','teal',(1,1,1)),('glass','glass',(.6,.55,.68)),('soil','soil',(1,1,1)),('soil_wet','soil_wet',(1,1,1)),('paper','paper',(1,1,1)),('paper_dark','paper',(.65,.61,.61)),('ink','iron',(.6,.6,.6)),('leaf','plant_leaf',(1,1,1)),('seed_bud','plant_bud',(1,1,1)),('emission','glow',(1,1,1))]
     for name,texture,color in specs:
         mtl += [f'newmtl {name}','Kd '+' '.join(map(str,color)),f'map_Kd stonedew:block/{texture}', 'Ka 1 1 1' if name=='emission' else 'Ka 0 0 0']
         if name=='seed_bud': mtl.append('neoforge_TintIndex 0')

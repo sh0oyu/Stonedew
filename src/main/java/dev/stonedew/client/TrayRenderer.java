@@ -3,9 +3,13 @@ package dev.stonedew.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.stonedew.Stonedew;
+import dev.stonedew.art.ModelLighting;
 import dev.stonedew.plant.GrowTrayBlockEntity;
+import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -15,35 +19,63 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.RandomSource;
 
 public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEntity> {
-  private static final float[] BRIGHTNESS = {1, 1, 1, 1};
   private final RandomSource random = RandomSource.create(0);
-  private final java.util.Map<BakedModel, Parts> meshCache = new java.util.WeakHashMap<>();
+  private final java.util.Map<BakedModel, List<Surface>> meshCache = new java.util.WeakHashMap<>();
 
-  private record Parts(java.util.List<BakedQuad> flowers, java.util.List<BakedQuad> cards) {}
+  private record Surface(
+      BakedQuad quad, float nx, float ny, float nz, float[] x, float[] y, float[] z) {}
 
-  private Parts unpack(BakedModel model) {
-    var flowers = new java.util.ArrayList<BakedQuad>();
-    var cards = new java.util.ArrayList<BakedQuad>();
+  private List<Surface> unpack(BakedModel model) {
+    var result = new java.util.ArrayList<Surface>();
     for (var quad : model.getQuads(null, null, random)) {
-      if (quad.getTintIndex() != 3) {
-        flowers.add(quad);
-        continue;
+      int[] data = quad.getVertices();
+      int stride = data.length / 4;
+      float[] x = new float[4], y = new float[4], z = new float[4];
+      for (int i = 0; i < 4; i++) {
+        x[i] = Float.intBitsToFloat(data[i * stride]) - .5F;
+        y[i] = Float.intBitsToFloat(data[i * stride + 1]);
+        z[i] = Float.intBitsToFloat(data[i * stride + 2]) - .5F;
       }
-      cards.add(quad);
+      // Use geometric normals, including folded leaf undersides and tilted colas.
+      float ax = x[1] - x[0], ay = y[1] - y[0], az = z[1] - z[0];
+      float bx = x[2] - x[0], by = y[2] - y[0], bz = z[2] - z[0];
+      float nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
+      float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+      if (length < .00001F) continue;
+      result.add(new Surface(quad, nx / length, ny / length, nz / length, x, y, z));
     }
-    return new Parts(java.util.List.copyOf(flowers), java.util.List.copyOf(cards));
+    return List.copyOf(result);
   }
 
   public TrayRenderer(BlockEntityRendererProvider.Context context) {}
 
   @Override
   public net.minecraft.world.phys.AABB getRenderBoundingBox(GrowTrayBlockEntity tray) {
-    return new net.minecraft.world.phys.AABB(tray.getBlockPos()).inflate(0.7, 2, 0.7);
+    return new net.minecraft.world.phys.AABB(tray.getBlockPos()).inflate(.85, 2, .85);
   }
 
   @Override
   public int getViewDistance() {
     return 48;
+  }
+
+  private static void contact(PoseStack pose, MultiBufferSource buffers, float radius, int light) {
+    var vertices =
+        buffers.getBuffer(
+            RenderType.entityTranslucent(Stonedew.id("textures/effect/contact_shadow.png")));
+    float y = .012F;
+    float[][] corners = {
+      {-radius, y, radius}, {radius, y, radius}, {radius, y, -radius}, {-radius, y, -radius}
+    };
+    float[][] uv = {{0, 1}, {1, 1}, {1, 0}, {0, 0}};
+    for (int i = 0; i < 4; i++)
+      vertices
+          .addVertex(pose.last(), corners[i][0], y, corners[i][2])
+          .setColor(255, 255, 255, 185)
+          .setUv(uv[i][0], uv[i][1])
+          .setOverlay(net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY)
+          .setLight(light)
+          .setNormal(pose.last(), 0, 1, 0);
   }
 
   @Override
@@ -54,6 +86,8 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
       MultiBufferSource buffers,
       int light,
       int overlay) {
+    var level = (net.minecraft.client.multiplayer.ClientLevel) tray.getLevel();
+    var lights = GrowLightCache.near(level, tray.getBlockPos());
     int grid = (int) Math.ceil(Math.sqrt(tray.capacity()));
     double distance =
         Minecraft.getInstance()
@@ -61,6 +95,9 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
             .getMainCamera()
             .getPosition()
             .distanceToSqr(tray.getBlockPos().getCenter());
+    int[] levels = new int[4];
+    for (int i = 0; i < 4; i++)
+      levels[i] = LevelRenderer.getLightColor(level, tray.getBlockPos().above(Math.max(1, i)));
     for (int slot = 0; slot < tray.capacity(); slot++) {
       var plant = tray.view(slot);
       if (plant == null) continue;
@@ -71,71 +108,89 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
               .getModel(
                   ModelResourceLocation.standalone(
                       Stonedew.id(
-                          "block/plants/"
-                              + "plant_"
+                          "block/plants/plant_"
                               + plant.stage()
                               + "_"
                               + plant.shape()
                               + "_"
                               + (plant.stage() >= 2 ? plant.budLoad() : 0)
                               + detail)));
+      float offsetX = (slot % grid + .5F) / grid, offsetZ = (slot / grid + .5F) / grid;
+      float soil = grid == 1 ? 7.5F / 16 : 6.25F / 16;
+      float grow = .93F + .07F * plant.progress() / 100F;
+      float sx =
+          (grid == 1 ? 1.0F : .62F)
+              * grow
+              * plant.spread()
+              / 100F
+              * (plant.habit().equals("tall") ? .86F : 1);
+      float sy =
+          (grid == 1 ? 1.10F : .94F)
+              * grow
+              * plant.height()
+              / 100F
+              * (plant.habit().equals("tall") ? 1.15F : 1);
+      float rotation = (float) Math.toRadians(plant.rotation());
+      float cos = (float) Math.cos(rotation), sin = (float) Math.sin(rotation);
       pose.pushPose();
-      pose.translate(
-          (slot % grid + 0.5) / grid,
-          tray.capacity() == 1 ? 7.5 / 16.0 : 6.25 / 16.0,
-          (slot / grid + 0.5) / grid);
-      float scale = grid == 1 ? 0.95F : 0.65F;
+      pose.translate(offsetX, soil, offsetZ);
+      contact(pose, buffers, grid == 1 ? (plant.stage() == 0 ? .13F : .23F) : .13F, levels[1]);
       float sway =
-          (float)
-                  Math.sin(
-                      (tray.getLevel().getGameTime() + partial) * 0.035
-                          + tray.getBlockPos().asLong() % 31
-                          + slot)
-              * 1.2F;
+          (float) Math.sin((level.getGameTime() + partial) * .025 + plant.rotation()) * .8F;
       pose.mulPose(Axis.ZP.rotationDegrees(sway));
       pose.mulPose(Axis.YP.rotationDegrees(plant.rotation()));
-      float grow = 0.93F + 0.07F * plant.progress() / 100F;
-      float height = plant.height() / 100F * (plant.habit().equals("tall") ? 1.15F : 1F);
-      float spread = plant.spread() / 100F * (plant.habit().equals("tall") ? .86F : 1F);
-      pose.scale(
-          scale * grow * spread,
-          (grid == 1 ? 1.35F : 1.12F) * grow * height,
-          scale * grow * spread);
-      pose.translate(-0.5, 0, -0.5);
+      pose.scale(sx, sy, sx);
+      pose.translate(-.5, 0, -.5);
       var vertices = buffers.getBuffer(Sheets.cutoutBlockSheet());
-      int sampledLight =
-          net.minecraft.client.renderer.LevelRenderer.getLightColor(
-              tray.getLevel(), tray.getBlockPos().above(plant.stage() >= 2 ? 2 : 1));
-      int[] lighting = {sampledLight, sampledLight, sampledLight, sampledLight};
-      var parts = meshCache.computeIfAbsent(model, this::unpack);
-      for (var quad : parts.flowers()) {
+      float[] brightness = new float[4];
+      int[] lighting = new int[4];
+      for (var surface : meshCache.computeIfAbsent(model, this::unpack)) {
+        var quad = surface.quad();
+        boolean leaf = quad.getTintIndex() == 3;
         int color =
             switch (quad.getTintIndex()) {
               case 0 -> plant.leaf();
               case 1 -> plant.bud();
               case 2 -> plant.hair();
+              case 4 -> {
+                int bud = plant.bud();
+                int red = ((bud >> 16) & 255), green = ((bud >> 8) & 255), blue = (bud & 255);
+                yield ((red + (255 - red) / 3) << 16)
+                    | ((green + (255 - green) / 3) << 8)
+                    | (blue + (255 - blue) / 3);
+              }
               default -> 0xFFFFFF;
             };
-        // OBJ vertex normals and baked material colors preserve the curved forms.
-        vertices.putBulkData(
-            pose.last(),
-            quad,
-            BRIGHTNESS,
-            ((color >> 16) & 255) / 255F,
-            ((color >> 8) & 255) / 255F,
-            (color & 255) / 255F,
-            1F,
-            lighting,
-            overlay,
-            true);
-      }
-      var foliage = buffers.getBuffer(PaintedFoliageLayer.LAYER);
-      float leafR = .78F + .22F * ((plant.leaf() >> 16) & 255) / 255F;
-      float leafG = .78F + .22F * ((plant.leaf() >> 8) & 255) / 255F;
-      float leafB = .78F + .22F * (plant.leaf() & 255) / 255F;
-      for (var card : parts.cards()) {
-        foliage.putBulkData(
-            pose.last(), card, BRIGHTNESS, leafR, leafG, leafB, 1F, lighting, overlay, true);
+        float r = leaf ? .44F : ((color >> 16) & 255) / 255F;
+        float g = leaf ? .92F : ((color >> 8) & 255) / 255F;
+        float b = leaf ? .24F : (color & 255) / 255F;
+        float uv = 0;
+        float diffuse = ModelLighting.diffuse(surface.nx(), surface.ny(), surface.nz(), rotation);
+        for (int v = 0; v < 4; v++) {
+          float x = surface.x()[v], y = surface.y()[v], z = surface.z()[v];
+          float radius = (float) Math.sqrt(x * x + z * z);
+          brightness[v] = diffuse * ModelLighting.canopy(y, radius, leaf);
+          lighting[v] = levels[Math.clamp((int) (soil + y * sy + .25F), 1, 3)];
+          uv +=
+              GrowLightCache.strength(
+                      lights,
+                      tray.getBlockPos().getX() + offsetX + (x * cos + z * sin) * sx,
+                      tray.getBlockPos().getY() + soil + y * sy,
+                      tray.getBlockPos().getZ() + offsetZ + (z * cos - x * sin) * sx)
+                  * .25F
+                  * (1
+                      - .65F
+                          * Math.max(
+                              0,
+                              net.minecraft.client.renderer.LightTexture.sky(lighting[v])
+                                  - level.getSkyDarken())
+                          / 15F);
+        }
+        // Colored UV bounce remains conditional on actual fueled fixtures and obstruction checks.
+        r = Math.min(1, r + .10F * uv);
+        g *= 1 - .18F * uv;
+        b = Math.min(1, b + .24F * uv);
+        vertices.putBulkData(pose.last(), quad, brightness, r, g, b, 1, lighting, overlay, true);
       }
       pose.popPose();
     }

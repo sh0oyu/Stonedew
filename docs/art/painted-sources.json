@@ -1,6 +1,6 @@
 [
   {
-    "path": "src/main/resources/assets/stonedew/textures/art/leaf_fan.png",
+    "path": "docs/art/archive/0.2.3/leaf_fan.png",
     "purpose": "Crisp serrated transparent foliage card",
     "sha256": "df9745401acd742e9fca1ac8fce6de7ec395d4e1a7fdc0df9dd997ffcb9865e8",
     "dimensions": [
@@ -8,10 +8,11 @@
       1163
     ],
     "creation": "Original imagegen pixel artwork guided by CODEX_REFERENCE_NEW; source PNG preserved unchanged",
-    "date": "2026-10-22"
+    "date": "2026-10-22",
+    "status": "Rejected 0.2.3 artwork, archived unchanged; not shipped or used in game"
   },
   {
-    "path": "src/main/resources/assets/stonedew/textures/art/painted_materials.png",
+    "path": "docs/art/archive/0.2.3/painted_materials.png",
     "purpose": "Reference-led pixel material atlas, 4 by 4",
     "sha256": "f80f5fb229b22dcdc1c6e30cce9cb5385ec7f9941279d05aac0946e39e485cac",
     "dimensions": [
@@ -19,6 +20,7 @@
       1254
     ],
     "creation": "Original imagegen pixel artwork guided by CODEX_REFERENCE_NEW; source PNG preserved unchanged",
-    "date": "2026-10-22"
+    "date": "2026-10-22",
+    "status": "Rejected 0.2.3 artwork, archived unchanged; not shipped or used in game"
   }
 ]

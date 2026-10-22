@@ -18,6 +18,11 @@ public final class LampRenderer implements BlockEntityRenderer<BulbLampBlockEnti
   public LampRenderer(BlockEntityRendererProvider.Context context) {}
 
   @Override
+  public net.minecraft.world.phys.AABB getRenderBoundingBox(BulbLampBlockEntity lamp) {
+    return new net.minecraft.world.phys.AABB(lamp.getBlockPos()).inflate(2, 5, 2);
+  }
+
+  @Override
   public int getViewDistance() {
     return 24;
   }
@@ -32,6 +37,7 @@ public final class LampRenderer implements BlockEntityRenderer<BulbLampBlockEnti
       int overlay) {
     if (!lamp.getBlockState().getValue(BulbLampBlock.LIT) || !StonedewConfig.ATMOSPHERE.get())
       return;
+    LampSpill.render(lamp.getLevel(), lamp.getBlockPos(), pose, buffers);
     pose.pushPose();
     pose.translate(0.5, 0.27, 0.5);
     pose.mulPose(Minecraft.getInstance().gameRenderer.getMainCamera().rotation());

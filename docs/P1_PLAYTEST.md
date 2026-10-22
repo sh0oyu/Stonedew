@@ -13,7 +13,7 @@ Use Minecraft Java 1.21.1 / NeoForge 21.1.264 with **only the P1 Stonedew JAR**.
 
 ## Still provisional / unimplemented
 
-- First original gameplay voxel-art pass; final detailing, richer animation, custom sound design and broader play-feel/accessibility review remain. Vanilla sounds supply feedback. Dewstone is decorative.
+- Current hybrid art/shading pass still requires owner visual review; richer animation, custom sound design and broader play-feel/accessibility review remain. Vanilla sounds supply feedback. Dewstone is decorative.
 - Baseline humidity, temperature, airflow, nutrients and schedule; simple nearby-lamp/sun light. Enclosed rooms, schedules, environmental equipment, problems and historical environment sampling arrive in **P2**. Catch-up caps at two Minecraft days per visit.
 - Genome alleles persist and drive pigment/habit. Inheritance, named strains and stat expression arrive in **P5**. Seed crafting is a temporary acquisition path ahead of worldgen/progression.
 - Harvest/trim/dry/cure, quality, Orders and first Cycle arrive in **P3**. Consumption, Herbal Mode presentation switching, later story, machines and automation are not implemented. Future-system settings remain foundations.
@@ -26,3 +26,7 @@ Use Minecraft Java 1.21.1 / NeoForge 21.1.264 with **only the P1 Stonedew JAR**.
 ## 0.2.3 reference revision validation
 
 57 Java tests and eight asset checks pass. All 64 plant meshes and ten equipment states package correctly; no obsolete habit meshes remain in the JAR. Regeneration is byte-identical across 179 files. Real client review covered legacy plants, fresh sowing from one packet stack, the three mature visual flower loads, fuller canopy targeting, new equipment, F3+T reload with mip level 4, and save/quit/reopen with identity/genome/stage/care unchanged. Survival watering used one pour (8→7), water about 37→67. Screenshots p1-reference-*.png are actual Minecraft captures; equipment tool displays are enlarged 1.6× for review. Prior validation below documents earlier passes.
+
+## 0.2.4 shading revision validation
+
+60 Java tests and nine asset checks pass. Added directional-normal/rotation/occlusion tests and checks for shaded undersides and exposed pistil caps. Asset regeneration is byte-identical across 187 files. The client loads existing P1 plants and new artwork; F3+T retains mip level 4. Same-camera fueled lamp on/off captures demonstrate local UV spill and daylight attenuation. Corrected a ray origin that otherwise hits the fixture's own collision hull. Survival watering of the new canopy used one pour (8→7), water 34.6→64.3, without changing its saved seed/genome/stage/care. Current p1-shaded-*.png are actual Minecraft captures; studio views use an elevated camera and 45° FOV. Earlier screenshots document rejected/intermediate art. These checks do not establish aesthetic acceptance or the full hardware/shader/multiplayer performance target.

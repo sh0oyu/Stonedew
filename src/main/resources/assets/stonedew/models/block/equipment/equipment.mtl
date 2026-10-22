@@ -14,23 +14,23 @@ map_Kd stonedew:block/ceramic
 Ka 0 0 0
 
 newmtl ceramic_light
-Kd 1 0.98 0.92
-map_Kd stonedew:block/ceramic
+Kd 1 1 1
+map_Kd stonedew:block/ceramic_rim
 Ka 0 0 0
 
 newmtl ceramic_dark
-Kd 0.6 0.54 0.53
-map_Kd stonedew:block/ceramic
+Kd 1 1 1
+map_Kd stonedew:block/ceramic_inner
 Ka 0 0 0
 
 newmtl iron
-Kd 0.72 0.7 0.76
+Kd 1 1 1
 map_Kd stonedew:block/iron
 Ka 0 0 0
 
 newmtl iron_light
 Kd 1 1 1
-map_Kd stonedew:block/iron
+map_Kd stonedew:block/iron_light
 Ka 0 0 0
 
 newmtl rivet

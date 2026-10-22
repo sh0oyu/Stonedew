@@ -4,7 +4,7 @@ A Minecraft Java **1.21.1 / NeoForge 21.1.264** mod about a cozy underground cul
 
 **Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes one-slot pots, four-slot beds, persistent genome identity, a plant HUD and a working Ledger directive screen. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
 
-[**Download stonedew-0.2.3-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.3-p1.jar)
+[**Download stonedew-0.2.4-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.4-p1.jar)
 
 ## Install
 
@@ -39,23 +39,25 @@ See the [eight-step playtest and remaining placeholders](docs/P1_PLAYTEST.md). D
 
 ## Art direction
 
-The four images in **CODEX_REFERENCE_NEW** now define the mod-wide style: crisp 2D serrated leaves, chunky solid 3D flowers, tapered orange pots, reinforced timber and dark steel/violet equipment. All current prop geometry has been rebuilt. Plants have four branch layouts, three bud loads (5/9/13 mature clusters), and saved height/spread variation. Seeds from one stack produce different plants; their shapes stay fixed through growth and reloads. Bud amounts are visual until P3 harvesting.
+The four images in **CODEX_REFERENCE_NEW** remain the visual target. The current pass replaces the rejected needle-like foliage with broad serrated fans, connected flower bracts and exposed pistils. Original authored textures replace the old imagegen sheet. Plants now have directional face shading, darker inner foliage, cultivar highlights, soil contact shadows and colored bounce from fueled UV lamps. Pots, equipment and UI use the same material family with corrected texture scale.
 
-![Actual reference-guided plants and equipment in Minecraft](docs/screenshots/p1-reference-plants.png)
+Four saved branch layouts, three mature flower loads (5/9/13), and height/spread/rotation variation remain. Seeds from one stack produce varied plants without changing their genetics. Bud loads are visual until P3 harvesting.
 
-[Plant variation](docs/screenshots/p1-reference-variation.png) · [Equipment](docs/screenshots/p1-reference-equipment.png) · [Style guide](docs/art/ART_DIRECTION.md)
+![Actual current violet plant in Minecraft](docs/screenshots/p1-shaded-violet.png)
+
+[Olive/orange plant](docs/screenshots/p1-shaded-kush.png) · [UV lighting](docs/screenshots/p1-shaded-uv.png) · [Equipment](docs/screenshots/p1-shaded-equipment.png) · [Current style and rendering notes](docs/art/ART_DIRECTION.md)
 
 See [asset sources/status](ASSETS.md) and [research/production notes](docs/art/ART_DIRECTION.md). Screenshots are actual game captures.
 
 ## Develop
 
-Install a **Java 21 JDK**. Python 3 regenerates equipment and organic plant assets without external packages. Windows uses `gradlew.bat`.
+Install a **Java 21 JDK**. Python 3 regenerates equipment, original pixel textures and hybrid plant assets without external packages. Windows uses `gradlew.bat`.
 
 ```sh
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
-./gradlew build       # build/libs/stonedew-0.2.3-p1.jar
+./gradlew build       # build/libs/stonedew-0.2.4-p1.jar
 ./gradlew runClient
 ```
 

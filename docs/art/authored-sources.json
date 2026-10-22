@@ -1,0 +1,282 @@
+[
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/bud.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "3ebee8e25e212f4fd3e7a35570bd6c069f5857015bbfe16dae04d3e6351855d2",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/ceramic.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "283e76dc9afe74f55c0bdb6e5f532b30490000a0acfbd88828ee0feb048adb31",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/ceramic_inner.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "6bc2cd4ce17ad168fe0515a73bf8f2ac0ff868ded6bd26d7be03c04444202a61",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/ceramic_rim.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "3358b94a6ebcc200286b280a42e27b9a5a785ed3ea981ce535cf638ceb53bb7d",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/copper.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "ffef914171520d07ccf454908cac581bd8e51f17a0d21722108b0ad9f23e9667",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/dewstone.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "f8760353d317a91d693c51b57c22d527b5a92ccf8fa83ed14e0dd63cc121eeca",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/glass.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "cac3ccc7427a6bccd56e510f685cbccc76f586b4a27e01132c37e528bf28ffec",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/glow.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "27daea675c485b82f1e3251a02894c40c1b7cb534203f47baaf91f0d156179ce",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/hair.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "72020ad3293ba9e05100082181d48e3d2e6e91bdaee8ee6adf4cc23cb62c5b65",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/iron.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "622fc8b44ae2b5ca2f04049ce4290e4b7b9b2ae11eeb18bcee10a72e95711dbf",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/iron_light.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "426cf024f9efcc1e505829b13eca7b6727ab875e4292f60e67c6263063aa253a",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/leaf.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "244af31278a61418f674e2eca3a9e3fca8bbee877a79ccbe948f8a1e178e38f6",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/leaf_emblem.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "0dad6ff5e78159c2620d91a96bab58be201454e407c1f57243f2fb731b927e4e",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/leaf_fan.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "a18523ebe1234c12dfe11a426041e1daf9a7692c3a4e36c5daace8fb199c509f",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/paper.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "8995ed527696638dfaa736f76b6b4e9adf4286e610410a6553eae79e41d46fe3",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/plant_bud.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "4e75f242c9718c1e3df8f91c8167b7eb688f25b5492fb9559b06c98df06021a2",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/plant_leaf.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "ec9ad0613a7bd444f5727e19408c5d6eb7debfe7cc34e3b7a38c2f1b8a62112e",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/plant_pistil.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "2fe1c7a3f44b9e72913dd1abe32328864ff1414acddf0095159afab7cacc3046",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/plant_stem.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "a308e89ba0183a55a26fb27f98d464dff60ea23cba02309790bb2a1db7fc56b0",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/soil.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "3b44df86cb98d9728ff8fc69a9f7f2b3002490895297279a15abd065b63aa70b",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/soil_wet.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "7e1c4da26b8c950f1169424982032356f71548f23b99c77fd2b7a867bc7d5d6a",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/stem.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "2266fe82f3bbee2b60ad8517524c88a88982e408e133ed033eb39e8cf5fa5501",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/teal.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "2de6de82a2dc6b3f43c72fcfd4a526838495826f0307fae5b3de6d82be3ac649",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/wood.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "79520064464367fdfbcf8ce1fe59a5f57345b8681e9376041b9c9fca1acf8e9f",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/wood_edge.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "d2288bd0fe192c87a147c4b325e5fb5f8c148212476062d58347f2d8ff9753a0",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/contact_shadow.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "b08f0ad509ee08546c1da70ffddc1ded732abab32d274cd7b4e37f1386543ebd",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/lamp_halo.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "05ed0f357798b7f500d0578ebcb7366e45d0eb1fc84e91c1da44ab8414dfda77",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/gui/materials.png",
+    "dimensions": [
+      128,
+      128
+    ],
+    "sha256": "16ae9bc181daff138ac72ff7b293f9da81bcfa3f7a59e6004bea2b48d2c0b22c",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  }
+]

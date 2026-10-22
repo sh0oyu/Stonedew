@@ -1,26 +1,24 @@
-# Asset manifest — reference revision 0.2.3
+# Asset manifest — shaded hybrid revision 0.2.4
 
-The authoritative visual brief is the four unchanged images in **CODEX_REFERENCE_NEW**. Current art follows their crisp flat serrated foliage, chunky solid buds, orange tapered ceramics, reinforced timber and cool steel/violet fixtures. See [style guide](docs/art/ART_DIRECTION.md).
+The authoritative target remains the unchanged images in CODEX_REFERENCE_NEW. The owner rejected 0.2.3's foliage, textures and flat rendering. See [current art and rendering notes](docs/art/ART_DIRECTION.md) and actual `p1-shaded-*.png` game captures; aesthetic acceptance is not implied by tests.
 
-| Source / binding | Current use | Authoring source |
+| Active asset | Purpose | Authoring source |
 | --- | --- | --- |
-| `textures/art/leaf_fan.png` | Transparent pixel leaf fans, HUD/Ledger leaf emblem | Original imagegen PNG, reference-guided, copied unchanged |
-| `textures/art/painted_materials.png` | Shared 4×4 pixel materials for all current equipment, flowers, Dewstone and UI | Original imagegen PNG, layout in docs/art/PAINTED_TEXTURE_SOURCES.md |
-| `models/block/plants/plant_{stage}_{shape}_{load}{,_lod}.{obj,json}` | 64 plant meshes: four stages, four branch layouts, three flowering bud loads | tools/plant_art.py |
-| `models/block/equipment/*.obj`, `equipment.mtl` | Tapered pot, plank bed, UV fixture, can, cell, packet and field Ledger; 10 model states | tools/equipment_art.py |
-| `models/block/{clay_pot,planter_bed,bulb_lamp,ledger}*.json` | Equipment OBJ bindings, wet/lit variants | Same |
-| `models/item/{watering_can,glow_cell,wild_seed}.json` | Rebuilt 3D tool/fuel/packet bindings, item pose/tint retained | Same |
-| Runtime material sprites | 256px tiles, 512px leaf sprite, world mip level retained | PaintedMaterialSource, vanilla shader foliage layer |
-| `textures/block/*.png`, item particle fallback | Small generated fallback resource identities | tools/generate_game_assets.py |
-| HUD / Ledger | Shared pewter/wood/parchment materials, crisp leaf emblem | PaintedUi, PlantHud, LedgerScreen |
-| Language, blockstates, recipes, loot, advancements | Existing P1 gameplay resources | StonedewData, narrative source |
-| Lamp halo / vanilla sound and particle references | Existing interaction and lighting feedback | Generator, LampRenderer; custom audio remains future work |
-| `docs/screenshots/p1-reference-*.png` | Actual current Minecraft captures | In-game review; never generated concept renders |
+| `textures/block/leaf_fan.png` | Broad serrated 64px alpha fan; neutral crease tones receive foliage tint and shading | tools/stylized_textures.py |
+| `textures/block/leaf_emblem.png` | Green UI emblem, same authored silhouette | Same |
+| `textures/block/*.png` | Original 32px ceramic, timber, steel, soil, parchment, enamel, stone and plant materials | Same |
+| `textures/gui/materials.png` | 128px UI sheet composed from the same authored material tiles | Same |
+| `textures/effect/{contact_shadow,lamp_halo}.png` | Soil contact shadow and soft UV halo/spill | Same |
+| `models/block/plants/plant_{stage}_{shape}_{load}{,_lod}.{obj,json}` | 64 meshes: broad fans, upright fill, connected stepped bracts and exposed pistils | tools/plant_art.py |
+| `models/block/equipment/*.obj`, `equipment.mtl` | All current prop states; dimension-based UVs and darker pot undercut | tools/equipment_art.py |
+| Equipment block/item JSON | Existing IDs and wet/lit states, poses and tint bindings | Same |
+| Plant shading | Geometric normals, directional light, canopy occlusion, cultivar highlights, world light by height | ModelLighting, TrayRenderer |
+| UV lighting | Cached loaded-chunk fixture queries, obstruction-aware colored plant bounce, floor projection | GrowLightCache, LampSpill, LampRenderer |
+| HUD / Ledger | Shared original materials and emblem | PaintedUi, PlantHud, LedgerScreen |
+| Datagen / narrative | Existing P1 recipes, tags, loot, model parents, language and authored prose | StonedewData and narrative source |
 
-Paths above are relative to `src/main/resources/assets/stonedew` except named tools/docs. The material ID `copper` remains a compatibility alias but now imports pale pewter. No new registrations are needed for existing worlds to display rebuilt props.
+Paths are relative to `src/main/resources/assets/stonedew` except named tools/docs/classes. The legacy 16px item particle identity is retained. All geometry and active pixel art are original deterministic authoring; no other game's assets or reference-image crops are bundled. `docs/art/authored-sources.json` records the generated artwork and integrity hashes. The main generator writes geometry budgets and manifests.
 
-All geometry is original deterministic authoring. Imagegen source PNGs remain unchanged and versioned with SHA-256, dimensions and creation method in docs/art/painted-sources.json; regeneration does not reproduce imagegen's stochastic source creation. Original tool output is retained outside the repository. No third-party texture/model packs or image crops from the references are shipped as game assets.
+The rejected imagegen sources are archived unchanged under `docs/art/archive/0.2.3`, with their provenance hashes preserved; they are no longer shipped. Earlier screenshots/JARs remain historical artifacts. The former painted atlas importer and dedicated foliage layer have been removed. Minecraft's standard sprite/lighting pipeline retains world mip level 4.
 
-Plant identity is saved separately from genes; 5/9/13 visible flower sites do not claim working harvest yield in P1. Future pots, tents, jars, processing gear and machines inherit the same reference language when their gameplay phases arrive. Broader animation/audio and final aesthetic acceptance remain open. P3 Fun Gate still precedes automation.
-
-Dead-end audit: Dewstone remains decoration with future terroir/story use; Glow Cells fuel lamps and later equipment; seeds/trays/cans/lamps serve tending and later breeding/upgrades; Ledger serves introductory directives and later journals/contracts. Complete phase-wide audit remains future work.
+Plant shape/load/height/spread/rotation remain persistent, with 5/9/13 visible mature flower sites. Harvest/quality yield is not invented ahead of P3. Future pots, tents, processing equipment and machines inherit the reference language when their gameplay phases arrive. Audio and richer animation remain future work; the full performance target and shader packs remain unvalidated.

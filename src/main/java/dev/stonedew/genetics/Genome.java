@@ -67,16 +67,16 @@ public record Genome(String schema, long lineageSeed, Map<String, Alleles> genes
     return switch (pigment()) {
       case "teal" -> 0x4FE8E0;
       case "amber" -> 0xFFC247;
-      case "violet" -> 0xB04CFF;
-      default -> 0xA6D65D;
+      case "violet" -> 0xA46CDE;
+      default -> 0x98B847;
     };
   }
 
   public int hairColor() {
     return switch (pigment()) {
       case "teal" -> 0xD0FCF1;
-      case "violet" -> 0xFF9BE8;
-      default -> 0xFFD38C;
+      case "violet" -> 0xD5A0EF;
+      default -> 0xF5BA3A;
     };
   }
 }

@@ -37,7 +37,7 @@ class AssetTests(unittest.TestCase):
                             self.assertEqual(model["loader"], "neoforge:obj")
                             mesh = read_obj(path.with_suffix(".obj"))
                             self.assertGreater(len(mesh["f"]), 0)
-                            self.assertLessEqual(len(mesh["f"]), 100 if detail else 1800)
+                            self.assertLessEqual(len(mesh["f"]), 100 if detail else 2400)
                             for vertex in mesh["v"]:
                                 self.assertTrue(all(math.isfinite(value) and -1 <= value <= 2 for value in vertex))
 
@@ -73,9 +73,7 @@ class AssetTests(unittest.TestCase):
             for line in path.read_text().splitlines():
                 if line.startswith("map_Kd "):
                     texture = line.split()[1]
-                    if texture == "stonedew:block/painted_leaf":
-                        self.assertTrue((ASSETS / "textures/art/leaf_fan.png").is_file())
-                    elif texture.startswith("stonedew:"):
+                    if texture.startswith("stonedew:"):
                         self.assertTrue((ASSETS / "textures" / (texture.split(":", 1)[1]+".png")).is_file())
 
     def test_texture_dimensions_and_painted_sources(self):
@@ -94,20 +92,23 @@ class AssetTests(unittest.TestCase):
                 else:
                     self.assertIn(data[25], (2, 6))
             else:
-                self.assertEqual((width, height), (16, 16), path)
-        for name in ("leaf_fan", "painted_materials"):
-            self.assertTrue((ASSETS / "textures/art" / (name+".png")).is_file())
+                expected = 128 if path.parent.name == "gui" else 64 if path.name in ("leaf_fan.png", "leaf_emblem.png", "lamp_halo.png") else 32 if path.parent.name == "block" or path.name == "contact_shadow.png" else 16
+                self.assertEqual((width, height), (expected, expected), path)
+        self.assertTrue((ASSETS / "textures/block/leaf_fan.png").is_file())
+        self.assertTrue((ASSETS / "textures/gui/materials.png").is_file())
 
     def test_painted_sprite_source_and_card_binding_are_packaged(self):
-        source_path = ROOT / "src/main/resources/assets/minecraft/atlases/blocks.json"
-        sources = json.loads(source_path.read_text())["sources"]
-        self.assertIn({"type": "stonedew:painted_materials", "resource": "stonedew:art/painted_materials"}, sources)
+        # Ordinary power-of-two sprites must not be overwritten by the rejected atlas importer.
+        self.assertFalse((ROOT / "src/main/resources/assets/minecraft/atlases/blocks.json").exists())
         materials = (ASSETS / "models/block/plants/plants.mtl").read_text()
-        self.assertIn("map_Kd stonedew:block/painted_leaf", materials)
+        self.assertIn("map_Kd stonedew:block/leaf_fan", materials)
         self.assertIn("neoforge_TintIndex 3", materials)
+        near = read_obj(ASSETS / "models/block/plants/plant_3_0_0.obj")
+        self.assertTrue(any(n[1] < -.5 for n in near["vn"]), "undersides need their own normals")
+        self.assertTrue(any(.1 < abs(n[0]) < .9 for n in near["vn"]), "folded fans need directional normals")
         provenance = json.loads((ROOT / "docs/art/painted-sources.json").read_text())
         import hashlib
-        for entry in provenance:
+        for entry in provenance + json.loads((ROOT / "docs/art/authored-sources.json").read_text()):
             path = ROOT / entry["path"]
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), entry["sha256"])
 
@@ -132,6 +133,22 @@ class AssetTests(unittest.TestCase):
             mesh = read_obj(path)
             self.assertLess(len(mesh["f"]), 1000)
             self.assertTrue(all(-.1 <= value <= 1.05 for vertex in mesh["v"] for value in vertex))
+
+    def test_pistil_caps_are_on_exposed_bract_tops(self):
+        from plant_art import Mesh, flower
+        mesh = Mesh()
+        flower(mesh, (0,0,0), 1, 0)
+        hairs = [face for face in mesh.faces if face[0] == "hair"]
+        self.assertEqual(len(hairs), 30)
+        tops = [face[1] for face in mesh.faces if face[0].startswith("bud") and face[2][0][1] > .5]
+        for offset in range(0, len(hairs), 6):
+            vertices = [vertex for face in hairs[offset:offset+6] for vertex in face[1]]
+            x = (min(v[0] for v in vertices)+max(v[0] for v in vertices))/2
+            z = (min(v[2] for v in vertices)+max(v[2] for v in vertices))/2
+            y = min(v[1] for v in vertices)
+            self.assertTrue(any(abs(top[0][1]-y)<1e-6
+                and min(v[0] for v in top)<=x<=max(v[0] for v in top)
+                and min(v[2] for v in top)<=z<=max(v[2] for v in top) for top in tops))
 
     def test_source_attribution_is_present(self):
         for path in (ASSETS / "models").rglob("*.json"):

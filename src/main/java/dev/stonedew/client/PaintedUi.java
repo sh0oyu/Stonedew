@@ -7,9 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 
 /** Shared painted wood, copper and parchment used by the HUD and Ledger. */
 public final class PaintedUi {
-  private static final ResourceLocation MATERIALS =
-      Stonedew.id("textures/art/painted_materials.png");
-  private static final ResourceLocation LEAF = Stonedew.id("textures/art/leaf_fan.png");
+  private static final ResourceLocation MATERIALS = Stonedew.id("textures/gui/materials.png");
+  private static final ResourceLocation LEAF = Stonedew.id("textures/block/leaf_emblem.png");
 
   public static void material(GuiGraphics graphics, int cell, int x, int y, int width, int height) {
     // UV coordinate units are normalized to the 4x4 sheet, independent of source resolution.

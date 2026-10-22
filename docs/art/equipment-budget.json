@@ -1,7 +1,7 @@
 [
   {
     "model": "clay_pot",
-    "faces": 60
+    "faces": 64
   },
   {
     "model": "planter_bed",
@@ -9,7 +9,7 @@
   },
   {
     "model": "clay_pot_wet",
-    "faces": 60
+    "faces": 64
   },
   {
     "model": "planter_bed_wet",
