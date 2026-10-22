@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "display_name": "wing.stonedew.base",
+  "unlock": {},
+  "cultivars": ["stonedew:herb"],
+  "content": {},
+  "version_compatibility": {"minecraft": "1.21.1", "stonedew": "0.1"}
+}

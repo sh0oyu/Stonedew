@@ -1,0 +1,33 @@
+{
+  "criteria": {
+    "dewstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "stonedew:dewstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "background": "stonedew:textures/block/dewstone.png",
+    "description": {
+      "translate": "advancement.stonedew.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "stonedew:dewstone"
+    },
+    "title": {
+      "translate": "advancement.stonedew.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "dewstone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

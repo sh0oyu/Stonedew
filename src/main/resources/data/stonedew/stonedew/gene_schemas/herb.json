@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "implementation_phase": "P1/P5",
+  "genes": ["potency", "yield", "speed", "resilience", "terpene", "pigment", "habit", "luminescence"]
+}

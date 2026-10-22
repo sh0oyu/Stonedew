@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "implementation_phase": "P3",
+  "steps": ["harvest", "trim", "dry", "cure"],
+  "dry_ticks": 24000,
+  "burp_window_ticks": 4000,
+  "cured_burps": 3,
+  "aged_days": 10
+}

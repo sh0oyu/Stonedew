@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "implementation_phase": "P1/P2",
+  "stage_ticks": {"seedling": 12000, "vegetative": 24000, "flowering": 30000, "ripe_window": 9600},
+  "comfort_tolerance": 20,
+  "vigor_weights": {"water": 0.25, "light": 0.25, "humidity": 0.15, "temperature": 0.15, "nutrients": 0.1, "schedule": 0.1}
+}

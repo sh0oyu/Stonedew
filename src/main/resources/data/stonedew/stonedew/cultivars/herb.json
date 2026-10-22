@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "type": "PLANT",
+  "gene_schema": "stonedew:herb",
+  "environment_profile": "stonedew:herb",
+  "process_chain": "stonedew:herb",
+  "effect_map": "stonedew:herb"
+}
