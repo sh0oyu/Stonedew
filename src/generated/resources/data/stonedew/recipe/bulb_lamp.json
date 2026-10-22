@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "G": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    "C C",
+    "AGA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "stonedew:bulb_lamp"
+  }
+}

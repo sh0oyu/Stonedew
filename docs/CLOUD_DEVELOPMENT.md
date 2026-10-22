@@ -22,6 +22,6 @@ bash tools/start_cloud_display.sh
 
 `start_cloud_display.sh` reuses a working display or starts Xvfb with TCP listening disabled. The cloud installer supplies Xvfb under `/workspace/.stonedew-env/xvfb`. Mesa software rendering is used; audio output is disabled for the cloud smoke check. The helper does not provide a browser preview. Run the client locally for normal playtesting and sound.
 
-Processes do not survive environment publication. Restart the display/client as needed. No server is needed for editing/building. The P0 client supports local singleplayer development; online authentication/multiplayer have not been validated, and the development client's session-service warnings do not establish missing project credentials.
+Processes do not survive environment publication. Restart the display/client as needed. No server is needed for editing/building. The development client supports local singleplayer development; online authentication/multiplayer have not been validated, and the development client's session-service warnings do not establish missing project credentials.
 
 Build resources are limited to two Gradle workers and a 2 GiB Gradle heap. Initial Minecraft preparation is expensive; subsequent builds reuse the cache. Do not repeatedly delete caches or run `clean` without a reason.

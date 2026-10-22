@@ -17,9 +17,10 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Verify assets and data generation
         run: |
-          python3 tools/generate_placeholder_assets.py
+          python3 tools/generate_game_assets.py
+          python3 -m unittest discover -s tools -p 'test_*.py'
           ./gradlew --no-daemon runData
-          git diff --exit-code -- src/main/resources src/generated/resources
+          git diff --exit-code -- src/main/resources src/generated/resources docs/art
           test -z "$(git ls-files --others --exclude-standard src/main/resources src/generated/resources)"
       - name: Build and test
         run: ./gradlew --no-daemon build

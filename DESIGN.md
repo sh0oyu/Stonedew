@@ -5,7 +5,7 @@
 - User approved the kickoff plan: NeoForge / Minecraft Java 1.21.1; Uneasy default; full story and endings, Remember overlay and Hollow Runs included; Stonedew name; cannabis theme with optional Herbal Mode.
 - Art clarification: the owner wants a **3D voxel, animated, stylized** look. Use chunky modeled forms and stepped silhouettes, including dimensional plants, layered leaves/buds, equipment fittings and visible jar contents. Pixel textures support the geometry. Animate gentle sway and expressive growth/pour/snip feedback. Preserve the references' dark wood/copper and violet/cyan cave atmosphere. Existing P0 cubes/icons are tooling placeholders, not the final visual benchmark.
 - Work proceeds phase by phase. Automation remains gated on the user's explicit P3 Fun Gate approval. Full scope is retained, including the M3 Annex and later Wings; nothing has been cut.
-- Current implementation: **P0 foundation**, not a playable grow loop. See CHANGELOG.md and ASSETS.md for exact implementation and validation status.
+- Current implementation: **P1 Plant Core** — planting, watering, fueled lamps, four-stage growth, persistent genome identity, HUD and Ledger. Harvest/processing and full room simulation remain future phases. See CHANGELOG.md and ASSETS.md for exact implementation and validation status.
 - Part II overrides conflicting Part I systems; section 50 reconciles the three parts. The original Part I/II/III text follows unchanged.
 
 ---

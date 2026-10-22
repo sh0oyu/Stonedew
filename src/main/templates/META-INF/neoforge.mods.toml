@@ -6,7 +6,7 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 authors="sh0oyu"
-description='''A cozy underground grow-cave with colorful cultivars, tactile crafting, and an unsettling mystery. P0 foundation build.'''
+description='''A cozy underground grow-cave with colorful cultivars, tactile crafting, and an unsettling mystery. P1 plant-core build.'''
 [[dependencies.stonedew]]
 modId="neoforge"
 type="required"

@@ -1,7 +1,130 @@
 {
   "schema_version": 1,
   "implementation_phase": "P1/P2",
-  "stage_ticks": {"seedling": 12000, "vegetative": 24000, "flowering": 30000, "ripe_window": 9600},
+  "stage_ticks": {
+    "seedling": 12000,
+    "vegetative": 24000,
+    "flowering": 30000,
+    "ripe_window": 9600
+  },
   "comfort_tolerance": 20,
-  "vigor_weights": {"water": 0.25, "light": 0.25, "humidity": 0.15, "temperature": 0.15, "nutrients": 0.1, "schedule": 0.1}
+  "vigor_weights": {
+    "water": 0.25,
+    "light": 0.25,
+    "humidity": 0.15,
+    "temperature": 0.15,
+    "nutrients": 0.1,
+    "schedule": 0.1
+  },
+  "simulation_quantum": 200,
+  "update_interval": 200,
+  "catchup_cap_ticks": 48000,
+  "water_drain_per_day": 24.0,
+  "water_per_pour": 30.0,
+  "can_pours": 8,
+  "lamp_fuel_ticks": 24000,
+  "lamp_radius": 5,
+  "lamp_output": 110.0,
+  "lamp_falloff": 0.18,
+  "ambient_humidity": 60.0,
+  "ambient_temperature": 24.0,
+  "ambient_airflow": 50.0,
+  "minimum_growth": 0.35,
+  "maximum_growth": 1.15,
+  "comfort_mean_weight": 0.6,
+  "difficulty_growth": {
+    "CHILL": 0.7,
+    "GROWER": 1.0,
+    "CONNOISSEUR": 1.3
+  },
+  "stages": [
+    {
+      "water": [
+        55,
+        85
+      ],
+      "light": [
+        35,
+        60
+      ],
+      "humidity": [
+        65,
+        85
+      ],
+      "temperature": [
+        20,
+        26
+      ],
+      "nutrients": [
+        20,
+        50
+      ]
+    },
+    {
+      "water": [
+        45,
+        75
+      ],
+      "light": [
+        55,
+        90
+      ],
+      "humidity": [
+        50,
+        70
+      ],
+      "temperature": [
+        22,
+        28
+      ],
+      "nutrients": [
+        30,
+        70
+      ]
+    },
+    {
+      "water": [
+        40,
+        65
+      ],
+      "light": [
+        70,
+        100
+      ],
+      "humidity": [
+        35,
+        55
+      ],
+      "temperature": [
+        20,
+        26
+      ],
+      "nutrients": [
+        30,
+        70
+      ]
+    },
+    {
+      "water": [
+        30,
+        50
+      ],
+      "light": [
+        60,
+        100
+      ],
+      "humidity": [
+        30,
+        45
+      ],
+      "temperature": [
+        18,
+        24
+      ],
+      "nutrients": [
+        0,
+        100
+      ]
+    }
+  ]
 }

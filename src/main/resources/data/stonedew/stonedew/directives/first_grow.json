@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {"required_flags": 0, "text": "directive.stonedew.plant"},
+    {"required_flags": 1, "text": "directive.stonedew.water"},
+    {"required_flags": 3, "text": "directive.stonedew.light"},
+    {"required_flags": 7, "text": "directive.stonedew.grow"},
+    {"required_flags": 15, "text": "directive.stonedew.ripe"}
+  ]
+}

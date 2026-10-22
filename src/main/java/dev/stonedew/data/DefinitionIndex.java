@@ -10,78 +10,190 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/** A reload is validated completely before publication. JSON returned to callers is always a copy. */
+/**
+ * A reload is validated completely before publication. JSON returned to callers is always a copy.
+ */
 public final class DefinitionIndex {
-    public static final Set<String> CATEGORIES = Set.of("wings", "cultivars", "gene_schemas", "environment_profiles",
-            "process_chains", "effect_maps", "terpenes", "pigments", "nutrients", "events", "orders", "contracts",
-            "grow_recipes", "heirlooms", "lore", "routine_triggers", "routine_actions", "clues", "directives",
-            "anomalies", "visitors", "rules", "endings");
-    private final Map<String, String> json;
-    private final Map<String, WingManifest> wings;
-    private final Map<String, CultivarProfile> cultivars;
+  public static final Set<String> CATEGORIES =
+      Set.of(
+          "wings",
+          "cultivars",
+          "gene_schemas",
+          "environment_profiles",
+          "process_chains",
+          "effect_maps",
+          "terpenes",
+          "pigments",
+          "nutrients",
+          "events",
+          "orders",
+          "contracts",
+          "grow_recipes",
+          "heirlooms",
+          "lore",
+          "routine_triggers",
+          "routine_actions",
+          "clues",
+          "directives",
+          "anomalies",
+          "visitors",
+          "rules",
+          "endings");
+  private final Map<String, String> json;
+  private final Map<String, WingManifest> wings;
+  private final Map<String, CultivarProfile> cultivars;
+  private final Map<String, dev.stonedew.plant.GrowthProfile> growthProfiles;
+  private final dev.stonedew.world.ledger.DirectiveDefinition firstGrow;
 
-    private DefinitionIndex(Map<String, String> json, Map<String, WingManifest> wings, Map<String, CultivarProfile> cultivars) {
-        this.json = Map.copyOf(json);
-        this.wings = Map.copyOf(wings);
-        this.cultivars = Map.copyOf(cultivars);
-    }
-    public static DefinitionIndex empty() { return new DefinitionIndex(Map.of(), Map.of(), Map.of()); }
-    public int size() { return json.size(); }
-    public Map<String, WingManifest> wings() { return wings; }
-    public Map<String, CultivarProfile> cultivars() { return cultivars; }
-    public JsonObject definition(String category, String id) {
-        String text = json.get(category + "/" + id);
-        if (text == null) throw new IllegalArgumentException("Missing " + category + "/" + id);
-        return JsonParser.parseString(text).getAsJsonObject();
-    }
+  private DefinitionIndex(
+      Map<String, String> json,
+      Map<String, WingManifest> wings,
+      Map<String, CultivarProfile> cultivars) {
+    this.json = Map.copyOf(json);
+    this.wings = Map.copyOf(wings);
+    this.cultivars = Map.copyOf(cultivars);
+    var profiles = new HashMap<String, dev.stonedew.plant.GrowthProfile>();
+    cultivars.values().stream()
+        .filter(profile -> profile.type() == Cultivar.Type.PLANT)
+        .forEach(
+            profile ->
+                profiles.put(
+                    profile.environmentProfile(),
+                    dev.stonedew.plant.GrowthProfile.read(
+                        definition("environment_profiles", profile.environmentProfile()))));
+    growthProfiles = Map.copyOf(profiles);
+    firstGrow =
+        json.containsKey("directives/stonedew:first_grow")
+            ? dev.stonedew.world.ledger.DirectiveDefinition.read(
+                definition("directives", "stonedew:first_grow"))
+            : null;
+  }
 
-    /** Input keys are reload resource IDs such as stonedew:wings/base. */
-    public static DefinitionIndex load(Map<String, JsonElement> resources) {
-        Map<String, String> definitions = new HashMap<>();
-        Map<String, WingManifest> wings = new HashMap<>();
-        Map<String, CultivarProfile> cultivars = new HashMap<>();
-        resources.forEach((resource, element) -> {
-            Identifiers.require(resource);
-            int colon = resource.indexOf(':');
-            int slash = resource.indexOf('/', colon);
-            if (slash < 0) throw new IllegalArgumentException("Definition needs a category: " + resource);
-            String category = resource.substring(colon + 1, slash);
-            if (!CATEGORIES.contains(category)) throw new IllegalArgumentException("Unknown content category: " + resource);
-            String id = resource.substring(0, colon + 1) + resource.substring(slash + 1);
-            if (!element.isJsonObject()) throw new IllegalArgumentException("Expected object: " + resource);
-            JsonObject object = element.getAsJsonObject();
-            JsonElement schema = object.get("schema_version");
-            if (schema == null || !schema.isJsonPrimitive() || !schema.getAsJsonPrimitive().isNumber()
-                    || !schema.getAsString().equals("1")) throw new IllegalArgumentException("Unsupported schema_version: " + resource);
-            definitions.put(category + "/" + id, object.toString());
-            if (category.equals("wings")) {
-                var ids = object.getAsJsonArray("cultivars");
-                if (ids == null) throw new IllegalArgumentException("Wing needs cultivars: " + id);
-                List<String> bindings = java.util.stream.StreamSupport.stream(ids.spliterator(), false).map(JsonElement::getAsString).toList();
-                wings.put(id, new WingManifest(id, string(object, "display_name"), bindings));
-            } else if (category.equals("cultivars")) {
-                cultivars.put(id, new CultivarProfile(id, Cultivar.Type.valueOf(string(object, "type")), string(object, "gene_schema"),
-                        string(object, "environment_profile"), string(object, "process_chain"), string(object, "effect_map")));
-            }
+  public static DefinitionIndex empty() {
+    return new DefinitionIndex(Map.of(), Map.of(), Map.of());
+  }
+
+  public dev.stonedew.plant.GrowthProfile growthProfile(String id) {
+    var profile = growthProfiles.get(id);
+    if (profile == null)
+      throw new IllegalArgumentException("Missing plant environment profile: " + id);
+    return profile;
+  }
+
+  public String directive(int flags) {
+    if (firstGrow == null) throw new IllegalStateException("First-grow Directive is missing");
+    return firstGrow.select(flags);
+  }
+
+  public int size() {
+    return json.size();
+  }
+
+  public Map<String, WingManifest> wings() {
+    return wings;
+  }
+
+  public Map<String, CultivarProfile> cultivars() {
+    return cultivars;
+  }
+
+  public JsonObject definition(String category, String id) {
+    String text = json.get(category + "/" + id);
+    if (text == null) throw new IllegalArgumentException("Missing " + category + "/" + id);
+    return JsonParser.parseString(text).getAsJsonObject();
+  }
+
+  /** Input keys are reload resource IDs such as stonedew:wings/base. */
+  public static DefinitionIndex load(Map<String, JsonElement> resources) {
+    Map<String, String> definitions = new HashMap<>();
+    Map<String, WingManifest> wings = new HashMap<>();
+    Map<String, CultivarProfile> cultivars = new HashMap<>();
+    resources.forEach(
+        (resource, element) -> {
+          Identifiers.require(resource);
+          int colon = resource.indexOf(':');
+          int slash = resource.indexOf('/', colon);
+          if (slash < 0)
+            throw new IllegalArgumentException("Definition needs a category: " + resource);
+          String category = resource.substring(colon + 1, slash);
+          if (!CATEGORIES.contains(category))
+            throw new IllegalArgumentException("Unknown content category: " + resource);
+          String id = resource.substring(0, colon + 1) + resource.substring(slash + 1);
+          if (!element.isJsonObject())
+            throw new IllegalArgumentException("Expected object: " + resource);
+          JsonObject object = element.getAsJsonObject();
+          JsonElement schema = object.get("schema_version");
+          if (schema == null
+              || !schema.isJsonPrimitive()
+              || !schema.getAsJsonPrimitive().isNumber()
+              || !schema.getAsString().equals("1"))
+            throw new IllegalArgumentException("Unsupported schema_version: " + resource);
+          definitions.put(category + "/" + id, object.toString());
+          if (category.equals("wings")) {
+            var ids = object.getAsJsonArray("cultivars");
+            if (ids == null) throw new IllegalArgumentException("Wing needs cultivars: " + id);
+            List<String> bindings =
+                java.util.stream.StreamSupport.stream(ids.spliterator(), false)
+                    .map(JsonElement::getAsString)
+                    .toList();
+            wings.put(id, new WingManifest(id, string(object, "display_name"), bindings));
+          } else if (category.equals("cultivars")) {
+            cultivars.put(
+                id,
+                new CultivarProfile(
+                    id,
+                    Cultivar.Type.valueOf(string(object, "type")),
+                    string(object, "gene_schema"),
+                    string(object, "environment_profile"),
+                    string(object, "process_chain"),
+                    string(object, "effect_map")));
+          }
         });
-        wings.values().forEach(wing -> wing.cultivars().forEach(id -> {
-            if (!cultivars.containsKey(id)) throw new IllegalArgumentException("Wing " + wing.id() + " references missing cultivar " + id);
-        }));
-        cultivars.values().forEach(profile -> {
-            requireReference(definitions, "gene_schemas", profile.geneSchema());
-            requireReference(definitions, "environment_profiles", profile.environmentProfile());
-            requireReference(definitions, "process_chains", profile.processChain());
-            requireReference(definitions, "effect_maps", profile.effectMap());
-        });
-        return new DefinitionIndex(definitions, wings, cultivars);
+    wings
+        .values()
+        .forEach(
+            wing ->
+                wing.cultivars()
+                    .forEach(
+                        id -> {
+                          if (!cultivars.containsKey(id))
+                            throw new IllegalArgumentException(
+                                "Wing " + wing.id() + " references missing cultivar " + id);
+                        }));
+    cultivars
+        .values()
+        .forEach(
+            profile -> {
+              requireReference(definitions, "gene_schemas", profile.geneSchema());
+              requireReference(definitions, "environment_profiles", profile.environmentProfile());
+              requireReference(definitions, "process_chains", profile.processChain());
+              requireReference(definitions, "effect_maps", profile.effectMap());
+            });
+    if (definitions.containsKey("directives/stonedew:first_grow"))
+      dev.stonedew.world.ledger.DirectiveDefinition.read(
+          JsonParser.parseString(definitions.get("directives/stonedew:first_grow"))
+              .getAsJsonObject());
+    if (!definitions.containsKey("environment_profiles/stonedew:herb")
+        || !definitions.containsKey("directives/stonedew:first_grow")) {
+      throw new IllegalArgumentException(
+          "The base plant profile and first-grow Directive are required");
     }
-    private static String string(JsonObject object, String key) {
-        JsonElement value = object.get(key);
-        if (value == null || !value.isJsonPrimitive() || !value.getAsJsonPrimitive().isString() || value.getAsString().isBlank())
-            throw new IllegalArgumentException("Expected nonempty string: " + key);
-        return value.getAsString();
-    }
-    private static void requireReference(Map<String, String> definitions, String category, String id) {
-        if (!definitions.containsKey(category + "/" + id)) throw new IllegalArgumentException("Missing " + category + "/" + id);
-    }
+    return new DefinitionIndex(definitions, wings, cultivars);
+  }
+
+  private static String string(JsonObject object, String key) {
+    JsonElement value = object.get(key);
+    if (value == null
+        || !value.isJsonPrimitive()
+        || !value.getAsJsonPrimitive().isString()
+        || value.getAsString().isBlank())
+      throw new IllegalArgumentException("Expected nonempty string: " + key);
+    return value.getAsString();
+  }
+
+  private static void requireReference(
+      Map<String, String> definitions, String category, String id) {
+    if (!definitions.containsKey(category + "/" + id))
+      throw new IllegalArgumentException("Missing " + category + "/" + id);
+  }
 }

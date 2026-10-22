@@ -19,33 +19,44 @@ import org.slf4j.Logger;
 
 @Mod(Stonedew.ID)
 public final class Stonedew {
-    public static final String ID = "stonedew";
-    public static final Logger LOGGER = LogUtils.getLogger();
+  public static final String ID = "stonedew";
+  public static final Logger LOGGER = LogUtils.getLogger();
 
-    public Stonedew(IEventBus modBus, ModContainer container) {
-        ModContent.register(modBus);
-        container.registerConfig(ModConfig.Type.SERVER, StonedewConfig.SERVER);
-        container.registerConfig(ModConfig.Type.CLIENT, StonedewConfig.CLIENT);
-        NeoForge.EVENT_BUS.addListener(DebugCommands::register);
-        NeoForge.EVENT_BUS.addListener(this::reload);
-        NeoForge.EVENT_BUS.addListener(this::started);
-        NeoForge.EVENT_BUS.addListener(this::gameplay);
-    }
+  public Stonedew(IEventBus modBus, ModContainer container) {
+    ModContent.register(modBus);
+    modBus.addListener(dev.stonedew.core.ProgressPayload::register);
+    NeoForge.EVENT_BUS.addListener(dev.stonedew.core.GrowthClock::slept);
+    NeoForge.EVENT_BUS.addListener(dev.stonedew.core.PlayerProgress::login);
+    NeoForge.EVENT_BUS.addListener(dev.stonedew.core.PlayerProgress::datapackSync);
+    NeoForge.EVENT_BUS.addListener(dev.stonedew.core.PlayerProgress::clone);
+    NeoForge.EVENT_BUS.addListener(dev.stonedew.core.PlayerProgress::respawn);
+    container.registerConfig(ModConfig.Type.SERVER, StonedewConfig.SERVER);
+    container.registerConfig(ModConfig.Type.CLIENT, StonedewConfig.CLIENT);
+    NeoForge.EVENT_BUS.addListener(DebugCommands::register);
+    NeoForge.EVENT_BUS.addListener(this::reload);
+    NeoForge.EVENT_BUS.addListener(this::started);
+    NeoForge.EVENT_BUS.addListener(this::gameplay);
+  }
 
-    public static ResourceLocation id(String path) { return ResourceLocation.fromNamespaceAndPath(ID, path); }
+  public static ResourceLocation id(String path) {
+    return ResourceLocation.fromNamespaceAndPath(ID, path);
+  }
 
-    private void reload(AddReloadListenerEvent event) {
-        event.addListener(new DefinitionReloadListener());
-    }
+  private void reload(AddReloadListenerEvent event) {
+    event.addListener(new DefinitionReloadListener());
+  }
 
-    private void started(ServerStartedEvent event) {
-        StorySavedData.get(event.getServer()).snapshot();
-        LOGGER.info("Stonedew P0 ready: {} datapack definitions loaded", DefinitionReloadListener.current().size());
-    }
+  private void started(ServerStartedEvent event) {
+    StorySavedData.get(event.getServer()).snapshot();
+    LOGGER.info(
+        "Stonedew P1 ready: {} datapack definitions loaded",
+        DefinitionReloadListener.current().size());
+  }
 
-    private void gameplay(GameplayEvent event) {
-        // All producers must publish on the authoritative server thread.
-        if (!event.server().isSameThread()) throw new IllegalStateException("Story events require the server thread");
-        StorySavedData.get(event.server()).record(event.kind().toString());
-    }
+  private void gameplay(GameplayEvent event) {
+    // All producers must publish on the authoritative server thread.
+    if (!event.server().isSameThread())
+      throw new IllegalStateException("Story events require the server thread");
+    StorySavedData.get(event.server()).record(event.kind().toString());
+  }
 }

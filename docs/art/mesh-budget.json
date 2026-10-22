@@ -1,0 +1,170 @@
+[
+  {
+    "habit": "bushy",
+    "stage": 0,
+    "lod": false,
+    "elements": 50,
+    "quads": 50
+  },
+  {
+    "habit": "bushy",
+    "stage": 0,
+    "lod": true,
+    "elements": 2,
+    "quads": 12
+  },
+  {
+    "habit": "bushy",
+    "stage": 1,
+    "lod": false,
+    "elements": 466,
+    "quads": 466
+  },
+  {
+    "habit": "bushy",
+    "stage": 1,
+    "lod": true,
+    "elements": 3,
+    "quads": 18
+  },
+  {
+    "habit": "bushy",
+    "stage": 2,
+    "lod": false,
+    "elements": 772,
+    "quads": 772
+  },
+  {
+    "habit": "bushy",
+    "stage": 2,
+    "lod": true,
+    "elements": 5,
+    "quads": 30
+  },
+  {
+    "habit": "bushy",
+    "stage": 3,
+    "lod": false,
+    "elements": 849,
+    "quads": 849
+  },
+  {
+    "habit": "bushy",
+    "stage": 3,
+    "lod": true,
+    "elements": 6,
+    "quads": 36
+  },
+  {
+    "habit": "hybrid",
+    "stage": 0,
+    "lod": false,
+    "elements": 62,
+    "quads": 62
+  },
+  {
+    "habit": "hybrid",
+    "stage": 0,
+    "lod": true,
+    "elements": 2,
+    "quads": 12
+  },
+  {
+    "habit": "hybrid",
+    "stage": 1,
+    "lod": false,
+    "elements": 522,
+    "quads": 522
+  },
+  {
+    "habit": "hybrid",
+    "stage": 1,
+    "lod": true,
+    "elements": 3,
+    "quads": 18
+  },
+  {
+    "habit": "hybrid",
+    "stage": 2,
+    "lod": false,
+    "elements": 843,
+    "quads": 843
+  },
+  {
+    "habit": "hybrid",
+    "stage": 2,
+    "lod": true,
+    "elements": 5,
+    "quads": 30
+  },
+  {
+    "habit": "hybrid",
+    "stage": 3,
+    "lod": false,
+    "elements": 925,
+    "quads": 925
+  },
+  {
+    "habit": "hybrid",
+    "stage": 3,
+    "lod": true,
+    "elements": 6,
+    "quads": 36
+  },
+  {
+    "habit": "tall",
+    "stage": 0,
+    "lod": false,
+    "elements": 50,
+    "quads": 50
+  },
+  {
+    "habit": "tall",
+    "stage": 0,
+    "lod": true,
+    "elements": 2,
+    "quads": 12
+  },
+  {
+    "habit": "tall",
+    "stage": 1,
+    "lod": false,
+    "elements": 374,
+    "quads": 374
+  },
+  {
+    "habit": "tall",
+    "stage": 1,
+    "lod": true,
+    "elements": 3,
+    "quads": 18
+  },
+  {
+    "habit": "tall",
+    "stage": 2,
+    "lod": false,
+    "elements": 645,
+    "quads": 645
+  },
+  {
+    "habit": "tall",
+    "stage": 2,
+    "lod": true,
+    "elements": 5,
+    "quads": 30
+  },
+  {
+    "habit": "tall",
+    "stage": 3,
+    "lod": false,
+    "elements": 754,
+    "quads": 754
+  },
+  {
+    "habit": "tall",
+    "stage": 3,
+    "lod": true,
+    "elements": 6,
+    "quads": 36
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:dirt"
+    },
+    "S": {
+      "item": "minecraft:spruce_slab"
+    }
+  },
+  "pattern": [
+    "S S",
+    "SDS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "stonedew:planter_bed"
+  }
+}

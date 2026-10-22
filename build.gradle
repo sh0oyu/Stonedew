@@ -16,6 +16,7 @@ neoForge {
         server { server(); programArgument '--nogui' }
         data {
             data()
+            systemProperty 'stonedew.narrativeSource', file('src/main/narrative/en_us.json').absolutePath
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources').absolutePath, '--existing', file('src/main/resources').absolutePath
         }
         configureEach { logLevel = org.slf4j.event.Level.INFO }

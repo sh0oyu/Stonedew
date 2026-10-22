@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "stonedew:block/bulb_lamp"
+    },
+    "lit=true": {
+      "model": "stonedew:block/bulb_lamp_lit"
+    }
+  }
+}

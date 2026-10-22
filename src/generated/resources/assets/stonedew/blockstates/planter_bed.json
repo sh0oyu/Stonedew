@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "wet=false": {
+      "model": "stonedew:block/planter_bed"
+    },
+    "wet=true": {
+      "model": "stonedew:block/planter_bed_wet"
+    }
+  }
+}

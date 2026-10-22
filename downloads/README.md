@@ -1,9 +1,9 @@
 # Download Stonedew
 
-[**Download stonedew-0.1.0-p0.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.1.0-p0.jar)
+[**Download stonedew-0.2.0-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.0-p1.jar)
 
-Requires **Minecraft Java 1.21.1** and **NeoForge 21.1.264**. Put the JAR in your NeoForge installation's `mods` folder without extracting it.
+Requires **Minecraft Java 1.21.1 / NeoForge 21.1.264**. Put the JAR in that installation's `mods` folder without extracting it. **Remove the old P0 JAR**, keeping only one Stonedew version.
 
-This is the P0 foundation build: creative tab, Dewstone, Glow Cell and development foundations. Plant gameplay is not implemented yet.
+P1 adds planting, watering, fueled lighting and growth to ripe plants, original dimensional voxel models, HUD and Ledger. Harvest/processing remain P3. See [installation](../README.md) and [playtest](../docs/P1_PLAYTEST.md).
 
-The binary is included here so it can be downloaded directly from GitHub. It is the verified P0 artifact built from commit `21f01a0`; subsequent changes before this download were documentation only. Its checksum is in the adjacent `.sha256` file. Future phase builds will have new versioned filenames.
+Each binary has an adjacent SHA-256. The older P0 binary is archived for history; it contains only the original foundation.

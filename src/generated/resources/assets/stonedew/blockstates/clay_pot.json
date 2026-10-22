@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "wet=false": {
+      "model": "stonedew:block/clay_pot"
+    },
+    "wet=true": {
+      "model": "stonedew:block/clay_pot_wet"
+    }
+  }
+}

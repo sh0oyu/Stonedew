@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.2.0-p1 — 2026-10-22
+
+Playable Plant Core: seed → watering/fueled light → four visible stages → ripe plants. Harvest and processing remain P3.
+
+### Added
+
+- Shared one-/four-slot tray block entity for Clay Pot and Planter Bed, bounded lazy timestamp growth, stage comfort/Vigor, no-death slowdown, capped catch-up, sleep-aware monotonic growth clock and versioned persistent plant/care/owner data.
+- Immutable genome Codec/StreamCodec seed components with eight stub genes; pigment/habit presentation. Full inheritance/stat expression remains P5.
+- Survival planting and watering, eight-pour can, source-water/cauldron refills, server permission checks, obstruction/reach-aware per-slot foliage targeting and no cauldron consumption when already full.
+- Glow Cells fuel Bulb Lamps with real light and fuel exhaustion/relighting. Basic nearby lamp/sun Lume contributes to growth; full rooms/environment remain P2.
+- Compact changed-slot presentation sync separate from disk state, accumulated same-tick deltas, initial chunk snapshots, plant HUD and real server-opened Ledger menu. Persisted per-player introductory flags and compact directive payload; localized prose authored outside Java.
+- Original dimensional voxel equipment, 24 stage/habit/LOD plant meshes, tint channels, gentle sway, first-person can pouring, 16 material textures and shader-free emissive halo. Corrected tiny-face UV density and sampled foliage light after actual close-up review. No third-party art bundled.
+- Survival recipes/loot/tags and operator kit/growth/stage/genome/timewarp tools. Optional clear-space-checked grow-room exhibit. Deferred-system debug entries report their phase instead of faking success.
+- P1 playtest, asset manifest, research/production notes, mesh budget and actual in-game screenshots. P0 download retained as history; install only one Stonedew JAR.
+
+### Validation
+
+- Java 21 / NeoForge 21.1.264 build passes: **53 JUnit tests, zero failures/errors/skips**. Four Python asset checks pass.
+- Asset/datagen repeat is byte-identical across 94 resource/report files. Near plant meshes max 925 quads; LOD max 40. These geometry budgets do not prove the future performance target.
+- Development client launched and loaded an existing P0 singleplayer world with seven P1 definitions. Real item interactions planted a seed, watered in Survival (water increase, can 8→7), refilled from a cauldron (7→8, level 3→2), exhausted/refueled a lamp and opened the Ledger directive screen.
+- Accelerated a real planted tray to ripe, saved/quit and reopened: genome, stage and care history persisted. Watering upper foliage changed the selected bed slot while other slots retained their water.
+- Solid block obstruction prevented a foliage pour (can remained at 8); a full can left the water cauldron at level 3.
+- Actual game captures record the models/HUD/Ledger. Art remains a first gameplay pass for owner review.
+
+### Limits / next phase
+
+Baseline humidity/temperature/air/nutrients/schedule and simple light sampling are P1 foundations. Next is **P2 Rooms and environment**; P3 then completes manual harvesting/processing before the explicit Fun Gate. No scope removed. Multiplayer, shader packs, audible mix and 500-plant performance remain untested. Cloud audio was disabled; offline authentication warnings are not gameplay failures.
+
 ## Download follow-up — 2026-10-22
 
 - Added the verified P0 JAR and SHA-256 to `downloads/`, with a direct GitHub download link. Mod code and gameplay are unchanged.
