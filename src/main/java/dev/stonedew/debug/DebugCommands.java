@@ -176,6 +176,34 @@ public final class DebugCommands {
                                   return changed(context.getSource());
                                 })))
             .then(
+                Commands.literal("appearance")
+                    .then(
+                        Commands.argument(
+                                "seed", com.mojang.brigadier.arguments.LongArgumentType.longArg())
+                            .executes(
+                                context -> {
+                                  var target = target(context.getSource());
+                                  target
+                                      .tray()
+                                      .setAppearance(
+                                          target.slot(),
+                                          com.mojang.brigadier.arguments.LongArgumentType.getLong(
+                                              context, "seed"));
+                                  var plant = target.tray().plant(target.slot());
+                                  if (plant == null) return 0;
+                                  context
+                                      .getSource()
+                                      .sendSuccess(
+                                          () ->
+                                              Component.literal(
+                                                  "Appearance "
+                                                      + plant.appearance()
+                                                      + "; mature flower sites="
+                                                      + plant.appearance().matureBudCount()),
+                                          false);
+                                  return 1;
+                                })))
+            .then(
                 Commands.literal("genome")
                     .then(
                         Commands.literal("show")

@@ -1,0 +1,42 @@
+[
+  {
+    "model": "clay_pot",
+    "faces": 60
+  },
+  {
+    "model": "planter_bed",
+    "faces": 252
+  },
+  {
+    "model": "clay_pot_wet",
+    "faces": 60
+  },
+  {
+    "model": "planter_bed_wet",
+    "faces": 252
+  },
+  {
+    "model": "bulb_lamp",
+    "faces": 534
+  },
+  {
+    "model": "bulb_lamp_lit",
+    "faces": 534
+  },
+  {
+    "model": "glow_cell",
+    "faces": 78
+  },
+  {
+    "model": "watering_can",
+    "faces": 108
+  },
+  {
+    "model": "wild_seed",
+    "faces": 66
+  },
+  {
+    "model": "ledger",
+    "faces": 156
+  }
+]

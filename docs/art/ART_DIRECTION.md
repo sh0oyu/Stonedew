@@ -1,50 +1,36 @@
-# Stonedew art direction — painted 2D and 3D
+# Stonedew art direction — current owner references
 
-## Owner direction
+## Authority
 
-The target is an illustrated fantasy style, with **Hytale / World of Warcraft** as visual shorthand. This applies across the entire mod. The owner rejected both the literal all-voxel plants and the sparse, fully modeled leaf pass. The current plant benchmark is a **puffy Christmas-tree-shaped bush**: broad at the base, progressively narrower toward the tip, dense painted 2D leaves, and smaller solid 3D flowers nested among the foliage. Hide most of the trunk.
+`CODEX_REFERENCE_NEW/kush.png`, `violet.png`, `pots and tents.png`, and `uvs.png` are the owner's current exact visual references. They supersede the earlier generic Hytale / World of Warcraft interpretation and the soft painted 0.2.2 pass. Preserve the uploaded originals. Actual game captures document implementation; reference renders are not evidence of the game running or owner approval.
 
-The unchanged owner reference PNGs at the repository root remain the brief. Use their canopy density, warm wood/copper, colorful flower clusters and cozy cave atmosphere. Do not copy other games' artwork. A screenshot from an earlier rejected pass is historical evidence, not an approved target.
+## Rules for every mod asset
 
-## Visual rules for current and future assets
+- Plants combine crisp serrated flat leaf fans with solid stepped clusters of flower bracts. Build a broad lower canopy and taper it toward the dominant top cola. Overlap skirts, inner fans and the crown; avoid a visible ladder of bare stem.
+- Leaf colors are fresh grassy green, forest shadow and lime tips. Buds carry the cultivar color. Use broad discrete pixel patches, readable facets and controlled highlights; avoid soft airbrushed foliage or noisy realistic surfaces.
+- Terracotta vessels taper toward a narrower foot, with a thick lip and recessed soil. Timber beds use separate warm planks, seams, dark reinforced corners, feet and pale bolts.
+- UV fixtures use cool charcoal/purple steel, reinforced end housings, inset violet tubes, driver housings, finned ballast and actual open chain links. Pewter fittings replace the previous decorative copper-heavy kit.
+- Tools, packets, cells, Ledger, Dewstone and interface materials inherit the same pixel scale, material palette and restrained glow. Keep text readable and plant information away from chat.
+- Reference tiers for fabric/automated pots and grow tents guide future equipment. Those systems are not introduced by this art revision. Do not make decorative fake upgrades imply working room simulation or automation.
 
-- **Silhouette first:** broad readable masses, a tapered plant canopy, irregular flower clusters, characterful prop proportions. Avoid long exposed sticks with isolated balls on the ends.
-- **2D leaves, 3D flowers:** painted serrated leaf fans on overlapping alpha cards, arranged around the plant in fixed world space. A slight bend in a card gives depth without modeling every leaflet. Flowers keep solid rounded geometry, bracts and smaller tufts. Cards do not swivel toward the camera.
-- **Painted surfaces:** broad brush marks, warm highlights, cool shadows and restrained surface detail. Geometry supplies useful depth; painting supplies veins, grain, material variation and softness. Avoid flat plastic color, excessive pixel noise and a compulsory voxel treatment on every object.
-- **Shared palette:** green foliage with lime/olive highlights, cool forest shadows, violet/teal/amber flower accents; walnut wood, warm copper, terracotta, teal enamel and cream parchment. Reserve strong glow for actual light/fuel objects.
-- **Props and tools:** use the same painted material family as the plants. Beds, pots, lamps, seed packets, cells and the watering can must look like a coherent kit. Minecraft's placement grid can remain visible without forcing every detail to be a cube.
-- **UI and icons:** a fantasy field journal: painted wood/copper framing, parchment, dark readable type and the shared leaf emblem. Plant information should leave the bush visible and avoid the chat area. Future jars, processing equipment, machines, NPCs and story screens inherit this direction.
-- **Animation:** gentle readable motion and tactile interactions. Current plant sway/can pouring remain; richer leaf, flower and processing animation belongs to later work. Do not claim unimplemented animation as shipped.
+## Plant variety
 
-## Actual source assets and provenance
+Every planting receives a server-generated saved `appearanceSeed`, separate from its genome. Four branch layouts alter node phase, lean, tier spacing and branch/leaf lengths. Three bud loads produce **5 / 9 / 13 solid mature flower clusters**. Each identity also fixes height/spread (90–110%) and rotation; genetic tall habit still affects proportions. Flowers swell between flowering and ripe stages. Planting from a single seed stack produces varied plants without rewriting genes.
 
-`textures/art/leaf_fan.png` is an original imagegen texture: one transparent seven-leaf fan with painted veins, teeth and color masses. `textures/art/painted_materials.png` is an original imagegen 4×4 material source sheet. They are used in the game, rather than presented as concept renders. The source PNGs are preserved unchanged; hashes, dimensions and provenance are in `painted-sources.json`. Prompt briefs are in `PAINTED_TEXTURE_SOURCES.md`.
+Identity persists through watering, growth, debug time changes, genome edits, chunk load and save/reload. Old P1 plant saves acquire a deterministic identity from lineage, block position and slot. Client snapshots contain bounded appearance parameters rather than the full genome or server appearance seed. Bud load is visual in P1; harvest quantity/quality is not implemented until P3.
 
-Geometry and bindings are authored in `tools/plant_art.py` and `tools/generate_game_assets.py`. Regenerating those is deterministic; it does not rerun or reproduce the stochastic image generation process. The versioned PNGs are the painting sources. Earlier 16px procedural textures remain fallbacks and supply datagen resource identities.
+## Asset pipeline and rendering
 
-No third-party game texture/model pack or cropped reference artwork is bundled. The visual influence is not a claim that these are Hytale/WoW assets or that the owner has approved the finished style.
+Original reference-guided imagegen sprites replace the previous paintings: a transparent serrated seven-finger leaf fan and a 4×4 pixel material atlas. Source files are copied unchanged from tool output; source hashes/dimensions and briefs are recorded alongside this guide. No reference-image crops or third-party game assets are used as game textures.
 
-## Rendering and technical research
+`tools/plant_art.py` authors 64 shared OBJ models across four stages, four shapes, three flowering bud loads and near/distant detail. `tools/equipment_art.py` authors all ten current equipment model states, including non-cuboid tapered ceramics and closed rectangular/angled components. `tools/generate_game_assets.py` generates bindings, fallback sprites and budget reports. Baked geometry is shared; no per-frame mesh generation or per-plant baked model copy.
 
-Inspected exact NeoForge **21.1.264** OBJ loader/material and SpriteSource registration sources, plus Minecraft 1.21.1 / NeoForm `20240808.144430` SpriteSource, LazyLoadedImage, NativeImage, RenderType, TextureAtlasSprite and GuiGraphics sources. NeoForge source artifact: https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.264/neoforge-21.1.264-sources.jar . Public documentation hosts previously returned HTTP 403; installed version-matched sources supplied the API evidence.
+NeoForge 21.1.264's built-in OBJ loader supports separate material tints and emissive ambient light; the equipment MTL uses emission only for actual light sources. A SpriteSource imports the untouched source sheet to 256px materials and foliage to a 512px sprite, retaining Minecraft mip level 4. The foliage layer uses Minecraft's entity cutout shader with mip filtering and fixed world-space cards with explicit back faces. Simplified meshes beyond 24 blocks preserve bud-load differences. Resource reload releases old quad groups.
 
-- 24 OBJ models cover four stages, three habits and near/distant detail. Mature plants use eight staggered foliage skirts and inner cards. The immutable genome continues to drive habit and flower tint; leaf tint is subtle so it preserves the painted palette.
-- A client SpriteSource imports the unchanged source sheet as 256px material sprites and the foliage as a 512px sprite. This keeps sprite dimensions suitable for Minecraft mipmaps and avoids lowering the whole world's mip level. The same material identities update every existing Stonedew prop.
-- The foliage layer uses a vanilla entity cutout shader with mip filtering; no new GLSL shader or rendering dependency. An initial direct high-resolution preview shimmered at game distance; the atlas/mip path replaces it.
-- Plant meshes are shared; cached quad groups are released with old models after resource reload. Distant detail switches beyond 24 blocks. Upward foliage normals keep the painted leaf cards readable from both sides.
-- The Ledger/HUD sample the same material source and use the same painted leaf emblem. Vanilla world blocks remain vanilla.
+Exact version-matched NeoForge OBJ/material and Minecraft NativeImage/SpriteSource/RenderType sources were inspected for these APIs. Source artifact: https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.264/neoforge-21.1.264-sources.jar . No custom GLSL shader or new rendering dependency is needed.
 
-The geometry ceiling remains **3000 faces near / 100 distant**, measured **2260 / 86**. This is a geometry bound, not the future 500-plant performance result. Shader packs, multiplayer and broad hardware testing still need dedicated validation.
+Budgets: **1800 faces near / 100 distant**, measured **1454 / 82**; equipment max **534 faces**. These are geometry counts, not a 500-plant performance certification. Shader packs and broad hardware/multiplayer performance remain untested.
 
 ## Review and reproduce
 
-Judge actual game captures: `docs/screenshots/p1-painted-*.png`. Check the bush from several angles and distances, the underside of leaves, source alpha edges, flower visibility, all stages/habits, tool framing and UI contrast. Earlier `p1-grow-room.png` and `p1-organic-*.png` show rejected/intermediate passes. Automated checks cannot certify aesthetics.
-
-```sh
-python3 tools/generate_game_assets.py
-python3 -m unittest discover -s tools -p 'test_*.py'
-./gradlew runData
-./gradlew build
-```
-
-Edit geometry recipes or intentionally replace the versioned painting sources, then regenerate and review in-game. Preserve original reference images. Full manual-loop gameplay still proceeds through P2/P3, with the explicit Fun Gate before automation.
+Run asset generation, Python asset validation, datagen, then the Gradle build in separate invocations. Inspect `docs/screenshots/p1-reference-*.png` against the owner references: silhouette, visible flower clusters, canopy underside, plant-to-plant differences, tapered ceramics, bolts/chains, tool framing and UI contrast. Earlier screenshots document earlier passes and are not current style benchmarks. Automated tests cannot certify aesthetic acceptance.

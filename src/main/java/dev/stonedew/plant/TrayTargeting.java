@@ -51,6 +51,12 @@ public final class TrayTargeting {
               default -> 1.5;
             };
         height *= grid == 1 ? 1 : 0.83;
+        double appearanceHeight =
+            (view != null ? view.height() : state.appearance().height()) / 100.0;
+        double appearanceSpread =
+            (view != null ? view.spread() : state.appearance().spread()) / 100.0;
+        height *= appearanceHeight;
+        radius *= appearanceSpread;
         if (habit.equals("tall")) height *= 1.25;
         var bounds =
             new AABB(

@@ -92,7 +92,8 @@ public final class PlantSimulation {
         now,
         care,
         careTicks,
-        initial.owner());
+        initial.owner(),
+        initial.appearanceSeed());
   }
 
   private PlantSimulation() {}

@@ -146,7 +146,8 @@ public final class GrowTrayBlockEntity extends BlockEntity implements StatusSour
   public boolean plant(Player player, int slot, Genome genome) {
     advance();
     if (plants[slot] != null) return false;
-    plants[slot] = PlantState.seed(genome, now(), player.getUUID().toString());
+    plants[slot] =
+        PlantState.seed(genome, now(), player.getUUID().toString(), level.random.nextLong());
     PlayerProgress.mark(player, PlayerProgress.PLANTED);
     NeoForge.EVENT_BUS.post(
         new GameplayEvent(
@@ -200,6 +201,13 @@ public final class GrowTrayBlockEntity extends BlockEntity implements StatusSour
     }
   }
 
+  public void setAppearance(int slot, long seed) {
+    if (plants[slot] != null) {
+      plants[slot] = plants[slot].withAppearanceSeed(seed);
+      changed();
+    }
+  }
+
   public void setGenome(int slot, Genome genome) {
     if (plants[slot] != null) {
       plants[slot] = plants[slot].genome(genome);
@@ -234,7 +242,8 @@ public final class GrowTrayBlockEntity extends BlockEntity implements StatusSour
                 now(),
                 old.careIntegral(),
                 old.careTicks(),
-                old.owner());
+                old.owner(),
+                old.appearanceSeed());
       }
     changed();
   }
@@ -275,7 +284,12 @@ public final class GrowTrayBlockEntity extends BlockEntity implements StatusSour
                   plant.genome().budColor(),
                   plant.genome().hairColor(),
                   plant.genome().pigment(),
-                  plant.genome().habit());
+                  plant.genome().habit(),
+                  plant.appearance().shape(),
+                  plant.appearance().budLoad(),
+                  plant.appearance().height(),
+                  plant.appearance().spread(),
+                  plant.appearance().rotation());
       wet |= plant != null && plant.water() > 45;
       if (!java.util.Objects.equals(view, views[i])) {
         var tag = view == null ? new CompoundTag() : view.save();
@@ -329,7 +343,16 @@ public final class GrowTrayBlockEntity extends BlockEntity implements StatusSour
       int index = slot.getInt("slot");
       if (index < 0 || index >= plants.length)
         throw new IllegalArgumentException("Invalid tray slot");
-      plants[index] = PlantSerialization.read(slot.getString("plant"));
+      String saved = slot.getString("plant");
+      plants[index] = PlantSerialization.read(saved);
+      if (!com.google.gson.JsonParser.parseString(saved).getAsJsonObject().has("appearanceSeed")) {
+        // Stable migration also differentiates older identical seed stacks in existing worlds.
+        plants[index] =
+            plants[index].withAppearanceSeed(
+                plants[index].genome().lineageSeed()
+                    ^ worldPosition.asLong()
+                    ^ ((long) index * 0x9E3779B97F4A7C15L));
+      }
     }
   }
 

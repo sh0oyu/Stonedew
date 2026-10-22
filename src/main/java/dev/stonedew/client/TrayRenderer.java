@@ -64,19 +64,21 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
     for (int slot = 0; slot < tray.capacity(); slot++) {
       var plant = tray.view(slot);
       if (plant == null) continue;
-      String habit =
-          switch (plant.habit()) {
-            case "tall" -> "tall";
-            case "hybrid" -> "hybrid";
-            default -> "bushy";
-          };
       String detail = distance > 24 * 24 ? "_lod" : "";
       var model =
           Minecraft.getInstance()
               .getModelManager()
               .getModel(
                   ModelResourceLocation.standalone(
-                      Stonedew.id("block/plants/" + habit + "_" + plant.stage() + detail)));
+                      Stonedew.id(
+                          "block/plants/"
+                              + "plant_"
+                              + plant.stage()
+                              + "_"
+                              + plant.shape()
+                              + "_"
+                              + (plant.stage() >= 2 ? plant.budLoad() : 0)
+                              + detail)));
       pose.pushPose();
       pose.translate(
           (slot % grid + 0.5) / grid,
@@ -91,9 +93,14 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
                           + slot)
               * 1.2F;
       pose.mulPose(Axis.ZP.rotationDegrees(sway));
-      pose.mulPose(Axis.YP.rotationDegrees(slot * 83 + tray.getBlockPos().asLong() % 17));
+      pose.mulPose(Axis.YP.rotationDegrees(plant.rotation()));
       float grow = 0.93F + 0.07F * plant.progress() / 100F;
-      pose.scale(scale * grow, (grid == 1 ? 1.35F : 1.12F) * grow, scale * grow);
+      float height = plant.height() / 100F * (plant.habit().equals("tall") ? 1.15F : 1F);
+      float spread = plant.spread() / 100F * (plant.habit().equals("tall") ? .86F : 1F);
+      pose.scale(
+          scale * grow * spread,
+          (grid == 1 ? 1.35F : 1.12F) * grow * height,
+          scale * grow * spread);
       pose.translate(-0.5, 0, -0.5);
       var vertices = buffers.getBuffer(Sheets.cutoutBlockSheet());
       int sampledLight =

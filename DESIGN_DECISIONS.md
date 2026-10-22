@@ -51,3 +51,9 @@ The owner approved Minecraft Java 1.21.1 / NeoForge, Uneasy default dread, the f
 - Import the source artwork through a client SpriteSource: 256px material tiles and a 512px foliage sprite, with ordinary Minecraft mipmaps. A vanilla entity shader render layer enables mip filtering for leaf cards. This resolves the noisy first direct-texture preview without new GLSL shaders or third-party rendering dependencies. The original imagegen PNGs remain unchanged.
 - Bind the shared materials to all existing Stonedew props, tools, seed packets, lamps/cells and Dewstone. Give the Ledger/HUD matching wood/copper/parchment and the same leaf emblem. Vanilla world blocks are not reskinned.
 - Keep existing saves and gameplay; widen foliage selection to match the new canopy. Publish a new versioned JAR and actual game screenshots. Art acceptance still requires the owner's visual judgment; unit tests cannot certify style.
+
+## Reference overhaul and plant individuality — 0.2.3
+
+CODEX_REFERENCE_NEW supersedes the earlier painted interpretation. Rebuild the geometry of every existing prop, not only its surfaces. Keep original reference PNGs intact; author new geometry and pixel materials guided by them. Future equipment/tents inherit this direction alongside their gameplay phases.
+
+Appearance is independent of genetics: server-random identity per planting; saved once; four shared branching meshes, three visible flower loads and small continuous proportion/rotation variation. Preserve identity through simulation/care/genome edits and use deterministic position/slot migration for old saves. Sync bounded visual parameters, not the hidden seed or genetics. Flower load describes visual sites; harvest yield is not invented ahead of P3.

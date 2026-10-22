@@ -27,21 +27,22 @@ def read_obj(path):
 
 class AssetTests(unittest.TestCase):
     def test_all_stages_and_habits_have_bounded_meshes(self):
-        for habit in ("bushy", "hybrid", "tall"):
-            for stage in range(4):
-                for detail in ("", "_lod"):
-                    path = ASSETS / "models/block/plants" / f"{habit}_{stage}{detail}.json"
-                    with self.subTest(model=path.name):
-                        model = json.loads(path.read_text())
-                        self.assertEqual(model["loader"], "neoforge:obj")
-                        mesh = read_obj(path.with_suffix(".obj"))
-                        self.assertGreater(len(mesh["f"]), 0)
-                        self.assertLessEqual(len(mesh["f"]), 100 if detail else 3000)
-                        for vertex in mesh["v"]:
-                            self.assertTrue(all(math.isfinite(value) and -1 <= value <= 2 for value in vertex))
+        for stage in range(4):
+            for shape in range(4):
+                for load in range(3 if stage >= 2 else 1):
+                    for detail in ("", "_lod"):
+                        path = ASSETS / "models/block/plants" / f"plant_{stage}_{shape}_{load}{detail}.json"
+                        with self.subTest(model=path.name):
+                            model = json.loads(path.read_text())
+                            self.assertEqual(model["loader"], "neoforge:obj")
+                            mesh = read_obj(path.with_suffix(".obj"))
+                            self.assertGreater(len(mesh["f"]), 0)
+                            self.assertLessEqual(len(mesh["f"]), 100 if detail else 1800)
+                            for vertex in mesh["v"]:
+                                self.assertTrue(all(math.isfinite(value) and -1 <= value <= 2 for value in vertex))
 
     def test_obj_indices_normals_and_materials_are_valid(self):
-        for path in (ASSETS / "models/block/plants").glob("*.obj"):
+        for path in (ASSETS / "models").rglob("*.obj"):
             mesh = read_obj(path)
             with self.subTest(model=path.name):
                 material_file = path.parent / mesh["mtllib"][0]
@@ -83,9 +84,11 @@ class AssetTests(unittest.TestCase):
             self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
             width, height = struct.unpack(">II", data[16:24])
             if path.parent.name == "art":
-                self.assertEqual(width, height)
-                self.assertGreaterEqual(width, 256)
-                self.assertLessEqual(width, 2048)
+                for dimension in (width, height):
+                    self.assertGreaterEqual(dimension, 256)
+                    self.assertLessEqual(dimension, 2048)
+                if path.name == "painted_materials.png": self.assertEqual(width, height)
+                else: self.assertTrue(.75 <= width/height <= 1.5)
                 if path.name == "leaf_fan.png":
                     self.assertEqual(data[25], 6, "Leaf cards must preserve alpha")
                 else:
@@ -108,10 +111,32 @@ class AssetTests(unittest.TestCase):
             path = ROOT / entry["path"]
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), entry["sha256"])
 
+    def test_bud_load_and_branch_layouts_have_distinct_geometry(self):
+        from plant_art import plant
+        for stage in (2, 3):
+            for shape in range(4):
+                counts = [len(plant(stage, shape, load).faces) for load in range(3)]
+                self.assertLess(counts[0], counts[1])
+                self.assertLess(counts[1], counts[2])
+        meshes = [str(plant(3, shape, 1).faces) for shape in range(4)]
+        self.assertEqual(len(set(meshes)), 4)
+
+    def test_equipment_is_bounded_and_uses_outward_closed_surfaces(self):
+        from plant_art import Mesh
+        mesh = Mesh()
+        mesh.block((-1,-1,-1),(1,1,1))
+        for _, vertices, normals, _ in mesh.faces:
+            center = [sum(v[a] for v in vertices)/len(vertices) for a in range(3)]
+            self.assertGreater(sum(center[a]*normals[0][a] for a in range(3)), 0)
+        for path in (ASSETS / "models/block/equipment").glob("*.obj"):
+            mesh = read_obj(path)
+            self.assertLess(len(mesh["f"]), 1000)
+            self.assertTrue(all(-.1 <= value <= 1.05 for vertex in mesh["v"] for value in vertex))
+
     def test_source_attribution_is_present(self):
         for path in (ASSETS / "models").rglob("*.json"):
             self.assertIn("Original Stonedew", json.loads(path.read_text())["credit"])
-        for path in (ASSETS / "models/block/plants").glob("*.obj"):
+        for path in (ASSETS / "models").rglob("*.obj"):
             self.assertTrue(path.read_text().startswith("# Original Stonedew organic plant art"))
 
 

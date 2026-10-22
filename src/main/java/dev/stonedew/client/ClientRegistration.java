@@ -11,12 +11,14 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 public final class ClientRegistration {
   public static void models(ModelEvent.RegisterAdditional event) {
-    for (String habit : java.util.List.of("bushy", "hybrid", "tall"))
-      for (int stage = 0; stage < 4; stage++)
-        for (String detail : java.util.List.of("", "_lod"))
-          event.register(
-              ModelResourceLocation.standalone(
-                  Stonedew.id("block/plants/" + habit + "_" + stage + detail)));
+    for (int stage = 0; stage < 4; stage++)
+      for (int shape = 0; shape < dev.stonedew.plant.PlantAppearance.SHAPES; shape++)
+        for (int load = 0; load < (stage >= 2 ? 3 : 1); load++)
+          for (String detail : java.util.List.of("", "_lod"))
+            event.register(
+                ModelResourceLocation.standalone(
+                    Stonedew.id(
+                        "block/plants/plant_" + stage + "_" + shape + "_" + load + detail)));
   }
 
   public static void renderers(EntityRenderersEvent.RegisterRenderers event) {

@@ -11,7 +11,8 @@ public record PlantState(
     long lastSimTime,
     double careIntegral,
     long careTicks,
-    String owner) {
+    String owner,
+    long appearanceSeed) {
   public PlantState {
     Objects.requireNonNull(genome);
     Objects.requireNonNull(owner);
@@ -31,8 +32,43 @@ public record PlantState(
       throw new IllegalArgumentException("Invalid plant state");
   }
 
+  /** Compatibility constructor for callers and legacy saves; planting supplies a fresh seed. */
+  public PlantState(
+      Genome genome,
+      int stage,
+      double progress,
+      double water,
+      long lastSimTime,
+      double careIntegral,
+      long careTicks,
+      String owner) {
+    this(
+        genome,
+        stage,
+        progress,
+        water,
+        lastSimTime,
+        careIntegral,
+        careTicks,
+        owner,
+        genome.lineageSeed());
+  }
+
   public static PlantState seed(Genome genome, long now, String owner) {
-    return new PlantState(genome, 0, 0, 40, now, 0, 0, owner);
+    return seed(genome, now, owner, genome.lineageSeed());
+  }
+
+  public static PlantState seed(Genome genome, long now, String owner, long appearanceSeed) {
+    return new PlantState(genome, 0, 0, 40, now, 0, 0, owner, appearanceSeed);
+  }
+
+  public PlantAppearance appearance() {
+    return PlantAppearance.fromSeed(appearanceSeed);
+  }
+
+  public PlantState withAppearanceSeed(long seed) {
+    return new PlantState(
+        genome, stage, progress, water, lastSimTime, careIntegral, careTicks, owner, seed);
   }
 
   public PlantState water(double amount) {
@@ -44,16 +80,25 @@ public record PlantState(
         lastSimTime,
         careIntegral,
         careTicks,
-        owner);
+        owner,
+        appearanceSeed);
   }
 
   public PlantState stage(int value) {
     return new PlantState(
-        genome, value, value == 3 ? 1 : 0, water, lastSimTime, careIntegral, careTicks, owner);
+        genome,
+        value,
+        value == 3 ? 1 : 0,
+        water,
+        lastSimTime,
+        careIntegral,
+        careTicks,
+        owner,
+        appearanceSeed);
   }
 
   public PlantState genome(Genome value) {
     return new PlantState(
-        value, stage, progress, water, lastSimTime, careIntegral, careTicks, owner);
+        value, stage, progress, water, lastSimTime, careIntegral, careTicks, owner, appearanceSeed);
   }
 }

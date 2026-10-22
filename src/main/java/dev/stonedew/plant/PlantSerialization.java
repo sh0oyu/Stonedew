@@ -36,6 +36,14 @@ public final class PlantSerialization {
         throw new IllegalArgumentException("Invalid numeric plant field");
       json.get(field).getAsBigDecimal().longValueExact();
     }
+    // Version 1 saves predate visual identity. Derive it once without changing any genes.
+    if (!json.has("appearanceSeed"))
+      json.addProperty(
+          "appearanceSeed", json.getAsJsonObject("genome").get("lineageSeed").getAsLong());
+    if (!json.get("appearanceSeed").isJsonPrimitive()
+        || !json.get("appearanceSeed").getAsJsonPrimitive().isNumber())
+      throw new IllegalArgumentException("Invalid appearance seed");
+    json.get("appearanceSeed").getAsBigDecimal().longValueExact();
     return GSON.fromJson(json, PlantState.class);
   }
 

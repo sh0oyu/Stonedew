@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.3-p1 — exact-reference rebuild and plant individuality — 2026-10-22
+
+The four owner uploads in CODEX_REFERENCE_NEW replace the generic painted interpretation as the mod-wide visual brief. Preserve those images unchanged and apply their crisp leaf silhouettes, stepped flowers, terracotta, timber and cool steel/violet material language to current and future mod art.
+
+- Rebuilt every current equipment model: sloped hollow terracotta pot with thick lip and recessed soil, separate timber bed rails with reinforced feet/corners and bolts, inset twin UV tubes with open chain links/driver/finned ballast, shaped can with open handle and rising spout, caged cell, seed packet emblem and bound field Ledger on a stand. Wet/lit states, item poses and gameplay IDs remain compatible.
+- New original reference-guided pixel leaf fan and shared material atlas, copied unchanged from imagegen output with provenance/hashes. Dewstone and HUD/Ledger inherit the new materials. No reference-image crops or third-party game assets are bundled.
+- Fuller tapered canopy with staggered skirts, upright fill and crown; solid stepped flower clusters replace the previous rounded puffs. Four branch layouts and three flower loads yield 5/9/13 mature sites, plus independently saved height/spread/rotation. Seedlings and flowering stages share that identity; distant models preserve load differences.
+- Server-random appearance per planting from the same stack, independent of genetics. Saves/care/growth/genome edits preserve identity. Legacy version-1 plants migrate deterministically by lineage/position/slot. Compact client snapshots send bounded appearance parameters. Visible flower load does not invent harvest yield before P3.
+- 64 shared near/distant plant meshes, maximum 1454/82 faces under tighter 1800/100 budgets. Equipment maximum 534 faces. Existing baked model/material/rendering APIs retained; no new mod dependency or custom shader.
+- `/stonedew debug appearance <seed>` reproduces an identity and reports its mature flower count. Updated targeting accounts for varied proportions.
+
+Validation: Java 21 / NeoForge build passes; **57 JUnit tests**, no failures/errors/skips; **eight asset checks** pass. Deterministic regeneration leaves **179 resource/art files byte-identical**; datagen succeeds with zero changed outputs. The real client loads existing P1 plants and rebuilt props without model/texture errors; F3+T retains world mip level 4. Fresh planting from one seed stack works; 5/9/13 load examples render. Survival foliage watering consumes one charge (8→7), water ~37→67. Save/quit/reopen preserves the exact appearance seed, stage, genome and care history. Actual game captures show plants, load/layout variation and equipment (tool display entities enlarged 1.6× for review). Offline auth/audio warnings in the cloud are unrelated to asset loading. Shader packs, broad hardware/multiplayer performance and owner aesthetic acceptance remain unvalidated. P3 Fun Gate remains before automation.
+
 ## 0.2.2-p1 — painted 2D/3D art direction — 2026-10-22
 
 Owner clarified the whole mod's target: a painted fantasy style, using Hytale / World of Warcraft as shorthand. The weed bush should have a dense tapered Christmas-tree silhouette, painted 2D leaves and solid 3D flowers. This replaces the earlier all-modeled leaf treatment.

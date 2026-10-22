@@ -9,7 +9,7 @@ Use Minecraft Java 1.21.1 / NeoForge 21.1.264 with **only the P1 Stonedew JAR**.
 5. **Identity:** compare four seed colors. Try `genome show` and `genome set habit tall tall` on a targeted plant. Observe color/silhouette changes. This is persistent identity, not the later breeding system.
 6. **Save:** save/quit and reopen. Confirm stages, water, genomes, lamp fuel and directive. Break a planted tray in Survival: seed identity drops, while growth progress resets.
 7. **Ledger:** in a fresh world, plant, water and fuel a lamp. Follow the top-left directive and open the Ledger. It should progress to tending, then ripe inspection. Esc closes it.
-8. **Art/feel:** run `/stonedew debug demo` in clear loaded space. Inspect models from several angles and beyond 24 blocks. Check the tapered painted leaf-card canopy, solid flowers, shared painted prop materials, parchment HUD/Ledger, sway, pouring motion, clipping and your shader setup. Report screenshots and what feels wrong.
+8. **Art/feel:** run `/stonedew debug demo` in clear loaded space. Inspect models from several angles and beyond 24 blocks. Compare directly with CODEX_REFERENCE_NEW. Plant several seeds from one stack; compare branch layouts, proportions and bud loads, then save/reload. Use `/stonedew debug appearance 42` to repeat an identity. Check the full tapered leaf-card canopy, stepped solid flowers, rebuilt tapered pots/bolted beds/UV fixtures and shared pixel materials, parchment HUD/Ledger, sway, pouring motion, clipping and your shader setup. Report screenshots and what feels wrong.
 
 ## Still provisional / unimplemented
 
@@ -22,3 +22,7 @@ Use Minecraft Java 1.21.1 / NeoForge 21.1.264 with **only the P1 Stonedew JAR**.
 ## Next phase
 
 **P2 — Rooms and environment:** bounded detection/cache invalidation, measured environment, stage comfort feedback, schedules/equipment, persistence, multiplayer checks and measured simulation cost. P3 then completes the manual processing loop. Stop after P3 for the owner's Fun Gate before automation.
+
+## 0.2.3 reference revision validation
+
+57 Java tests and eight asset checks pass. All 64 plant meshes and ten equipment states package correctly; no obsolete habit meshes remain in the JAR. Regeneration is byte-identical across 179 files. Real client review covered legacy plants, fresh sowing from one packet stack, the three mature visual flower loads, fuller canopy targeting, new equipment, F3+T reload with mip level 4, and save/quit/reopen with identity/genome/stage/care unchanged. Survival watering used one pour (8→7), water about 37→67. Screenshots p1-reference-*.png are actual Minecraft captures; equipment tool displays are enlarged 1.6× for review. Prior validation below documents earlier passes.

@@ -1,11 +1,11 @@
-"""Original organic plant meshes: curved leaf fans and clustered, lobed flower heads.
-
-Uses NeoForge's built-in OBJ loader, so leaves and buds need not be cuboids.
-Coordinates are authored in sixteenths of a block, with the stem at (0, 0, 0).
+"""Original reference-led hybrid plants: serrated flat foliage and stepped solid flowers.
+Uses NeoForge's built-in OBJ loader. Coordinates are authored in sixteenths of a block.
+Four branch layouts and three visible flower loads share deterministic baked meshes.
 """
 
 import json
 import math
+import random
 
 
 def add(a, b):
@@ -49,65 +49,6 @@ class Mesh:
             j = (i + 1) % sides
             self.face(material, [rings[0][i], rings[0][j], rings[1][j], rings[1][i]])
 
-    def puff(self, center, radii, phase=0, material="bud", sides=8, bands=4):
-        """A soft lumpy ellipsoid, with smooth normals and a gently irregular outline."""
-        rings, normals = [], []
-        for band in range(bands + 1):
-            latitude = math.pi * band / bands
-            ring, normal_ring = [], []
-            for i in range(sides):
-                angle = i * math.tau / sides
-                lobe = 1 + .12 * math.cos(angle*3 + phase + band*.8)
-                radial = math.sin(latitude)
-                direction = (radial*math.cos(angle), -math.cos(latitude), radial*math.sin(angle))
-                offset = tuple(direction[a]*radii[a]*(lobe if a != 1 else 1) for a in range(3))
-                ring.append(add(center, offset))
-                normal_ring.append(unit(tuple(direction[a]/radii[a] for a in range(3))))
-            rings.append(ring)
-            normals.append(normal_ring)
-        for band in range(bands):
-            for i in range(sides):
-                j = (i + 1) % sides
-                corners = [(band, i), (band, j), (band+1, j), (band+1, i)]
-                if band == 0:
-                    corners = corners[1:]
-                elif band == bands - 1:
-                    corners = corners[:3]
-                corners = list(reversed(corners))
-                self.face(material, [rings[b][k] for b, k in corners],
-                          [normals[b][k] for b, k in corners],
-                          [(k/sides, b/bands) for b, k in corners])
-
-    def blade(self, base, angle, length, width, lift=.8, material="leaf", simple=False):
-        """Folded, arched leaf with a pointed tip and serrated outer edges."""
-        forward = (math.cos(angle), 0, math.sin(angle))
-        sideways = (-math.sin(angle), 0, math.cos(angle))
-        steps = 2 if simple else 5
-        rows = []
-        for i in range(steps + 1):
-            t = i / steps
-            belly = math.sin(math.pi*t)**.8
-            tooth = 1 if simple or i % 2 else .70
-            spread = width*belly*tooth
-            center = add(base, add(mul(forward, length*t),
-                                   (0, lift*math.sin(math.pi*t)-length*.22*t*t, 0)))
-            fold = .24*belly
-            rows.append([add(center, add(mul(sideways, -spread), (0, -fold, 0))),
-                         add(center, (0, fold, 0)),
-                         add(center, add(mul(sideways, spread), (0, -fold, 0)))])
-        for i in range(steps):
-            for side in range(2):
-                vertices = [rows[i][side], rows[i+1][side], rows[i+1][side+1], rows[i][side+1]]
-                # Explicit back faces retain foliage when viewed from below.
-                uv = [(side/2, i/steps), (side/2, (i+1)/steps),
-                      ((side+1)/2, (i+1)/steps), ((side+1)/2, i/steps)]
-                if i == 0:
-                    vertices, uv = vertices[:3], uv[:3]
-                elif i == steps - 1:
-                    vertices, uv = [vertices[k] for k in (0, 1, 3)], [uv[k] for k in (0, 1, 3)]
-                self.face(material, vertices, uv=uv)
-                self.face(material, list(reversed(vertices)), uv=list(reversed(uv)))
-
     def card(self, base, angle, length, width=None, pitch=.24, material="leaf"):
         """Painted, alpha-cutout fan on two hinged planes, with fixed world orientation."""
         width = width or length*1.10
@@ -125,8 +66,20 @@ class Mesh:
             self.face(material, vertices, [(0, 1, 0)]*4, uv)
             self.face(material, list(reversed(vertices)), [(0, 1, 0)]*4, list(reversed(uv)))
 
-    def write(self, path):
-        lines = ["# Original Stonedew organic plant art; tools/plant_art.py", "mtllib plants.mtl", "o plant"]
+    def block(self, lo, hi, material="bud"):
+        x, y, z = lo
+        X, Y, Z = hi
+        for vertices in (
+            [(x,y,z),(x,y,Z),(X,y,Z),(X,y,z)],
+            [(x,Y,Z),(x,Y,z),(X,Y,z),(X,Y,Z)],
+            [(X,y,z),(X,Y,z),(x,Y,z),(x,y,z)],
+            [(x,y,Z),(x,Y,Z),(X,Y,Z),(X,y,Z)],
+            [(x,y,z),(x,Y,z),(x,Y,Z),(x,y,Z)],
+            [(X,y,Z),(X,Y,Z),(X,Y,z),(X,y,z)]):
+            self.face(material, list(reversed(vertices)))
+
+    def write(self, path, library="plants.mtl"):
+        lines = ["# Original Stonedew organic plant art; tools/plant_art.py", "mtllib " + library, "o model"]
         index = 1
         previous = None
         for material, vertices, normals, uv in self.faces:
@@ -144,94 +97,112 @@ class Mesh:
         path.write_text("\n".join(lines) + "\n")
 
 
-def plant(stage, habit, lod=False):
-    mesh = Mesh()
-    height = (3.0, 8.2, 12.6, 14.2)[stage]
-    tall = 1.15 if habit == "tall" else .94 if habit == "bushy" else 1
-    wide = .86 if habit == "tall" else 1.08 if habit == "bushy" else 1
-    height *= tall
-    mesh.tube((0, 0, 0), (.25, height, 0), .16 if stage else .10, sides=5)
-    if stage == 0:
-        mesh.card((0, .8, 0), .25, 2.6, pitch=.45)
-        mesh.card((0, 1.2, 0), 3.4, 2.1, pitch=.55)
-        return mesh
+def flower(mesh, center, size, phase, lod=False):
+    """Stepped, solid flower clusters: a tapered cola with individually offset bracts."""
+    x, y, z = center
     if lod:
-        for tier, y in enumerate((height*.18, height*.45, height*.72)):
-            for i in range(3):
-                mesh.card((0, y, 0), i*math.tau/3+tier*1.2,
-                          (7.8-tier*2.0)*wide, pitch=.20)
-        if stage >= 2:
-            for x, y, z in ((0, height, 0), (2.5, height*.66, 1), (-2.5, height*.60, -1)):
-                mesh.puff((x, y, z), (1.1, 1.5, 1.1), material="bud", sides=5, bands=3)
+        mesh.block((x-size*.7,y-size*.5,z-size*.7), (x+size*.7,y+size*1.7,z+size*.7))
+        return
+    for tier, (width, bottom, top) in enumerate(((.82,-.4,.5),(.67,.4,1.25),(.43,1.2,1.8),(.22,1.75,2.12))):
+        mesh.block((x-width*size,y+bottom*size,z-width*size),
+                   (x+width*size,y+top*size,z+width*size), "bud_light" if tier == 3 else "bud")
+    for i in range(6):
+        angle = i*math.tau/6 + phase
+        cx, cz = x+math.cos(angle)*size*.74, z+math.sin(angle)*size*.74
+        cy = y + size*(.05+(i%3)*.36)
+        r=size*(.26 if i%2 else .34)
+        mesh.block((cx-r,cy-r,cz-r),(cx+r,cy+r*.95,cz+r), "bud_light" if i%3 == 1 else "bud")
+    for i in range(3):
+        angle=i*math.tau/3+phase
+        cx, cz=x+math.cos(angle)*size*.63,z+math.sin(angle)*size*.63
+        mesh.block((cx-size*.10,y+size*.9,cz-size*.1),
+                   (cx+size*.1,y+size*1.15,cz+size*.1),"hair")
+
+
+def plant(stage, shape, load=1, lod=False):
+    mesh = Mesh()
+    rng = random.Random(7701+shape*391)
+    height = (2.2, 6.6, 10.8, 12.0)[stage] * (1, .94, 1.06, .98)[shape]
+    wide = (1, 1.08, .88, 1.04)[shape]
+    lean = ((.15,.1),(.9,-.5),(-.5,.6),(.6,.7))[shape]
+    def stem(y): return (lean[0]*y/height, y, lean[1]*y/height)
+    mesh.tube((0,0,0),stem(height),.16 if stage else .09,sides=4)
+    if stage == 0:
+        for i in range(2):
+            mesh.card(stem(.85+i*.15), i*math.pi+shape*.65, 2.1, width=2.3, pitch=.30+i*.10)
         return mesh
-    # Broad base, overlapping staggered skirts, progressively smaller toward the tip.
-    # The canopy, rather than exposed branches, carries the plant silhouette.
-    tiers = [(height*.12, 7, 6.6), (height*.34, 6, 5.6), (height*.56, 5, 4.4), (height*.76, 3, 3.0)]
-    if stage >= 2:
-        tiers = [(height*fraction, count, length) for fraction, count, length in (
-            (.12, 8, 7.8), (.25, 8, 7.0), (.38, 7, 6.2), (.51, 6, 5.4),
-            (.64, 5, 4.6), (.76, 4, 3.7), (.86, 3, 2.9), (.94, 3, 2.0))]
-    for tier, (y, count, length) in enumerate(tiers):
+    tiers = 4 if stage == 1 else 7
+    if lod: tiers = 3
+    for tier in range(tiers):
+        fraction = (.10 + tier*(.78/(tiers-1)))
+        y = height*fraction
+        count = (3 if lod else (7 if stage >= 2 and tier < 4 else 5)) - (1 if tier == tiers-1 and not lod else 0)
+        phase = shape*.51+tier*1.13+rng.uniform(-.20,.20)
         for i in range(count):
-            angle = i*math.tau/count + tier*1.43 + .25
-            pitch = .15 + .12*((i+tier)%3)
-            mesh.card((.25*y/height, y, 0), angle, length*wide, pitch=pitch)
-    # Upright inner cards fill gaps between the outward layers.
-    for tier, y in enumerate((height*.27, height*.53)):
-        for i in range(3):
-            mesh.card((0, y, 0), i*math.tau/3+tier*.8, 3.8*wide, pitch=.95)
-    if stage >= 2:
-        sites = [(0, height+.1, 0, 1.45)]
-        for tier, (fraction, count, radius, size) in enumerate(((.30, 6, 4.8, .90), (.56, 5, 3.4, 1.10), (.77, 3, 2.0, 1.15))):
+            angle = i*math.tau/count+phase+rng.uniform(-.20,.20)
+            length = (7.8-5.7*fraction)*wide * rng.uniform(.88,1.12)
+            if stage == 1: length *= .74
+            base=stem(y+rng.uniform(-.22,.22))
+            outward=(math.cos(angle)*(.7+tier*.05), .18, math.sin(angle)*(.7+tier*.05))
+            tip=add(base,outward)
+            if not lod: mesh.tube(base,tip,.08,sides=4)
+            mesh.card(tip,angle,length,width=length*1.15,pitch=rng.uniform(.28,.65))
+    if not lod:
+        # Upright fill and crown fans bridge the gaps between skirts from a player's eye height.
+        for fraction, length, count in ((.28,3.8,3),(.56,3.3,3),(.80,2.8,3),(.96,2.7,3)):
             for i in range(count):
-                angle = i*math.tau/count + tier*1.43
-                sites.append((math.cos(angle)*radius*wide, height*fraction+.3,
-                              math.sin(angle)*radius*wide, size))
-        for i, (x, y, z, size) in enumerate(sites):
-            size *= .67 if stage == 2 else 1
-            mesh.tube((0, y*.85, 0), (x, y, z), .10)
-            mesh.puff((x, y-.32, z), (size*.87, size*.50, size*.85), i, "bract", sides=6, bands=3)
-            mesh.puff((x, y+.25, z), (size*.80, size*1.0, size*.80), i*.7, "bud", sides=8, bands=3)
-            for tuft in range(4):
-                angle = tuft*math.tau/4+i
-                center = (x+math.cos(angle)*size*.62, y+.35+math.sin(tuft*1.7)*size*.18, z+math.sin(angle)*size*.62)
-                mesh.puff(center, (size*.36, size*.46, size*.36), i+tuft,
-                          "bud_light" if tuft == 1 else "bud", sides=6, bands=3)
-            mesh.puff((x, y+size*1.05, z), (size*.52, size*.52, size*.52), i, "bud_light", sides=6, bands=3)
+                mesh.card(stem(height*fraction), i*math.tau/count+fraction*7+shape,
+                          length*wide, pitch=.80 if fraction<.9 else .35)
+    if stage >= 2:
+        count=(5,9,13)[load]
+        # Nested sites keep existing branch tips as new flowers fill in; no frame-time randomness.
+        sites=[(*stem(height+.05),1.05)]
+        for i in range(12):
+            tier=i%3
+            angle=i*2.39996+shape*.71
+            fraction=(.27,.48,.69)[tier]+rng.uniform(-.035,.035)
+            radius=(4.55,3.5,2.35)[tier]*wide*rng.uniform(.9,1.08)
+            base=stem(height*fraction)
+            sites.append((base[0]+math.cos(angle)*radius,base[1]+.7,
+                          base[2]+math.sin(angle)*radius,rng.uniform(.63,.90)))
+        for i,(x,y,z,size) in enumerate(sites[:count]):
+            if lod and i >= (3,5,7)[load]: continue
+            size *= .48 if stage == 2 else 1
+            if not lod: mesh.tube(stem(y*.78),(x,y,z),.09,sides=4)
+            flower(mesh,(x,y,z),size,shape+i*.7,lod)
     return mesh
 
 
 def generate(root):
     directory = root / "models/block/plants"
     directory.mkdir(parents=True, exist_ok=True)
-    materials = ["# Original Stonedew organic plant materials; tools/plant_art.py"]
+    # Obsolete habit meshes must not linger in the jar or the budget report.
+    for pattern in ("*.obj", "*.json"):
+        for path in directory.glob(pattern): path.unlink()
+    materials = ["# Original Stonedew reference-led materials; tools/plant_art.py"]
     for name, texture, tint, color in [
         ("stem", "plant_stem", -1, (1, 1, 1)),
         ("leaf", "painted_leaf", 3, (1, 1, 1)),
-
-        ("bract", "plant_bud", 0, (.82, .92, .73)),
-        ("bud", "plant_bud", 1, (.83, .92, .88)),
-        ("bud_light", "plant_bud", 1, (1, 1, 1)),
+        ("bud", "plant_bud", 1, (.78, .83, .73)),
+        ("bud_light", "plant_bud", 1, (1, 1, .95)),
         ("hair", "plant_pistil", 2, (1, 1, 1)),
     ]:
         materials += [f"newmtl {name}", "Kd " + " ".join(map(str, color)),
                       f"map_Kd stonedew:block/{texture}", f"neoforge_TintIndex {tint}", ""]
     (directory / "plants.mtl").write_text("\n".join(materials))
-    report = []
-    for habit in ("bushy", "hybrid", "tall"):
-        for stage in range(4):
-            for lod in (False, True):
-                mesh = plant(stage, habit, lod)
-                name = f"{habit}_{stage}" + ("_lod" if lod else "")
-                mesh.write(directory / f"{name}.obj")
-                data = {
-                    "credit": "Original Stonedew organic plant art; tools/plant_art.py",
-                    "loader": "neoforge:obj",
-                    "model": f"stonedew:models/block/plants/{name}.obj",
-                    "automatic_culling": False, "shade_quads": True, "emissive_ambient": False,
-                    "textures": {"particle": "stonedew:block/plant_leaf"},
-                }
-                (directory / f"{name}.json").write_text(json.dumps(data, indent=2) + "\n")
-                report.append(dict(habit=habit, stage=stage, lod=lod,
-                                   faces=len(mesh.faces), vertices=sum(len(f[1]) for f in mesh.faces)))
+    report=[]
+    for stage in range(4):
+        for shape in range(4):
+            for load in range(3 if stage >= 2 else 1):
+                for lod in (False,True):
+                    mesh=plant(stage,shape,load,lod)
+                    name=f"plant_{stage}_{shape}_{load}"+("_lod" if lod else "")
+                    mesh.write(directory/f"{name}.obj")
+                    data={"credit":"Original Stonedew reference-led art; tools/plant_art.py",
+                          "loader":"neoforge:obj", "model":f"stonedew:models/block/plants/{name}.obj",
+                          "automatic_culling":False,"shade_quads":True,"emissive_ambient":False,
+                          "textures":{"particle":"stonedew:block/plant_leaf"}}
+                    (directory/f"{name}.json").write_text(json.dumps(data,indent=2)+"\n")
+                    report.append(dict(stage=stage,shape=shape,budLoad=load,buds=(5,9,13)[load] if stage>=2 else 0,
+                                       lod=lod,faces=len(mesh.faces),vertices=sum(len(f[1]) for f in mesh.faces)))
     return report

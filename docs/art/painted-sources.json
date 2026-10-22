@@ -1,24 +1,24 @@
 [
   {
     "path": "src/main/resources/assets/stonedew/textures/art/leaf_fan.png",
-    "purpose": "Transparent painted foliage card",
-    "sha256": "ccbc66a8368da98baa35496fc45df2d6dd1d76a2d5b431875c95b8b44bbb9afd",
+    "purpose": "Crisp serrated transparent foliage card",
+    "sha256": "df9745401acd742e9fca1ac8fce6de7ec395d4e1a7fdc0df9dd997ffcb9865e8",
     "dimensions": [
-      1254,
-      1254
+      1352,
+      1163
     ],
-    "creation": "Original imagegen artwork, created for Stonedew; source PNG preserved unchanged",
+    "creation": "Original imagegen pixel artwork guided by CODEX_REFERENCE_NEW; source PNG preserved unchanged",
     "date": "2026-10-22"
   },
   {
     "path": "src/main/resources/assets/stonedew/textures/art/painted_materials.png",
-    "purpose": "Painted 4 by 4 material source sheet",
-    "sha256": "ae11052fb552a817e13fea1bd71a2d9ce70e6c2f0ed0fc774111a1b95b24b966",
+    "purpose": "Reference-led pixel material atlas, 4 by 4",
+    "sha256": "f80f5fb229b22dcdc1c6e30cce9cb5385ec7f9941279d05aac0946e39e485cac",
     "dimensions": [
       1254,
       1254
     ],
-    "creation": "Original imagegen artwork, created for Stonedew; source PNG preserved unchanged",
+    "creation": "Original imagegen pixel artwork guided by CODEX_REFERENCE_NEW; source PNG preserved unchanged",
     "date": "2026-10-22"
   }
 ]

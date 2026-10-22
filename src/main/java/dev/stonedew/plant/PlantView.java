@@ -14,7 +14,12 @@ public record PlantView(
     int bud,
     int hair,
     String pigment,
-    String habit) {
+    String habit,
+    int shape,
+    int budLoad,
+    int height,
+    int spread,
+    int rotation) {
   public CompoundTag save() {
     var tag = new CompoundTag();
     tag.putInt("stage", stage);
@@ -28,6 +33,11 @@ public record PlantView(
     tag.putInt("hair", hair);
     tag.putString("pigment", pigment);
     tag.putString("habit", habit);
+    tag.putInt("shape", shape);
+    tag.putInt("budLoad", budLoad);
+    tag.putInt("height", height);
+    tag.putInt("spread", spread);
+    tag.putInt("rotation", rotation);
     return tag;
   }
 
@@ -43,6 +53,11 @@ public record PlantView(
         tag.getInt("bud"),
         tag.getInt("hair"),
         tag.getString("pigment"),
-        tag.getString("habit"));
+        tag.getString("habit"),
+        Math.clamp(tag.getInt("shape"), 0, 3),
+        Math.clamp(tag.getInt("budLoad"), 0, 2),
+        tag.contains("height") ? Math.clamp(tag.getInt("height"), 90, 110) : 100,
+        tag.contains("spread") ? Math.clamp(tag.getInt("spread"), 90, 110) : 100,
+        Math.floorMod(tag.getInt("rotation"), 360));
   }
 }

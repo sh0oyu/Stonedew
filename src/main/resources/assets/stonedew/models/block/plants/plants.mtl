@@ -1,4 +1,4 @@
-# Original Stonedew organic plant materials; tools/plant_art.py
+# Original Stonedew reference-led materials; tools/plant_art.py
 newmtl stem
 Kd 1 1 1
 map_Kd stonedew:block/plant_stem
@@ -9,18 +9,13 @@ Kd 1 1 1
 map_Kd stonedew:block/painted_leaf
 neoforge_TintIndex 3
 
-newmtl bract
-Kd 0.82 0.92 0.73
-map_Kd stonedew:block/plant_bud
-neoforge_TintIndex 0
-
 newmtl bud
-Kd 0.83 0.92 0.88
+Kd 0.78 0.83 0.73
 map_Kd stonedew:block/plant_bud
 neoforge_TintIndex 1
 
 newmtl bud_light
-Kd 1 1 1
+Kd 1 1 0.95
 map_Kd stonedew:block/plant_bud
 neoforge_TintIndex 1
 
