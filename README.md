@@ -4,7 +4,7 @@ A Minecraft Java **1.21.1 / NeoForge 21.1.264** mod about a cozy underground cul
 
 **Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes one-slot pots, four-slot beds, persistent genome identity, a plant HUD and a working Ledger directive screen. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
 
-[**Download stonedew-0.2.7-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.7-p1.jar)
+[**Download stonedew-0.2.8-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.8-p1.jar)
 
 ## Install
 
@@ -39,15 +39,15 @@ See the [eight-step playtest and remaining placeholders](docs/P1_PLAYTEST.md). D
 
 ## Art direction
 
-The unchanged **CODEX_REFERENCE_NEW** sheets and Stonedew banner guide the art. The 0.2.7 plant revision replaces the rejected stacked canopy with **four uneven side branches**, a bent slender stem and individually tilted cannabis fans. Each painted fan has seven narrow serrated fingers, visible veins and its own petiole. Larger leaves face different directions, leaving space between branches.
+The Stonedew banner and unchanged **CODEX_REFERENCE_NEW** sheets guide the art. Version 0.2.8 uses shorter branches and overlapping foliage through the center. Each cannabis fan is assembled from seven separately curved/folded fingers using a quieter original leaflet painting. Smaller flowers sit within the canopy; shallow raised bracts add surface volume to their established shape.
 
-Flowers retain their established solid bract shape, with small sugar leaves, paired curved pistils and sparse non-emissive resin points. Four saved layouts, three mature flower loads (5/9/13) and persistent size/rotation variation remain; extra flowers grow at branch joints. Bud loads remain visual until P3 harvesting. Baked canopy occlusion, foliage-shaped soil shadows and fuel-dependent UV lighting remain active.
+Foliage receives softer occlusion so the interior stays green. Flowers retain sugar leaves, curved pistils and non-emissive resin details. Four saved layouts and 5/9/13 mature flower loads persist; visual variation remains separate from genetics and eventual P3 harvest yield.
 
 `/stonedew debug art` builds a checked, labeled reference-art gallery in clear loaded space. It includes all four pot, all four UV and all four tent designs. Future-tier models are **display previews**, without automation gameplay. Working P1 equipment remains in the Creative tab.
 
-![Actual rebuilt plant in Minecraft](docs/screenshots/p1-botanical-violet.png)
+![Actual rebuilt plant in Minecraft](docs/screenshots/p1-canopy-detail.png)
 
-[Green/orange plant](docs/screenshots/p1-botanical-kush.png) · [Bud detail](docs/screenshots/p1-botanical-bud-detail.png) · [Normal FOV](docs/screenshots/p1-botanical-gameplay.png) · [Growth stages](docs/screenshots/p1-botanical-stages.png) · [Variations](docs/screenshots/p1-botanical-variation.png) · [Reference catalog](docs/screenshots/p1-revision-catalog.png) · [Equipment](docs/screenshots/p1-revision-equipment.png) · [Rendering/source notes](docs/art/ART_DIRECTION.md)
+[Whole plant](docs/screenshots/p1-canopy-kush.png) · [Violet plant](docs/screenshots/p1-canopy-violet.png) · [Bud detail](docs/screenshots/p1-canopy-detail.png) · [Normal FOV](docs/screenshots/p1-canopy-gameplay.png) · [Growth stages](docs/screenshots/p1-canopy-stages.png) · [Variations](docs/screenshots/p1-canopy-variation.png) · [Cave comparison](docs/screenshots/p1-canopy-scene.png) · [Reference catalog](docs/screenshots/p1-revision-catalog.png) · [Equipment](docs/screenshots/p1-revision-equipment.png) · [Rendering/source notes](docs/art/ART_DIRECTION.md)
 
 These are actual game captures. Baked/local shading is included; the promotional image's full scene shadows and HDR bloom require a compatible shader renderer/pack. No shader pack is bundled or claimed tested. See [asset sources/status](ASSETS.md).
 
@@ -60,7 +60,7 @@ python3 -m pip install -r tools/requirements-art.txt  # art authoring only
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
-./gradlew build       # build/libs/stonedew-0.2.7-p1.jar
+./gradlew build       # build/libs/stonedew-0.2.8-p1.jar
 ./gradlew runClient
 ```
 

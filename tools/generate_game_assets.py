@@ -41,6 +41,8 @@ def generate():
         # Retire only obsolete files in the generated plant mesh directory.
         for path in (ROOT/'models/block/plants').iterdir():
             if path.suffix in ('.obj','.json') and not (staged/path.relative_to(ROOT)).exists():path.unlink()
+        # The rejected full-fan painting remains preserved in docs, outside runtime art.
+        (ROOT/'textures/art/cannabis_fan_v7.png').unlink(missing_ok=True)
     reports=REPO/'docs/art';reports.mkdir(parents=True,exist_ok=True)
     for name,data in (('mesh-budget',stats),('equipment-budget',equipment_stats),('catalog-budget',catalog_stats)):
         (reports/f'{name}.json').write_text(json.dumps(data,indent=2)+'\n')
@@ -48,8 +50,8 @@ def generate():
     for path in sorted((ROOT/'textures').rglob('*.png')):
         if path.parent.name=='item':continue
         raw=path.read_bytes()
-        painted=path.name in ('materials_v6.png','cannabis_fan_v7.png')
-        painting='docs/art/sources/'+('materials-v6.png' if path.name=='materials_v6.png' else 'cannabis-fan-v7.png')
+        painted=path.name in ('materials_v6.png','cannabis_leaflet_v8.png')
+        painting='docs/art/sources/'+('materials-v6.png' if path.name=='materials_v6.png' else 'cannabis-leaflet-v8.png')
         sources.append(dict(path=str(path.relative_to(REPO)),dimensions=list(struct.unpack('>II',raw[16:24])),
                             sha256=hashlib.sha256(raw).hexdigest(),source=painting if painted else 'tools/plant_art.py' if path.name.startswith('plant_shadow_') else 'tools/stylized_textures.py',
                             creation='Original reference-guided material painting, unchanged source; native UV swatches' if painted else 'Original authored silhouettes, palettes and material marks; deterministic generation'))

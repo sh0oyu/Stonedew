@@ -1,14 +1,14 @@
-# Asset manifest — 0.2.7 botanical revision
+# Asset manifest — 0.2.8 canopy revision
 
-The unchanged CODEX_REFERENCE_NEW sheets and supplied grow-room image remain authoritative. The owner rejected 0.2.6’s tiered plants. Current work remains subject to visual review; tests do not imply a 1:1 match. See [art direction](docs/art/ART_DIRECTION.md).
+The unchanged CODEX_REFERENCE_NEW sheets and supplied grow-room image remain authoritative. The owner rejected 0.2.7’s sparse plant proportions and flat leaf emblems. Current work remains subject to visual review; tests do not imply a 1:1 match. See [art direction](docs/art/ART_DIRECTION.md).
 
 | Asset | Source | Runtime use |
 | --- | --- | --- |
-| 64 plant meshes | `tools/plant_art.py` | Four uneven branch layouts, individually tilted painted cannabis fans, bracts/sugar leaves/pistils/resin, all stages/loads and distant meshes |
+| 64 plant meshes | `tools/plant_art.py` | Four compact branch layouts, overlapping fans built from separately curved fingers, raised bracts/sugar leaves/pistils/resin, all stages/loads and distant meshes |
 | Working equipment | `tools/equipment_art.py` | Pot/bed/lamp states, longer-spout can, cell, packet and Ledger |
 | Complete pot/UV/tent catalog | `tools/reference_catalog.py` | Labeled previews via `/stonedew debug art`; gathered cloth, hardware and local fixture glow |
 | New material painting | `docs/art/sources/materials-v6.png` | Original imagegen source, packaged unchanged; equipment and UI |
-| Cannabis fan painting | `docs/art/sources/cannabis-fan-v7.png` | Original unchanged transparent seven-finger fan, 25 native windows, read-only alpha-to-mesh authoring in `tools/botanical_leaf.py` |
+| Cannabis leaflet painting | `docs/art/sources/cannabis-leaflet-v8.png` | Original unchanged transparent single finger, native 512×1024 window; seven independently folded fingers per fan, read-only alpha measurements in `tools/botanical_leaf.py` |
 | Native material bindings | `tools/material_atlas.py` | Sixteen distinct inset 256px swatches through Minecraft's built-in atlas loader |
 | Foliage, packet and effects | `tools/stylized_textures.py` | Original pixel textures and RGB radiance maps |
 | Baked spatial shading | `tools/bake_occlusion.py` | Vertex AO, authored canopy shadows and violet preview reflections |

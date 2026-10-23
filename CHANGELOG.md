@@ -1,6 +1,20 @@
 # Changelog
 
 
+## 0.2.8-p1 — overlapping canopy and independently folded fingers — 2026-10-23
+
+Revises the owner-rejected sparse 0.2.7 plant against the warm Stonedew banner.
+
+- Shorter uneven branches carry overlapping foliage through the center. The mature plant has 22 staggered fans, with broader upper foliage around the main flower. Each fan contains seven separately curved/folded fingers; no rigid full-fan emblems. Four saved layouts and 5/9/13 mature loads remain.
+- New original individual-leaflet painting, simplified with imagegen after the first in-game draft looked noisy/yellow. Final painting bytes are unchanged in source/runtime. One native 512×1024 window replaces 25 v7 fan windows; the rejected v7 original stays in documentation only. Read-only alpha measurements bound compact geometry; no Python image editing or runtime dependency.
+- Smaller flowers sit within the foliage. Their established egg-shaped bract volume gains selected raised crowns/sloping shoulders; sugar leaves share the new leaflet painting. Curved pistils and non-emissive resin points remain. The green bud palette is brighter, with unchanged genes/save data.
+- Fixed the renderer dropping most thin pistil faces and all resin facets in the inspected small bud; valid detail surfaces are now retained.
+- Gentler foliage ambient/key occlusion keeps overlapping interiors green. The existing light/fuel behavior remains. Equipment/catalog geometry is unchanged; a local cave comparison scene uses ordinary blocks, working P1 equipment and an existing tent display preview.
+- All 64 plant meshes regenerate; maximum **13,090 / 98 faces**, within existing 14,000/100 limits. P1 gameplay and the P3 Fun Gate are unchanged.
+
+Validation: Java 21 / NeoForge build, datagen (zero changed data outputs), 58 JUnit tests and 11 asset checks pass. All 272 asset/report files regenerate byte-identically. All 268 packaged assets match source. Survival watering changes water about 7.80→37.70 and consumes one pour (8→7), preserving appearance seed 3, genome and stage. The headless renderer regression checks real shipped pistil/resin faces. Current client startup retains the native block atlas at mip level 4. Current unedited game captures use `p1-canopy-*`; they supersede the rejected `p1-botanical-*` plant captures. Original references and the master brief remain unchanged. Visual acceptance remains with the owner.
+
+
 ## 0.2.7-p1 — cannabis fans and natural branches — 2026-10-23
 
 Replaces the rejected 0.2.6 plant architecture following the owner's latest banner-led correction.

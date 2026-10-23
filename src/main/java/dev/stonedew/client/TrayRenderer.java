@@ -21,8 +21,7 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
   private final RandomSource random = RandomSource.create(0);
   private final java.util.Map<BakedModel, List<Surface>> meshCache = new java.util.WeakHashMap<>();
 
-  private record Surface(
-      BakedQuad quad, float nx, float ny, float nz, float[] x, float[] y, float[] z) {}
+  private record Surface(BakedQuad quad, float[] x, float[] y, float[] z) {}
 
   private List<Surface> unpack(BakedModel model) {
     var result = new java.util.ArrayList<Surface>();
@@ -35,13 +34,9 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
         y[i] = Float.intBitsToFloat(data[i * stride + 1]);
         z[i] = Float.intBitsToFloat(data[i * stride + 2]) - .5F;
       }
-      // Use geometric normals, including folded leaf undersides and tilted colas.
-      float ax = x[1] - x[0], ay = y[1] - y[0], az = z[1] - z[0];
-      float bx = x[2] - x[0], by = y[2] - y[0], bz = z[2] - z[0];
-      float nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
-      float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
-      if (length < .00001F) continue;
-      result.add(new Surface(quad, nx / length, ny / length, nz / length, x, y, z));
+      if (!PlantSurfaceGeometry.hasArea(x, y, z)) continue;
+      // The entity shader uses the original baked normals, including undersides.
+      result.add(new Surface(quad, x, y, z));
     }
     return List.copyOf(result);
   }

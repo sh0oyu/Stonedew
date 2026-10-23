@@ -62,3 +62,9 @@ The optional checked `ArtGallery` uses tagged vanilla item/text display entities
 ## 0.2.7 plant authoring
 
 Plant fans use a fixed original RGBA painting exposed through 25 native 256px atlas windows. `botanical_leaf.py` reads alpha with Pillow/NumPy to author conservative double-sided mesh coverage, without rewriting images. `plant_art.py` poses the leaves on four asymmetric connected branch layouts; the distant mesh preserves that architecture. Painted leaf tint is white at runtime. Small sugar leaves, crossed curved-pistil ribbons and non-emissive resin geometry supplement the retained bract volume. Save/network schemas and simulation are unchanged.
+
+## 0.2.8 leaf construction
+
+The rejected full-fan runtime painting is retired. A new fixed individual-leaflet painting binds through one native power-of-two atlas window. Read-only alpha measurements bound six longitudinal bands; each of seven fingers receives independent pose/curvature. Compact branches carry overlapping fans. Foliage has gentler baked occlusion than solid materials. Raised bract crowns supplement existing flower volume. These are art changes; save/network/simulation schemas remain unchanged.
+
+The tray renderer now rejects only degenerate surfaces: its old area threshold discarded most thin pistil faces and every resin facet in the inspected small bud. The lower threshold retains those valid surfaces and small leaf bands.
