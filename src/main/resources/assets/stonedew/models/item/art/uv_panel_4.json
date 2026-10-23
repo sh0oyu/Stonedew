@@ -1,0 +1,35 @@
+{
+  "credit": "Original Stonedew reference catalog. Art preview; no future gameplay implied.",
+  "textures": {
+    "particle": "stonedew:block/iron"
+  },
+  "loader": "neoforge:composite",
+  "children": {
+    "body": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/catalog/uv_panel_4_body.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/iron"
+      },
+      "render_type": "minecraft:cutout"
+    },
+    "light": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/catalog/uv_panel_4_emission.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/iron"
+      },
+      "render_type": "stonedew:emissive"
+    }
+  },
+  "item_render_order": [
+    "body",
+    "light"
+  ]
+}

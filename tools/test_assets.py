@@ -10,13 +10,13 @@ ASSETS = ROOT / "src/main/resources/assets/stonedew"
 
 
 def read_obj(path):
-    result = {"v": [], "vn": [], "vt": [], "f": [], "usemtl": [], "mtllib": []}
+    result = {"v": [], "vn": [], "vt": [], "vc": [], "f": [], "usemtl": [], "mtllib": []}
     for line in path.read_text().splitlines():
         parts = line.split()
         if not parts or parts[0].startswith("#"):
             continue
         kind = parts[0]
-        if kind in ("v", "vn", "vt"):
+        if kind in ("v", "vn", "vt", "vc"):
             result[kind].append(tuple(map(float, parts[1:])))
         elif kind == "f":
             result[kind].append([tuple(map(int, ref.split("/"))) for ref in parts[1:]])
@@ -37,7 +37,8 @@ class AssetTests(unittest.TestCase):
                             self.assertEqual(model["loader"], "neoforge:obj")
                             mesh = read_obj(path.with_suffix(".obj"))
                             self.assertGreater(len(mesh["f"]), 0)
-                            self.assertLessEqual(len(mesh["f"]), 100 if detail else 2400)
+                            if not detail:self.assertTrue(mesh["vc"], "Near meshes require a successful AO bake")
+                            self.assertLessEqual(len(mesh["f"]), 100 if detail else 14000)
                             for vertex in mesh["v"]:
                                 self.assertTrue(all(math.isfinite(value) and -1 <= value <= 2 for value in vertex))
 
@@ -49,12 +50,17 @@ class AssetTests(unittest.TestCase):
                 materials = {line.split()[1] for line in material_file.read_text().splitlines()
                              if line.startswith("newmtl ")}
                 self.assertTrue(set(mesh["usemtl"]).issubset(materials))
+                for uv in mesh["vt"]:
+                    self.assertTrue(all(0 <= value <= 1 for value in uv), "Atlas UVs must never sample adjacent sprites")
                 for normal in mesh["vn"]:
                     self.assertAlmostEqual(sum(v*v for v in normal), 1, places=4)
+                for color in mesh["vc"]:
+                    self.assertEqual(len(color), 4)
+                    self.assertTrue(all(0 <= channel <= 1 for channel in color))
                 for face in mesh["f"]:
                     self.assertIn(len(face), (3, 4))
                     for indices in face:
-                        for index, kind in zip(indices, ("v", "vt", "vn")):
+                        for index, kind in zip(indices, ("v", "vt", "vn", "vc")):
                             self.assertGreater(index, 0)
                             self.assertLessEqual(index, len(mesh[kind]))
                     self.assertGreaterEqual(len({mesh["v"][v[0]-1] for v in face}), 3)
@@ -65,6 +71,9 @@ class AssetTests(unittest.TestCase):
             for texture in model.get("textures", {}).values():
                 if texture.startswith("stonedew:"):
                     self.assertTrue((ASSETS / "textures" / (texture.split(":", 1)[1]+".png")).is_file())
+            for override in model.get("overrides", []):
+                if override["model"].startswith("stonedew:"):
+                    self.assertTrue((ASSETS/"models"/(override["model"].split(":",1)[1]+".json")).is_file())
             for element in model.get("elements", []):
                 for face in element["faces"].values():
                     self.assertIn(face["texture"][1:], model["textures"])
@@ -92,7 +101,7 @@ class AssetTests(unittest.TestCase):
                 else:
                     self.assertIn(data[25], (2, 6))
             else:
-                expected = 128 if path.parent.name == "gui" else 64 if path.name in ("leaf_fan.png", "leaf_emblem.png", "lamp_halo.png") else 32 if path.parent.name == "block" or path.name == "contact_shadow.png" else 16
+                expected = 128 if path.parent.name == "gui" else 64 if path.name in ("leaf_fan.png", "leaf_emblem.png", "lamp_halo.png", "seed_packet.png", "uv_beam.png") else 32 if path.parent.name == "block" or path.name == "contact_shadow.png" else 16
                 self.assertEqual((width, height), (expected, expected), path)
         self.assertTrue((ASSETS / "textures/block/leaf_fan.png").is_file())
         self.assertTrue((ASSETS / "textures/gui/materials.png").is_file())
@@ -131,7 +140,7 @@ class AssetTests(unittest.TestCase):
             self.assertGreater(sum(center[a]*normals[0][a] for a in range(3)), 0)
         for path in (ASSETS / "models/block/equipment").glob("*.obj"):
             mesh = read_obj(path)
-            self.assertLess(len(mesh["f"]), 1000)
+            self.assertLessEqual(len(mesh["f"]), 1400)
             self.assertTrue(all(-.1 <= value <= 1.05 for vertex in mesh["v"] for value in vertex))
 
     def test_pistil_caps_are_on_exposed_bract_tops(self):
@@ -149,6 +158,32 @@ class AssetTests(unittest.TestCase):
             self.assertTrue(any(abs(top[0][1]-y)<1e-6
                 and min(v[0] for v in top)<=x<=max(v[0] for v in top)
                 and min(v[2] for v in top)<=z<=max(v[2] for v in top) for top in tops))
+
+    def test_thin_chamfers_preserve_closed_outward_surfaces(self):
+        from plant_art import Mesh
+        mesh=Mesh()
+        mesh.bevel((-2,-2,-.11),(2,2,.11),.11)
+        for _,vertices,normals,_ in mesh.faces:
+            self.assertGreaterEqual(len(set(vertices)),3)
+            center=tuple(sum(v[i] for v in vertices)/len(vertices) for i in range(3))
+            self.assertGreater(sum(center[i]*normals[0][i] for i in range(3)),0)
+
+    def test_emissive_passes_do_not_make_entire_props_unlit(self):
+        found=0
+        for path in (ASSETS/"models").rglob("*.json"):
+            model=json.loads(path.read_text())
+            if model.get("loader")!="neoforge:composite":continue
+            found+=1
+            self.assertIn("particle",model["textures"])
+            body=model["children"]["body"];light=model["children"]["light"]
+            self.assertEqual(light["render_type"],"stonedew:emissive")
+            self.assertNotEqual(body["render_type"],light["render_type"])
+            body_mesh=read_obj(ASSETS/body["model"].split(":",1)[1])
+            self.assertTrue(all("emission" not in material for material in body_mesh["usemtl"]), "Diffuse body must not overwrite the luminous pass")
+            mesh=read_obj(ASSETS/light["model"].split(":",1)[1])
+            self.assertTrue(all("emission" in material for material in mesh["usemtl"]))
+            self.assertTrue(all(color==(1,1,1,1) for color in mesh["vc"]))
+        self.assertGreater(found,0)
 
     def test_source_attribution_is_present(self):
         for path in (ASSETS / "models").rglob("*.json"):

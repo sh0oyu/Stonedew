@@ -5,7 +5,7 @@
       32,
       32
     ],
-    "sha256": "3ebee8e25e212f4fd3e7a35570bd6c069f5857015bbfe16dae04d3e6351855d2",
+    "sha256": "0a8bdcf2ecc3acc819b20fa713ed620652328a61e60f15697f1d4c8800057a6c",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -15,7 +15,7 @@
       32,
       32
     ],
-    "sha256": "283e76dc9afe74f55c0bdb6e5f532b30490000a0acfbd88828ee0feb048adb31",
+    "sha256": "2474471da5d764b91e312fc9033a360c87e48cda7c93c66bbfcc6a3c7e2c1d54",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -25,7 +25,7 @@
       32,
       32
     ],
-    "sha256": "6bc2cd4ce17ad168fe0515a73bf8f2ac0ff868ded6bd26d7be03c04444202a61",
+    "sha256": "853e2aa1fac4bcb04e2118b1820b6d73226d79c12a2badc1ee80f926f25bcd2c",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -35,7 +35,7 @@
       32,
       32
     ],
-    "sha256": "3358b94a6ebcc200286b280a42e27b9a5a785ed3ea981ce535cf638ceb53bb7d",
+    "sha256": "312ad8bb7777d64a78ef61cf1f438b45cc6d9f7390d364e233fc72f07e88cc1d",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -45,7 +45,7 @@
       32,
       32
     ],
-    "sha256": "ffef914171520d07ccf454908cac581bd8e51f17a0d21722108b0ad9f23e9667",
+    "sha256": "03c1c26ed9b14e456f9ebaebffabacdde2ead93901da02d02e99d2be408f9210",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -55,7 +55,17 @@
       32,
       32
     ],
-    "sha256": "f8760353d317a91d693c51b57c22d527b5a92ccf8fa83ed14e0dd63cc121eeca",
+    "sha256": "4b6ef8059ab0aa4114fd9d6483081cd96025659e480a5556ba091e988fc11314",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/fabric.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "02901c31260dcba1660ee1bc6bad9cf141aa3deff40336267fb61247f7294362",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -65,7 +75,7 @@
       32,
       32
     ],
-    "sha256": "cac3ccc7427a6bccd56e510f685cbccc76f586b4a27e01132c37e528bf28ffec",
+    "sha256": "838f4b4ead0a0147cdb8383d0796bd5d7c5215477aaf103a03346940140c23eb",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -75,7 +85,27 @@
       32,
       32
     ],
-    "sha256": "27daea675c485b82f1e3251a02894c40c1b7cb534203f47baaf91f0d156179ce",
+    "sha256": "eb95ef5f0719fa19e73928819cf57f7e0571112e9c39bb9a779d24eeb34eb8d8",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/glow_core.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "177f158ac0126f4f4ea0a054ab2b56b088d83dee53b556a7da52cbe0032970ef",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/glow_cyan.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "6edfc3a869230a52f78c60e4be995ebe5a8156132468167c1bd13120f4e3cecf",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -85,7 +115,7 @@
       32,
       32
     ],
-    "sha256": "72020ad3293ba9e05100082181d48e3d2e6e91bdaee8ee6adf4cc23cb62c5b65",
+    "sha256": "539914ea259892f590a0bac844c48d6284ce05feee50c4791945d5ec389a4823",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -95,7 +125,7 @@
       32,
       32
     ],
-    "sha256": "622fc8b44ae2b5ca2f04049ce4290e4b7b9b2ae11eeb18bcee10a72e95711dbf",
+    "sha256": "afca27b742dc1d578f735513b532d49aa2e7c06ce722e111ed9667e73f922e52",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -105,7 +135,7 @@
       32,
       32
     ],
-    "sha256": "426cf024f9efcc1e505829b13eca7b6727ab875e4292f60e67c6263063aa253a",
+    "sha256": "72e8bdfa7e348f024c8815e5c9c79f98fd2d00b8c455e8b5878ce4a6df1d50f4",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -115,7 +145,7 @@
       32,
       32
     ],
-    "sha256": "244af31278a61418f674e2eca3a9e3fca8bbee877a79ccbe948f8a1e178e38f6",
+    "sha256": "051aedaaae67b5de10e1efb654f662d2f8644301df05c4bff4e1f4ee3dd60457",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -140,12 +170,32 @@
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
   {
+    "path": "src/main/resources/assets/stonedew/textures/block/leaf_surface.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "28cd76cd35f18602ac8309cbbf28a66ede6c47d9f6be9fd702fb85c2341649d3",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/lining.png",
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "f90e5905a2506402a0496663f25e0c4c0e51af841aa470f4319603b90add4ce4",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
     "path": "src/main/resources/assets/stonedew/textures/block/paper.png",
     "dimensions": [
       32,
       32
     ],
-    "sha256": "8995ed527696638dfaa736f76b6b4e9adf4286e610410a6553eae79e41d46fe3",
+    "sha256": "ac972cc9b7664fe356068d4295969ab2c082d16df71ffc0c4dd4ab8678efbad9",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -155,7 +205,7 @@
       32,
       32
     ],
-    "sha256": "4e75f242c9718c1e3df8f91c8167b7eb688f25b5492fb9559b06c98df06021a2",
+    "sha256": "2bf85de19f4d7a2cfc1b68c8f2baae879667b6d7dc9817729f798ba8cbf08071",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -165,7 +215,7 @@
       32,
       32
     ],
-    "sha256": "ec9ad0613a7bd444f5727e19408c5d6eb7debfe7cc34e3b7a38c2f1b8a62112e",
+    "sha256": "1457b9648b481c56f1623584a9f21dc99e06968a0f46dce51c03a0cc9f7ed5be",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -175,7 +225,7 @@
       32,
       32
     ],
-    "sha256": "2fe1c7a3f44b9e72913dd1abe32328864ff1414acddf0095159afab7cacc3046",
+    "sha256": "3629f67a363b5224c7f0bfed10d4a0abecb837c84d3fdfb7da78b0b2a3be988a",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -185,7 +235,17 @@
       32,
       32
     ],
-    "sha256": "a308e89ba0183a55a26fb27f98d464dff60ea23cba02309790bb2a1db7fc56b0",
+    "sha256": "1471c66539aad7d685f409cd9108a134024769c3d9925cf25043be5ba914d0c2",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/seed_packet.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "d25530522142ad34809479b58ce7fd6c3886d34dd2f19623a13d519848eeedfb",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -195,7 +255,7 @@
       32,
       32
     ],
-    "sha256": "3b44df86cb98d9728ff8fc69a9f7f2b3002490895297279a15abd065b63aa70b",
+    "sha256": "9a03806cdbae4b6005c38d8740de130c5b1a33a228c461df02b236232ccb97c5",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -205,7 +265,7 @@
       32,
       32
     ],
-    "sha256": "7e1c4da26b8c950f1169424982032356f71548f23b99c77fd2b7a867bc7d5d6a",
+    "sha256": "225994b85a37d9399b7544aacaef6042525463d55fc01bd2f2008d9b7fa33533",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -215,7 +275,7 @@
       32,
       32
     ],
-    "sha256": "2266fe82f3bbee2b60ad8517524c88a88982e408e133ed033eb39e8cf5fa5501",
+    "sha256": "33670fbf60ab56cfbbd3d91d846d149e57143b6c66971967ce0819479f51d005",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -225,7 +285,7 @@
       32,
       32
     ],
-    "sha256": "2de6de82a2dc6b3f43c72fcfd4a526838495826f0307fae5b3de6d82be3ac649",
+    "sha256": "b1bb0e12c6a6e81ec9594429de1817174f7ff0fe16d0879b3387c5422550dc14",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -235,7 +295,7 @@
       32,
       32
     ],
-    "sha256": "79520064464367fdfbcf8ce1fe59a5f57345b8681e9376041b9c9fca1acf8e9f",
+    "sha256": "258c8cde9e8da63ecd99ed27a7dc1ded396d0a836e446f7597b5e574b253d246",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -245,7 +305,7 @@
       32,
       32
     ],
-    "sha256": "d2288bd0fe192c87a147c4b325e5fb5f8c148212476062d58347f2d8ff9753a0",
+    "sha256": "0b31712cd7d2b20e246fc5e0ff75b265ae10548052c62b76195b415b69d13c42",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -270,12 +330,22 @@
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
   {
+    "path": "src/main/resources/assets/stonedew/textures/effect/uv_beam.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "3728b0a738eba1516d26787f5dac1a2acc3fa85ddfdef038534f29d8ca87333c",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
     "path": "src/main/resources/assets/stonedew/textures/gui/materials.png",
     "dimensions": [
       128,
       128
     ],
-    "sha256": "16ae9bc181daff138ac72ff7b293f9da81bcfa3f7a59e6004bea2b48d2c0b22c",
+    "sha256": "36eb210979672778c96e82a4318b1edac0ed040e51e6ba5767ed3f8b3bbc95f6",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   }

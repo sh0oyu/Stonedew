@@ -10,6 +10,15 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 public final class ClientRegistration {
+  public static void renderTypes(
+      net.neoforged.neoforge.client.event.RegisterNamedRenderTypesEvent event) {
+    event.register(
+        Stonedew.id("emissive"),
+        net.minecraft.client.renderer.RenderType.translucent(),
+        net.minecraft.client.renderer.RenderType.eyes(
+            net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_BLOCKS));
+  }
+
   public static void models(ModelEvent.RegisterAdditional event) {
     for (int stage = 0; stage < 4; stage++)
       for (int shape = 0; shape < dev.stonedew.plant.PlantAppearance.SHAPES; shape++)

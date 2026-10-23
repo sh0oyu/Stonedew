@@ -1,13 +1,5 @@
 {
   "credit": "Original Stonedew reference-led equipment; tools/equipment_art.py",
-  "loader": "neoforge:obj",
-  "model": "stonedew:models/block/equipment/glow_cell.obj",
-  "automatic_culling": false,
-  "shade_quads": true,
-  "emissive_ambient": true,
-  "textures": {
-    "particle": "stonedew:block/glow"
-  },
   "display": {
     "gui": {
       "rotation": [
@@ -101,5 +93,99 @@
         0.5
       ]
     }
-  }
+  },
+  "textures": {
+    "particle": "stonedew:block/glow"
+  },
+  "loader": "neoforge:composite",
+  "children": {
+    "body": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/equipment/glow_cell_body.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/glow"
+      },
+      "render_type": "minecraft:cutout"
+    },
+    "light": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/equipment/glow_cell_emission.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/glow"
+      },
+      "render_type": "stonedew:emissive"
+    }
+  },
+  "item_render_order": [
+    "body",
+    "light"
+  ],
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 100
+      },
+      "model": "stonedew:item/art/pot_fabric"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 101
+      },
+      "model": "stonedew:item/art/pot_automated"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 102
+      },
+      "model": "stonedew:item/art/uv_pendant"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 103
+      },
+      "model": "stonedew:item/art/uv_panel_4"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 104
+      },
+      "model": "stonedew:item/art/uv_panel_6"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 105
+      },
+      "model": "stonedew:item/art/tent_1"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 106
+      },
+      "model": "stonedew:item/art/tent_2"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 107
+      },
+      "model": "stonedew:item/art/tent_3"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 108
+      },
+      "model": "stonedew:item/art/tent_4"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 109
+      },
+      "model": "stonedew:item/art/uv_twin"
+    }
+  ]
 }

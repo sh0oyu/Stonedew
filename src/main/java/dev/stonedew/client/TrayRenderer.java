@@ -101,7 +101,7 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
     for (int slot = 0; slot < tray.capacity(); slot++) {
       var plant = tray.view(slot);
       if (plant == null) continue;
-      String detail = distance > 24 * 24 ? "_lod" : "";
+      String detail = distance > 14 * 14 ? "_lod" : "";
       var model =
           Minecraft.getInstance()
               .getModelManager()
@@ -116,7 +116,7 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
                               + (plant.stage() >= 2 ? plant.budLoad() : 0)
                               + detail)));
       float offsetX = (slot % grid + .5F) / grid, offsetZ = (slot / grid + .5F) / grid;
-      float soil = grid == 1 ? 7.5F / 16 : 6.25F / 16;
+      float soil = grid == 1 ? 7.5F / 16 : 13.6F / 16;
       float grow = .93F + .07F * plant.progress() / 100F;
       float sx =
           (grid == 1 ? 1.0F : .62F)
@@ -161,9 +161,14 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
               }
               default -> 0xFFFFFF;
             };
-        float r = leaf ? .44F : ((color >> 16) & 255) / 255F;
-        float g = leaf ? .92F : ((color >> 8) & 255) / 255F;
-        float b = leaf ? .24F : (color & 255) / 255F;
+        float r = leaf ? .48F : ((color >> 16) & 255) / 255F;
+        float g = leaf ? 1.0F : ((color >> 8) & 255) / 255F;
+        float b = leaf ? .17F : (color & 255) / 255F;
+        if (quad.getTintIndex() == 1 || quad.getTintIndex() == 4) {
+          r = Math.min(1, r * 1.12F);
+          g = Math.min(1, g * 1.12F);
+          b = Math.min(1, b * 1.12F);
+        }
         float uv = 0;
         float diffuse = ModelLighting.diffuse(surface.nx(), surface.ny(), surface.nz(), rotation);
         for (int v = 0; v < 4; v++) {

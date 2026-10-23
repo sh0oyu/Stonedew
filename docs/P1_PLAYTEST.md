@@ -9,7 +9,7 @@ Use Minecraft Java 1.21.1 / NeoForge 21.1.264 with **only the P1 Stonedew JAR**.
 5. **Identity:** compare four seed colors. Try `genome show` and `genome set habit tall tall` on a targeted plant. Observe color/silhouette changes. This is persistent identity, not the later breeding system.
 6. **Save:** save/quit and reopen. Confirm stages, water, genomes, lamp fuel and directive. Break a planted tray in Survival: seed identity drops, while growth progress resets.
 7. **Ledger:** in a fresh world, plant, water and fuel a lamp. Follow the top-left directive and open the Ledger. It should progress to tending, then ripe inspection. Esc closes it.
-8. **Art/feel:** run `/stonedew debug demo` in clear loaded space. Inspect models from several angles and beyond 24 blocks. Compare directly with CODEX_REFERENCE_NEW. Plant several seeds from one stack; compare branch layouts, proportions and bud loads, then save/reload. Use `/stonedew debug appearance 42` to repeat an identity. Check the full tapered leaf-card canopy, stepped solid flowers, rebuilt tapered pots/bolted beds/UV fixtures and shared pixel materials, parchment HUD/Ledger, sway, pouring motion, clipping and your shader setup. Report screenshots and what feels wrong.
+8. **Art/feel:** run `/stonedew debug demo` in clear loaded space. Inspect models from several angles and beyond 14 blocks. Compare directly with CODEX_REFERENCE_NEW. Plant several seeds from one stack; compare branch layouts, proportions and bud loads, then save/reload. Use `/stonedew debug appearance 42` to repeat an identity. Check the full tapered leaflet canopy, offset solid flower bracts, rebuilt tapered pots/bolted beds/UV fixtures and shared pixel materials, parchment HUD/Ledger, sway, pouring motion, clipping and your shader setup. Report screenshots and what feels wrong.
 
 ## Still provisional / unimplemented
 
@@ -30,3 +30,15 @@ Use Minecraft Java 1.21.1 / NeoForge 21.1.264 with **only the P1 Stonedew JAR**.
 ## 0.2.4 shading revision validation
 
 60 Java tests and nine asset checks pass. Added directional-normal/rotation/occlusion tests and checks for shaded undersides and exposed pistil caps. Asset regeneration is byte-identical across 187 files. The client loads existing P1 plants and new artwork; F3+T retains mip level 4. Same-camera fueled lamp on/off captures demonstrate local UV spill and daylight attenuation. Corrected a ray origin that otherwise hits the fixture's own collision hull. Survival watering of the new canopy used one pour (8→7), water 34.6→64.3, without changing its saved seed/genome/stage/care. Current p1-shaded-*.png are actual Minecraft captures; studio views use an elevated camera and 45° FOV. Earlier screenshots document rejected/intermediate art. These checks do not establish aesthetic acceptance or the full hardware/shader/multiplayer performance target.
+
+
+## 0.2.5 reference rebuild checks
+
+- Compare actual `p1-rebuilt-*.png` captures with unchanged CODEX_REFERENCE_NEW. Inspect near leaf serrations/midribs/undersides, puffy flower seams/pistils, the taller bolted wood bed and blue-gray can from front/side/back.
+- Use `/stonedew debug art` in clear loaded space in a disposable world. Inspect all four pot, UV and tent tiers; all future-tier models must be clearly labeled art previews. Check reflective panels, fabric straps, hardware, ducts and controls without neighboring atlas textures appearing.
+- Verify the exhibit refuses an occupied volume and does not replace it. Preview entities carry `stonedew_art_preview`; the floor/backdrop are ordinary blocks.
+- Compare the same plant camera with the actual lamp fueled/empty. Tube cores, halo/shaft and colored plant/floor effects follow `lit`; atmosphere off hides decorative effects. Check the shaft stops at receiving geometry.
+- Water plants in both pot and raised bed, preserve the appearance identity through save/reopen, and inspect the fourteen-block detail transition. Higher geometry detail has not been benchmarked at 500 plants.
+- Aesthetic acceptance and full-scene shader effects remain separate from automated asset integrity/gameplay validation.
+
+0.2.5 verification: clean build/datagen, 60 JUnit tests and 11 asset checks pass. All 236 resource/report files reproduce byte-identically; the JAR's 231 asset files match current sources. Real-client captures cover both flower palettes, all stages, 5/9/13 saved loads, working props, the complete catalog and lit/empty UV. The gallery refuses its occupied volume; new labels/poses load without display decode errors. Raised-bed Survival watering consumes one pour and changes only the selected plant while preserving all appearance seeds. Resource reload retains the block atlas at mip level four. Cloud offline-auth/audio warnings remain unrelated to asset loading.

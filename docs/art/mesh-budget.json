@@ -5,8 +5,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 0,
@@ -14,8 +14,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": true,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 0,
@@ -23,8 +23,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 0,
@@ -32,8 +32,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": true,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 0,
@@ -41,8 +41,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 0,
@@ -50,8 +50,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": true,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 0,
@@ -59,8 +59,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 0,
@@ -68,8 +68,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": true,
-    "faces": 20,
-    "vertices": 80
+    "faces": 52,
+    "vertices": 208
   },
   {
     "stage": 1,
@@ -77,8 +77,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 228,
-    "vertices": 912
+    "faces": 2716,
+    "vertices": 10864
   },
   {
     "stage": 1,
@@ -95,8 +95,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 228,
-    "vertices": 912
+    "faces": 2716,
+    "vertices": 10864
   },
   {
     "stage": 1,
@@ -113,8 +113,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 228,
-    "vertices": 912
+    "faces": 2716,
+    "vertices": 10864
   },
   {
     "stage": 1,
@@ -131,8 +131,8 @@
     "budLoad": 0,
     "buds": 0,
     "lod": false,
-    "faces": 228,
-    "vertices": 912
+    "faces": 2716,
+    "vertices": 10864
   },
   {
     "stage": 1,
@@ -149,8 +149,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1116,
-    "vertices": 4464
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 2,
@@ -167,8 +167,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1734,
-    "vertices": 6936
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 2,
@@ -185,8 +185,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2376,
-    "vertices": 9504
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 2,
@@ -203,8 +203,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1098,
-    "vertices": 4392
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 2,
@@ -221,8 +221,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1732,
-    "vertices": 6928
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 2,
@@ -239,8 +239,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2362,
-    "vertices": 9448
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 2,
@@ -257,8 +257,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1088,
-    "vertices": 4352
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 2,
@@ -275,8 +275,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1734,
-    "vertices": 6936
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 2,
@@ -293,8 +293,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2348,
-    "vertices": 9392
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 2,
@@ -311,8 +311,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1092,
-    "vertices": 4368
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 2,
@@ -329,8 +329,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1732,
-    "vertices": 6928
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 2,
@@ -347,8 +347,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2348,
-    "vertices": 9392
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 2,
@@ -365,8 +365,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1116,
-    "vertices": 4464
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 3,
@@ -383,8 +383,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1734,
-    "vertices": 6936
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 3,
@@ -401,8 +401,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2376,
-    "vertices": 9504
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 3,
@@ -419,8 +419,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1098,
-    "vertices": 4392
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 3,
@@ -437,8 +437,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1732,
-    "vertices": 6928
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 3,
@@ -455,8 +455,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2362,
-    "vertices": 9448
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 3,
@@ -473,8 +473,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1088,
-    "vertices": 4352
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 3,
@@ -491,8 +491,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1734,
-    "vertices": 6936
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 3,
@@ -509,8 +509,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2348,
-    "vertices": 9392
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 3,
@@ -527,8 +527,8 @@
     "budLoad": 0,
     "buds": 5,
     "lod": false,
-    "faces": 1092,
-    "vertices": 4368
+    "faces": 10324,
+    "vertices": 40776
   },
   {
     "stage": 3,
@@ -545,8 +545,8 @@
     "budLoad": 1,
     "buds": 9,
     "lod": false,
-    "faces": 1732,
-    "vertices": 6928
+    "faces": 11812,
+    "vertices": 46312
   },
   {
     "stage": 3,
@@ -563,8 +563,8 @@
     "budLoad": 2,
     "buds": 13,
     "lod": false,
-    "faces": 2348,
-    "vertices": 9392
+    "faces": 13300,
+    "vertices": 51848
   },
   {
     "stage": 3,

@@ -1,0 +1,62 @@
+[
+  {
+    "model": "pot_fabric",
+    "customModelData": 100,
+    "faces": 326,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "pot_automated",
+    "customModelData": 101,
+    "faces": 720,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "uv_pendant",
+    "customModelData": 102,
+    "faces": 312,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "uv_panel_4",
+    "customModelData": 103,
+    "faces": 872,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "uv_panel_6",
+    "customModelData": 104,
+    "faces": 772,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "tent_1",
+    "customModelData": 105,
+    "faces": 1788,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "tent_2",
+    "customModelData": 106,
+    "faces": 2450,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "tent_3",
+    "customModelData": 107,
+    "faces": 2606,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "tent_4",
+    "customModelData": 108,
+    "faces": 2727,
+    "status": "Art preview; not functional automation"
+  },
+  {
+    "model": "uv_twin",
+    "customModelData": 109,
+    "faces": 1016,
+    "status": "Art preview; not functional automation"
+  }
+]

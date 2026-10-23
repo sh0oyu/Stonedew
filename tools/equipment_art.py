@@ -15,14 +15,42 @@ DISPLAY = {
 
 class Prop(Mesh):
     def face(self, material, vertices, normals=None, uv=None):
-        # Geometry below is authored in the familiar absolute 0..16 block coordinates.
-        if uv is None:
-            normal = unit(cross(add(vertices[1], mul(vertices[0], -1)), add(vertices[2], mul(vertices[0], -1))))
-            axis = max(range(3), key=lambda a: abs(normal[a]))
-            # Consistent 32 texels per block, including narrow rails, bolts and angled walls.
-            axes = (0,2) if axis == 1 else (2,1) if axis == 0 else (0,1)
-            uv = [(v[axes[0]]/16, 1-v[axes[1]]/16) for v in vertices]
-        super().face(material, [(x-8,y,z-8) for x,y,z in vertices], normals, uv)
+        # Minecraft sprites sit in an atlas: UVs outside [0,1] sample OTHER sprites.
+        # Clip projected polygons into 16-unit material tiles before assigning local UVs.
+        if uv is not None:
+            super().face(material,[(x-8,y,z-8) for x,y,z in vertices],normals,uv)
+            return
+        normal=unit(cross(add(vertices[1],mul(vertices[0],-1)),add(vertices[2],mul(vertices[0],-1))))
+        axis=max(range(3),key=lambda a:abs(normal[a]))
+        axes=(0,2) if axis==1 else (2,1) if axis==0 else (0,1)
+        polygon=[(*v,v[axes[0]]/16,1-v[axes[1]]/16) for v in vertices]
+        def clip(poly,component,bound,greater):
+            result=[]
+            for start,end in zip(poly,poly[1:]+poly[:1]):
+                a=start[component]-bound;b=end[component]-bound
+                ina=a>=-1e-9 if greater else a<=1e-9
+                inb=b>=-1e-9 if greater else b<=1e-9
+                if ina:result.append(start)
+                if ina!=inb:
+                    t=a/(a-b)
+                    result.append(tuple(x+(y-x)*t for x,y in zip(start,end)))
+            clean=[]
+            for point in result:
+                if not clean or any(abs(a-b)>1e-8 for a,b in zip(point,clean[-1])):clean.append(point)
+            if len(clean)>1 and all(abs(a-b)<1e-8 for a,b in zip(clean[0],clean[-1])):clean.pop()
+            return clean
+        for tu in range(math.floor(min(p[3] for p in polygon)+1e-8),math.ceil(max(p[3] for p in polygon)-1e-8)):
+            for tv in range(math.floor(min(p[4] for p in polygon)+1e-8),math.ceil(max(p[4] for p in polygon)-1e-8)):
+                part=polygon
+                for component,bound,greater in ((3,tu,True),(3,tu+1,False),(4,tv,True),(4,tv+1,False)):
+                    part=clip(part,component,bound,greater)
+                    if len(part)<3:break
+                if len(part)<3:continue
+                parts=[part] if len(part)<=4 else [[part[0],part[i],part[i+1]] for i in range(1,len(part)-1)]
+                for face in parts:
+                    positions=[(x-8,y,z-8) for x,y,z,_,_ in face]
+                    uvs=[(max(0,min(1,u-tu)),max(0,min(1,v-tv))) for _,_,_,u,v in face]
+                    super().face(material,positions,[normal]*len(face),uvs)
 
     def beam(self, a, b, width, material='iron'):
         # Rectangular slanted member, e.g. carry handle / hose / suspension brace.
@@ -50,14 +78,18 @@ class Prop(Mesh):
             self.face(material,list(reversed(rings[1])))
 
     def rim(self, y, outside, inside, thick, mat):
-        self.block((8-outside,y,8-outside),(8+outside,y+thick,8-inside),mat)
-        self.block((8-outside,y,8+inside),(8+outside,y+thick,8+outside),mat)
-        self.block((8-outside,y,8-inside),(8-inside,y+thick,8+inside),mat)
-        self.block((8+inside,y,8-inside),(8+outside,y+thick,8+inside),mat)
+        self.bevel((8-outside,y,8-outside),(8+outside,y+thick,8-inside),.10,mat)
+        self.bevel((8-outside,y,8+inside),(8+outside,y+thick,8+outside),.10,mat)
+        self.bevel((8-outside,y,8-inside),(8-inside,y+thick,8+inside),.10,mat)
+        self.bevel((8+inside,y,8-inside),(8+outside,y+thick,8+inside),.10,mat)
 
     def bolt(self,x,y,z,axis='z'):
-        if axis=='z': self.block((x-.20,y-.20,z-.1),(x+.20,y+.20,z+.1),'rivet')
-        else: self.block((x-.1,y-.20,z-.20),(x+.1,y+.20,z+.20),'rivet')
+        if axis=='z':
+            self.bevel((x-.31,y-.31,z-.12),(x+.31,y+.31,z+.12),.07,'rivet')
+            self.block((x-.06,y-.15,z-.135),(x+.06,y+.15,z+.135),'iron')
+        else:
+            self.bevel((x-.12,y-.31,z-.31),(x+.12,y+.31,z+.31),.07,'rivet')
+            self.block((x-.135,y-.15,z-.06),(x+.135,y+.15,z+.06),'iron')
 
     def link(self,x,y,z,turn=False):
         # Real open alternating chain links, not a string of solid cubes.
@@ -84,44 +116,50 @@ def pot(wet):
 
 def bed(wet):
     m=Prop()
-    m.block((1,.6,1),(15,1.2,15),'wood_dark')
-    m.block((1.3,5.7,1.3),(14.7,6.25,14.7),'soil_wet' if wet else 'soil')
-    # Three individual rails on all four faces, with inset dark seams.
-    for y in (1.1,2.8,4.5):
-        for lo,hi in [((.4,y,.4),(15.6,y+1.55,1.4)),((.4,y,14.6),(15.6,y+1.55,15.6)),((.4,y,1.4),(1.4,y+1.55,14.6)),((14.6,y,1.4),(15.6,y+1.55,14.6))]: m.block(lo,hi,'wood')
-    for x in (.1,14.4):
-        for z in (.1,14.4):
-            m.block((x,0,z),(x+1.5,7.2,z+1.5),'iron')
-            m.block((x-.15,.15,z-.15),(x+1.65,.9,z+1.65),'iron_light')
-            m.block((x-.2,6.3,z-.2),(x+1.7,7.4,z+1.7),'iron_light')
-            for y in (1.4,5.8):
-                m.bolt(x+.75,y,z-.11 if z<8 else z+1.61)
-                m.bolt(x-.11 if x<8 else x+1.61,y,z+.75,'x')
+    m.bevel((.6,.65,.6),(15.4,2.1,15.4),.16,'wood_dark','wood')
+    m.block((1.4,12.8,1.4),(14.6,13.6,14.6),'soil_wet' if wet else 'soil')
+    # Full-height chest silhouette, broad inset planks and substantial steel corner posts.
+    for y in (2.15,5.65,9.15):
+        for lo,hi in [((.4,y,.4),(15.6,y+3.35,1.45)),((.4,y,14.55),(15.6,y+3.35,15.6)),((.4,y,1.45),(1.45,y+3.35,14.55)),((14.55,y,1.45),(15.6,y+3.35,14.55))]:
+            m.bevel(lo,hi,.13,'wood','wood_light')
+    for lo,hi in [((.4,12.65,.4),(15.6,14.1,1.5)),((.4,12.65,14.5),(15.6,14.1,15.6)),((.4,12.65,1.5),(1.5,14.1,14.5)),((14.5,12.65,1.5),(15.6,14.1,14.5))]:m.bevel(lo,hi,.12,'wood','wood_light')
+    for x in (.0,14.15):
+        for z in (.0,14.15):
+            m.bevel((x,.0,z),(x+1.85,14.4,z+1.85),.14,'iron','iron_light')
+            m.bevel((x-.12,.1,z-.12),(x+1.97,1.2,z+1.97),.18,'iron','iron_light')
+            m.bevel((x-.15,13.0,z-.15),(x+2,14.7,z+2),.16,'iron_light','rivet_dark')
+            for y in (2.25,13.6):
+                m.bolt(x+.925,y,z-.19 if z<8 else z+2.04)
+                m.bolt(x-.19 if x<8 else x+2.04,y,z+.925,'x')
     return m
 
 
 def lamp(lit):
-    m=Prop()
-    # UV2 reference: inset twin tubes, raised driver, reinforced end housings.
-    m.block((1,5,4.7),(15,6.6,11.3),'iron')
-    m.block((1,4.5,4.4),(15,5.25,5.15),'iron_light')
-    m.block((1,4.5,10.85),(15,5.25,11.6),'iron_light')
-    for x in (1,13.5):
-        m.block((x,4,4.1),(x+1.5,7.2,11.9),'iron')
-        m.block((x+.15,4.15,4),(x+1.35,7.05,4.25),'iron_light')
-        m.block((x+.15,4.15,11.75),(x+1.35,7.05,12),'iron_light')
-        for z in (4,12):
-            for y in (4.6,6.6):m.bolt(x+.75,y,z)
-    for z in (6,8.8):
-        m.block((2.5,4.35,z),(13.5,4.8,z+1.25),'glass')
-        m.block((2.9,4.1,z+.2),(13.1,4.4,z+1.05),'emission' if lit else 'glass')
-        for x in (2.5,12.9):m.block((x,4.05,z-.1),(x+.6,4.9,z+1.35),'iron_light')
-    m.block((5.8,6.6,6.5),(10.2,8.1,9.5),'iron')
-    m.block((6.9,6.95,6.35),(9.1,7.6,6.5),'emission' if lit else 'glass')
-    for x in (3,13):
+    m=Prop();glow='emission' if lit else 'glass'
+    # Open twin-bar chassis. Light tubes are genuinely recessed below the metal frame.
+    for z in (4.2,10.65):m.bevel((.8,5,z),(15.2,6.5,z+1.15),.14,'iron','iron_light')
+    for x in (.8,13.7):
+        m.bevel((x,4.4,3.9),(x+1.5,7.35,12.1),.18,'iron','iron_light')
+        for z in (3.72,11.95):
+            m.bevel((x-.12,4.45,z),(x+1.62,7.3,z+.32),.09,'iron_light','rivet_dark')
+            m.block((x+.30,5.15,z-.025),(x+1.2,6.55,z+.345),'glass')
+            m.block((x+.48,5.4,z-.04),(x+1.02,6.30,z+.36),glow)
+    for z in (6,8.7):
+        m.bevel((2.35,4.4,z-.15),(13.65,5.35,z+1.45),.11,'iron_light')
+        m.bevel((2.75,4.15,z+.05),(13.25,4.7,z+1.25),.10,'glass')
+        m.bevel((3.05,4.05,z+.25),(12.95,4.35,z+1.05),.07,glow)
+        m.block((3.2,4.015,z+.49),(12.8,4.06,z+.81),'emission_core' if lit else 'glass')
+        for x in (2.45,12.95):m.bevel((x,4.05,z-.15),(x+.60,5.1,z+1.45),.09,'iron','iron_light')
+    m.bevel((5.6,6.1,6.45),(10.4,8.2,9.55),.18,'iron','iron_light')
+    m.bevel((6.5,6.7,6.25),(9.5,7.8,6.5),.08,'iron_light')
+    m.block((7,6.97,6.20),(9,7.55,6.26),glow)
+    for x in (6.0,6.8,7.6,8.4,9.2):m.block((x,8.18,6.85),(x+.3,8.42,9.15),'iron_light')
+    for x in (2.8,13.2):
+        m.bevel((x-.65,6.5,7.35),(x+.65,7.2,8.65),.12,'iron_light')
         for i in range(7):m.link(x,7+i*1.25,8,i%2==1)
-    # Finned ballast on top reads even with the fixture viewed from above.
-    for x in (6.1,6.8,7.5,8.2,8.9,9.6): m.block((x,8.1,6.8),(x+.25,8.35,9.2),'iron_light')
+    # Small externally visible cable and connector, not a floating ballast box.
+    m.beam((10.2,7.3,8),(11.5,7.3,8),.28,'iron')
+    m.beam((11.5,7.3,8),(11.5,6.2,10.8),.28,'iron')
     return m
 
 
@@ -132,7 +170,7 @@ def cell():
     m.taper(4,6,2.0,2.25,'emission')
     m.taper(6,10.8,2.25,1.8,'emission')
     m.taper(10.8,12,1.8,2.6,'iron_light')
-    m.block((5.4,12,5.4),(10.6,13.3,10.6),'iron')
+    m.bevel((5.4,12,5.4),(10.6,13.3,10.6),.24,'iron','iron_light')
     for x in (5.15,10.2):
         for z in (5.15,10.2):m.block((x,3.7,z),(x+.65,12,z+.65),'iron')
     for y in (5.2,8.5):m.block((5.7,y,5.65),(10.3,y+.35,5.85),'glass')
@@ -142,45 +180,50 @@ def cell():
 
 def watering_can():
     m=Prop()
-    # Chamfered reservoir and real open arched carry handle, segmented rising spout.
-    m.taper(1.5,2.3,2.6,3.15,'iron_light',cx=8,cz=8.5)
-    m.taper(2.3,8.4,3.15,2.95,'teal',cx=8,cz=8.5)
-    m.taper(8.4,9.2,2.95,2.45,'teal',cx=8,cz=8.5)
-    m.block((6.5,9.1,7),(9.5,9.5,10),'iron')
-    m.block((7,9.45,7.5),(9,9.55,9.5),'soil_wet')
-    for a,b in [((6,6,11.5),(6,11,13)),((6,11,13),(10,11,13)),((10,11,13),(10,6,11.5))]:m.beam(a,b,.8,'iron_light')
-    for a,b,w in [((5.2,3.9,8.5),(2.5,6.6,8.5),1.25),((2.5,6.6,8.5),(1,9.1,8.5),1.05)]:m.beam(a,b,w,'teal')
-    m.block((.1,8.7,6.9),(1.45,9.5,10.1),'iron_light')
-    for z in (7.3,8.2,9.1):m.block((.05,9.1,z),(.18,9.35,z+.3),'iron')
-    for y in (3.1,7.5):
-        m.block((4.8,y,7.5),(5,y+.25,9.5),'iron_light')
-    m.block((7,4.3,5.29),(9,6.2,5.42),'iron_light')
-    m.block((7.5,4.8,5.2),(8.5,5.8,5.35),'teal')
+    # Blue-gray cast vessel, chamfered corners, raised rolled seams and open metal handle.
+    m.bevel((4.6,1.3,5.1),(11.4,2.15,11.9),.23,'iron','iron_light')
+    m.bevel((4.8,2.05,5.3),(11.2,8.6,11.7),.60,'teal','can_edge')
+    m.bevel((4.7,8.15,5.2),(11.3,8.85,11.8),.25,'can_edge','rivet_dark')
+    m.bevel((5.2,8.75,5.7),(10.8,9.15,11.3),.35,'teal','can_edge')
+    m.bevel((6.6,9.1,7),(9.4,9.5,10.2),.24,'iron_light')
+    m.block((7.0,9.48,7.4),(9.0,9.51,9.8),'soil_wet')
+    # The carry handle is an open arch above the reservoir, with riveted mountings.
+    for a,b in [((6,7.8,11.7),(6,11.8,12.8)),((6,11.8,12.8),(10,11.8,12.8)),((10,11.8,12.8),(10,7.8,11.7))]:m.beam(a,b,.72,'can_edge')
+    for x in (6,10):m.bevel((x-.52,7.15,11.55),(x+.52,8.4,12.0),.10,'iron_light')
+    # Tapered three-piece neck and a flared chamfered rose with nine inset holes.
+    for a,b,w in [((5.0,3.4,8.4),(3.1,5.7,8.4),1.40),((3.1,5.7,8.4),(1.4,8.5,8.4),1.13)]:m.beam(a,b,w,'teal')
+    m.bevel((.05,8.25,6.9),(1.85,9.3,9.9),.22,'can_edge','iron_light')
+    for x in (.38,.85,1.32):
+        for z in (7.3,8.2,9.1):m.block((x-.10,9.29,z-.10),(x+.10,9.33,z+.10),'iron')
+    # Front pressed panel with an actual recessed border and pale corner fasteners.
+    m.bevel((6.25,3.35,5.22),(9.75,6.8,5.44),.11,'can_edge')
+    m.bevel((6.65,3.75,5.14),(9.35,6.4,5.25),.08,'teal')
+    for x in (5.55,10.45):m.bolt(x,7.6,5.24)
     return m
 
 
 def packet():
     m=Prop()
-    m.block((4,1.5,7.4),(12,13,8.6),'paper')
-    m.block((4.25,12.7,7.1),(11.75,13.4,8.85),'paper_dark')
-    m.block((4.35,2,7.15),(11.65,2.55,7.4),'iron')
-    m.block((4.35,10.8,7.15),(11.65,11.35,7.4),'iron')
-    # Actual colored flower emblem and green leaf rays, rather than a rectangle badge.
-    for a,b in [((8,4.3,7.03),(8,9.5,7.03)),((8,6,7.03),(5.8,8.4,7.03)),((8,6,7.03),(10.2,8.4,7.03)),((8,5.3,7.03),(5.8,6.6,7.03)),((8,5.3,7.03),(10.2,6.6,7.03))]:m.beam(a,b,.38,'leaf')
-    m.block((7.35,8,6.8),(8.65,9.45,7.1),'seed_bud')
-    m.block((7.6,9.45,6.85),(8.4,10.05,7.1),'seed_bud')
+    m.bevel((4,1.5,7.4),(12,13,8.6),.12,'paper','paper_dark')
+    m.bevel((4.05,12.7,7.2),(11.95,13.4,8.8),.12,'paper_dark','paper')
+    m.face('packet_front',[(4.12,1.65,7.28),(4.12,12.9,7.28),(11.88,12.9,7.28),(11.88,1.65,7.28)],uv=[(1,1),(1,0),(0,0),(0,1)])
+    # Embossed cultivar seal keeps the genome's actual pigment on the packet.
+    m.bevel((9.3,3.4,7.05),(10.8,4.8,7.3),.10,'seed_bud')
+    m.face('paper_dark',[(4.2,11.6,8.62),(11.8,11.6,8.62),(8,9.3,8.67)])
     return m
 
 
 def ledger():
     m=Prop()
     # A bound field ledger in a low timber stand, replacing the anonymous cube terminal.
-    m.block((1.5,0,3),(14.5,1.2,13),'iron')
+    m.bevel((1.5,0,3),(14.5,1.2,13),.18,'iron','iron_light')
     for x in (2,12):m.block((x,1,4),(x+2,4.5,12),'wood_dark')
     m.taper(3.7,4.3,6.2,6.5,'wood',cz=8)
-    m.block((2,4.25,3),(14,4.7,13),'iron')
-    m.block((2.5,4.7,3.4),(7.8,5.35,12.6),'paper')
-    m.block((8.2,4.7,3.4),(13.5,5.35,12.6),'paper')
+    m.bevel((2,4.25,3),(14,4.7,13),.12,'iron','iron_light')
+    m.bevel((2.5,4.7,3.4),(7.8,5.35,12.6),.10,'paper','paper_dark')
+    m.bevel((8.2,4.7,3.4),(13.5,5.35,12.6),.10,'paper','paper_dark')
+    for x in (2.52,13.42):
+        for y in (4.84,5.02,5.20):m.block((x,y,3.65),(x+.06,y+.04,12.35),'paper_dark')
     m.block((7.8,4.65,3.3),(8.2,5.05,12.7),'paper_dark')
     for x in (3.1,8.8):
         for i in range(5):m.block((x,5.35,5+i*1.1),(x+3.8-(i%3)*.5,5.39,5.15+i*1.1),'ink')
@@ -193,12 +236,29 @@ def ledger():
     return m
 
 
+
+def emission_pass(mesh, directory, name, library, binding):
+    """Native composite separates luminous surfaces from item diffuse lighting."""
+    glow=Mesh();glow.faces=[face for face in mesh.faces if 'emission' in face[0]]
+    if not glow.faces:return binding
+    glow.write(directory/f'{name}_emission.obj',library)
+    body=Mesh();body.faces=[face for face in mesh.faces if 'emission' not in face[0]]
+    body.write(directory/f'{name}_body.obj',library)
+    base={key:value for key,value in binding.items() if key in ('loader','model','automatic_culling','shade_quads','emissive_ambient','textures')}
+    base['render_type']='minecraft:cutout'
+    base['model']=binding['model'].removesuffix('.obj')+'_body.obj'
+    light=dict(base,model=binding['model'].removesuffix('.obj')+'_emission.obj',render_type='stonedew:emissive')
+    result={key:value for key,value in binding.items() if key not in base}
+    result['textures']=binding['textures']
+    result.update(loader='neoforge:composite',children={'body':base,'light':light},item_render_order=['body','light'])
+    return result
+
 def generate(root):
     directory=root/'models/block/equipment';directory.mkdir(parents=True,exist_ok=True)
     mtl=[]
-    specs=[('wood','wood',(1,1,1)),('wood_dark','wood',(.58,.56,.60)),('ceramic','ceramic',(1,1,1)),('ceramic_light','ceramic_rim',(1,1,1)),('ceramic_dark','ceramic_inner',(1,1,1)),('iron','iron',(1,1,1)),('iron_light','iron_light',(1,1,1)),('rivet','copper',(1,1,1)),('teal','teal',(1,1,1)),('glass','glass',(.6,.55,.68)),('soil','soil',(1,1,1)),('soil_wet','soil_wet',(1,1,1)),('paper','paper',(1,1,1)),('paper_dark','paper',(.65,.61,.61)),('ink','iron',(.6,.6,.6)),('leaf','plant_leaf',(1,1,1)),('seed_bud','plant_bud',(1,1,1)),('emission','glow',(1,1,1))]
+    specs=[('packet_front','seed_packet',(1,1,1)),('wood','wood',(1,1,1)),('wood_dark','wood',(.58,.56,.60)),('wood_light','wood',(1.13,1.10,1.02)),('rivet_dark','iron_light',(.86,.83,.89)),('can_edge','teal',(1.25,1.20,1.16)),('ceramic','ceramic',(1,1,1)),('ceramic_light','ceramic_rim',(1,1,1)),('ceramic_dark','ceramic_inner',(1,1,1)),('iron','iron',(1,1,1)),('iron_light','iron_light',(1,1,1)),('rivet','copper',(1,1,1)),('teal','teal',(1,1,1)),('glass','glass',(.6,.55,.68)),('soil','soil',(1,1,1)),('soil_wet','soil_wet',(1,1,1)),('paper','paper',(1,1,1)),('paper_dark','paper',(.65,.61,.61)),('ink','iron',(.6,.6,.6)),('leaf','plant_leaf',(1,1,1)),('seed_bud','plant_bud',(1,1,1)),('emission','glow',(1,1,1)),('emission_core','glow_core',(1,1,1))]
     for name,texture,color in specs:
-        mtl += [f'newmtl {name}','Kd '+' '.join(map(str,color)),f'map_Kd stonedew:block/{texture}', 'Ka 1 1 1' if name=='emission' else 'Ka 0 0 0']
+        mtl += [f'newmtl {name}','Kd '+' '.join(map(str,color)),f'map_Kd stonedew:block/{texture}', 'Ka 1 1 1' if name.startswith('emission') else 'Ka 0 0 0']
         if name=='seed_bud': mtl.append('neoforge_TintIndex 0')
         mtl.append('')
     (directory/'equipment.mtl').write_text('\n'.join(mtl))
@@ -220,6 +280,7 @@ def generate(root):
               'model':f'stonedew:models/block/equipment/{name}.obj','automatic_culling':False,
               'shade_quads':True,'emissive_ambient':True,'textures':{'particle':f'stonedew:block/{particle}'},'display':display}
         path=root/('models/item' if item else 'models/block')/f'{name}.json'
+        data=emission_pass(mesh,directory,name,'equipment.mtl',data)
         path.write_text(json.dumps(data,indent=2)+'\n')
         report.append(dict(model=name,faces=len(mesh.faces)))
     return report

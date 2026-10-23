@@ -11,6 +11,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 public final class StonedewClient {
   public StonedewClient(ModContainer container, net.neoforged.bus.api.IEventBus bus) {
     bus.addListener(ClientRegistration::models);
+    bus.addListener(ClientRegistration::renderTypes);
     bus.addListener(ClientRegistration::renderers);
     bus.addListener(ClientRegistration::screens);
     bus.addListener(ClientRegistration::colors);

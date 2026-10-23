@@ -1,3 +1,8 @@
+newmtl packet_front
+Kd 1 1 1
+map_Kd stonedew:block/seed_packet
+Ka 0 0 0
+
 newmtl wood
 Kd 1 1 1
 map_Kd stonedew:block/wood
@@ -6,6 +11,21 @@ Ka 0 0 0
 newmtl wood_dark
 Kd 0.58 0.56 0.6
 map_Kd stonedew:block/wood
+Ka 0 0 0
+
+newmtl wood_light
+Kd 1.13 1.1 1.02
+map_Kd stonedew:block/wood
+Ka 0 0 0
+
+newmtl rivet_dark
+Kd 0.86 0.83 0.89
+map_Kd stonedew:block/iron_light
+Ka 0 0 0
+
+newmtl can_edge
+Kd 1.25 1.2 1.16
+map_Kd stonedew:block/teal
 Ka 0 0 0
 
 newmtl ceramic
@@ -87,4 +107,9 @@ neoforge_TintIndex 0
 newmtl emission
 Kd 1 1 1
 map_Kd stonedew:block/glow
+Ka 1 1 1
+
+newmtl emission_core
+Kd 1 1 1
+map_Kd stonedew:block/glow_core
 Ka 1 1 1

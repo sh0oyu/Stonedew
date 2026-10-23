@@ -1,5 +1,19 @@
 # Changelog
 
+
+## 0.2.5-p1 — reference geometry, baked shading and complete art catalog — 2026-10-23
+
+Rebuilds the rejected 0.2.4 presentation against CODEX_REFERENCE_NEW and the supplied grow-room reference. Art acceptance remains with the owner; automated checks do not certify a 1:1 match.
+
+- Individually serrated, folded 2D leaflets replace near alpha fans. Rounded seedling cotyledons, a more open young plant, five mature whorls, a crown and restrained inner/branch collars distinguish the stages. Offset chamfered flower bracts replace aligned voxel towers. Saved four-layout / 5,9,13-flower identities and proportional variation remain.
+- Rebuilt working equipment: full-height reinforced wood bed, broad boards, posts/feet, slotted bolts; beveled pot lip; open-chassis twin UV fixture with lens cores, windows, driver/fins/cable/chains; blue-gray can with rolled seams, open handle and nine-hole rose; printed/folded seed envelope, bound Ledger and caged cell. The bed's soil, collision and foliage-target bounds move together.
+- Material-specific painted pixel ramps/marks, original seed-envelope illustration and shared UI materials. Atlas-safe polygon tiling prevents large panels sampling neighboring sprites. Thin chamfers clamp to their actual thickness instead of generating degenerate surfaces.
+- Blender ray-bakes spatial ambient occlusion into native OBJ vertex colors. Lit reference previews bake ray-tested violet reflections. Native composite item passes keep tubes/indicators emissive instead of dimming them with ordinary item lighting. Working lamps retain fuel-dependent block light, local colored plant light, floor spill/halo and a depth-bounded shaft controlled by atmosphere/intensity settings. Floor projection continues past partial trays, preventing a hard square gap around pots.
+- All four pot, all four UV and all four tent designs are inspectable via `/stonedew debug art`. The checked gallery uses labeled display entities; advanced tiers are art previews, without future automation gameplay. Tent art includes reflective lining, seams, flaps/straps, frame fittings, fan grilles, ribbed ducts, service cables and the final controller.
+- Indexed resources, bounded detail (13,300/64 measured plant faces, 14,000/100 limits; working equipment maximum 1,337), fourteen-block distant transition, staged asset generation and source-hash bake caching. Normal builds use checked-in assets; art authoring requires Python 3 and Blender 4.x.
+
+Validation: clean Java 21/NeoForge build and datagen pass; **60 JUnit tests** and **11 asset checks** pass. **236 resource/report files regenerate byte-identically**. Raised-bed Survival watering consumes one pour (8→7), changes only the selected plant (water 0→~29.97) and preserves all appearance identities. Final client captures and fuel/reload checks are recorded in the art/playtest notes. Full scene shadow maps/HDR bloom, shader-pack compatibility, the 500-plant target and broad hardware/multiplayer validation remain outstanding. Gameplay remains P1; automation still waits for the P3 Fun Gate.
+
 ## 0.2.4-p1 — broader foliage, authored materials and shaded lighting — 2026-10-22
 
 The owner rejected 0.2.3 as unlike the reference shapes/textures and missing convincing shading. This revision replaces that presentation and fixes the renderer's equal-brightness flower faces and forced-up leaf normals. CODEX_REFERENCE_NEW remains the target; aesthetic approval is not implied by validation.

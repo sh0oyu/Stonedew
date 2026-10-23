@@ -38,6 +38,7 @@ public final class LampRenderer implements BlockEntityRenderer<BulbLampBlockEnti
     if (!lamp.getBlockState().getValue(BulbLampBlock.LIT) || !StonedewConfig.ATMOSPHERE.get())
       return;
     LampSpill.render(lamp.getLevel(), lamp.getBlockPos(), pose, buffers);
+    LampBeam.render(lamp.getLevel(), lamp.getBlockPos(), pose, buffers);
     pose.pushPose();
     pose.translate(0.5, 0.27, 0.5);
     pose.mulPose(Minecraft.getInstance().gameRenderer.getMainCamera().rotation());

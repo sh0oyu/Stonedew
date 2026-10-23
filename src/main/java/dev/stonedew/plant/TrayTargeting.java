@@ -61,10 +61,10 @@ public final class TrayTargeting {
         var bounds =
             new AABB(
                 centerX - radius,
-                pos.getY() + 0.35,
+                pos.getY() + (grid == 1 ? 0.35 : 0.80),
                 centerZ - radius,
                 centerX + radius,
-                pos.getY() + 0.5 + height,
+                pos.getY() + (grid == 1 ? 0.5 : 0.86) + height,
                 centerZ + radius);
         var hit = bounds.clip(eye, end);
         if (hit.isPresent() && eye.distanceToSqr(hit.get()) < closest) {

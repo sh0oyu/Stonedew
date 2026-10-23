@@ -1,0 +1,11 @@
+{
+  "credit": "Original Stonedew reference catalog. Art preview; no future gameplay implied.",
+  "loader": "neoforge:obj",
+  "model": "stonedew:models/block/catalog/pot_fabric.obj",
+  "automatic_culling": false,
+  "shade_quads": true,
+  "emissive_ambient": true,
+  "textures": {
+    "particle": "stonedew:block/iron"
+  }
+}

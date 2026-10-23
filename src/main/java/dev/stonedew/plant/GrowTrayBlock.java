@@ -58,7 +58,7 @@ public final class GrowTrayBlock extends BaseEntityBlock {
   @Override
   protected VoxelShape getShape(
       BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-    return slots == 1 ? Block.box(3, 0, 3, 13, 9, 13) : Block.box(0, 0, 0, 16, 8, 16);
+    return slots == 1 ? Block.box(3, 0, 3, 13, 9, 13) : Block.box(0, 0, 0, 16, 14.7, 16);
   }
 
   @Override

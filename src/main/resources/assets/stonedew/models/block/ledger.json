@@ -1,13 +1,5 @@
 {
   "credit": "Original Stonedew reference-led equipment; tools/equipment_art.py",
-  "loader": "neoforge:obj",
-  "model": "stonedew:models/block/equipment/ledger.obj",
-  "automatic_culling": false,
-  "shade_quads": true,
-  "emissive_ambient": true,
-  "textures": {
-    "particle": "stonedew:block/wood"
-  },
   "display": {
     "gui": {
       "rotation": [
@@ -101,5 +93,37 @@
         0.5
       ]
     }
-  }
+  },
+  "textures": {
+    "particle": "stonedew:block/wood"
+  },
+  "loader": "neoforge:composite",
+  "children": {
+    "body": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/equipment/ledger_body.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/wood"
+      },
+      "render_type": "minecraft:cutout"
+    },
+    "light": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/equipment/ledger_emission.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/wood"
+      },
+      "render_type": "stonedew:emissive"
+    }
+  },
+  "item_render_order": [
+    "body",
+    "light"
+  ]
 }

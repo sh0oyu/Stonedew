@@ -1,13 +1,5 @@
 {
   "credit": "Original Stonedew reference-led equipment; tools/equipment_art.py",
-  "loader": "neoforge:obj",
-  "model": "stonedew:models/block/equipment/bulb_lamp_lit.obj",
-  "automatic_culling": false,
-  "shade_quads": true,
-  "emissive_ambient": true,
-  "textures": {
-    "particle": "stonedew:block/iron"
-  },
   "display": {
     "gui": {
       "rotation": [
@@ -101,5 +93,37 @@
         0.5
       ]
     }
-  }
+  },
+  "textures": {
+    "particle": "stonedew:block/iron"
+  },
+  "loader": "neoforge:composite",
+  "children": {
+    "body": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/equipment/bulb_lamp_lit_body.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/iron"
+      },
+      "render_type": "minecraft:cutout"
+    },
+    "light": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/equipment/bulb_lamp_lit_emission.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/iron"
+      },
+      "render_type": "stonedew:emissive"
+    }
+  },
+  "item_render_order": [
+    "body",
+    "light"
+  ]
 }

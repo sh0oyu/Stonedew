@@ -61,3 +61,12 @@ Appearance is independent of genetics: server-random identity per planting; save
 ## Visual rendering correction — 0.2.4
 
 Owner rejected 0.2.3 as unlike the references, with ugly textures and insufficient shading/lighting. Remove the active imagegen atlas path and archive its originals unchanged; author controlled silhouettes/material ramps directly. Give leaf tops and undersides actual geometric normals. The BER must apply directional and canopy shading rather than supplying equal brightness to every flower face. Use cultivar-derived bract highlights and exposed pistils. UV bounce must depend on actual fueled fixtures, loaded chunks and obstruction checks; contact shadows must sit on actual soil. These local effects do not claim a full world shadow-map pipeline. Review real close-up and gameplay captures against CODEX_REFERENCE_NEW; tests do not establish art approval.
+
+
+## Reference geometry, baked shading and complete art catalog — 0.2.5
+
+The owner rejected 0.2.4 and asked for substantially closer reference fidelity across all models. Replace close alpha fans with individually outlined flat serrated leaflets, and aligned flower grids with offset chamfered bracts. Keep cheap alpha geometry at distance and preserve saved identities. Rebuild every current prop; the taller wood bed requires matching soil height, collision and targeting changes.
+
+Bake actual spatial ambient occlusion through Blender BVH rays into NeoForge OBJ vertex colors, preserving emission. Blender is an authoring dependency only. Keep indexed geometry and bounded near/distant budgets; the increased detail has an explicit performance cost and is not a completed 500-plant benchmark. Atlas UVs must stay inside each sprite; clip large panels into material tiles to prevent neighboring-texture sampling. Stage generated resources and fail on any bake error before installing results.
+
+Author all referenced pot, lamp and tent tiers now as inspectable art. `/stonedew debug art` creates labeled vanilla display previews in a checked empty loaded volume. It does not register fake functional automation, consume the P3 Fun Gate or change the gameplay phase. Clearly label those limits in the gallery and docs. Do not claim vanilla local effects reproduce a promotional render's full scene shadows/HDR bloom; publish actual in-game evidence.

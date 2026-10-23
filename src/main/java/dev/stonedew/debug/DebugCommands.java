@@ -313,7 +313,8 @@ public final class DebugCommands {
                                           false);
                                   return 1;
                                 })))
-            .then(Commands.literal("demo").executes(DebugShowcase::create));
+            .then(Commands.literal("demo").executes(DebugShowcase::create))
+            .then(Commands.literal("art").executes(ArtGallery::create));
     debug.then(
         Commands.literal("room").then(Commands.literal("info").executes(DebugCommands::deferred)));
     debug.then(

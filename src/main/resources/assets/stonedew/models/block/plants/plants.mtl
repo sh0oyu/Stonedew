@@ -4,14 +4,29 @@ Kd 1 1 1
 map_Kd stonedew:block/plant_stem
 neoforge_TintIndex -1
 
-newmtl leaf
+newmtl leaf_lod
 Kd 1 1 1
 map_Kd stonedew:block/leaf_fan
 neoforge_TintIndex 3
 
+newmtl leaf
+Kd 1 1 1
+map_Kd stonedew:block/leaf_surface
+neoforge_TintIndex 3
+
+newmtl leaf_shade
+Kd 0.78 0.86 0.74
+map_Kd stonedew:block/leaf_surface
+neoforge_TintIndex 3
+
 newmtl leaf_old
-Kd 0.83 0.92 0.86
-map_Kd stonedew:block/leaf_fan
+Kd 0.9 0.99 0.82
+map_Kd stonedew:block/leaf_surface
+neoforge_TintIndex 3
+
+newmtl leaf_old_shade
+Kd 0.72 0.84 0.6
+map_Kd stonedew:block/leaf_surface
 neoforge_TintIndex 3
 
 newmtl bud

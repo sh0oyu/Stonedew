@@ -62,11 +62,12 @@ final class LampSpill {
           var state = level.getBlockState(pos);
           var shape = state.getCollisionShape(level, pos);
           if (shape.isEmpty()) continue;
-          // Partial objects are shaded by the plant pass; project only onto actual full receiving
-          // floors.
-          if (shape.max(net.minecraft.core.Direction.Axis.Y) >= .99)
+          // Continue past partial trays to their receiving floor. The depth buffer hides
+          // covered pixels; skipping the entire cell would leave a hard square hole around a pot.
+          if (shape.max(net.minecraft.core.Direction.Axis.Y) >= .99) {
             result.add(new Patch(x, -down + 1.006F, z, .55F * (1 - down * .10F)));
-          break;
+            break;
+          }
         }
     return List.copyOf(result);
   }
