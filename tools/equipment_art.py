@@ -4,6 +4,7 @@ Original authored geometry. References in CODEX_REFERENCE_NEW are preserved unch
 import json
 import math
 from plant_art import Mesh, unit, cross, add, mul
+from material_atlas import sprite
 
 DISPLAY = {
     'gui': {'rotation': [25, 225, 0], 'translation': [0, 1, 0], 'scale': [.8]*3},
@@ -12,6 +13,14 @@ DISPLAY = {
     'firstperson_righthand': {'rotation': [0, 45, 0], 'translation': [0, 1.5, 0], 'scale': [.7]*3},
     'firstperson_lefthand': {'rotation': [0, -45, 0], 'translation': [0, 1.5, 0], 'scale': [.7]*3},
     'thirdperson_righthand': {'rotation': [75, 45, 0], 'translation': [0, 2.5, 0], 'scale': [.5]*3}}
+
+def fixture_bloom(mesh, vertices, radial=False):
+    # Additive eyes blending ignores alpha: radiance falls to BLACK at the border.
+    material='emission_aura' if radial else 'emission_halo'
+    uv=[(0,0),(0,1),(1,1),(1,0)]
+    mesh.face(material,vertices,uv=uv)
+    mesh.face(material,list(reversed(vertices)),uv=list(reversed(uv)))
+
 
 class Prop(Mesh):
     def face(self, material, vertices, normals=None, uv=None):
@@ -134,7 +143,7 @@ def bed(wet):
     return m
 
 
-def lamp(lit):
+def lamp(lit, preview=False):
     m=Prop();glow='emission' if lit else 'glass'
     # Open twin-bar chassis. Light tubes are genuinely recessed below the metal frame.
     for z in (4.2,10.65):m.bevel((.8,5,z),(15.2,6.5,z+1.15),.14,'iron','iron_light')
@@ -149,6 +158,7 @@ def lamp(lit):
         m.bevel((2.75,4.15,z+.05),(13.25,4.7,z+1.25),.10,'glass')
         m.bevel((3.05,4.05,z+.25),(12.95,4.35,z+1.05),.07,glow)
         m.block((3.2,4.015,z+.49),(12.8,4.06,z+.81),'emission_core' if lit else 'glass')
+        if preview and lit:fixture_bloom(m,[(1.5,3.99,z-1.3),(1.5,3.99,z+2.6),(14.5,3.99,z+2.6),(14.5,3.99,z-1.3)])
         for x in (2.45,12.95):m.bevel((x,4.05,z-.15),(x+.60,5.1,z+1.45),.09,'iron','iron_light')
     m.bevel((5.6,6.1,6.45),(10.4,8.2,9.55),.18,'iron','iron_light')
     m.bevel((6.5,6.7,6.25),(9.5,7.8,6.5),.08,'iron_light')
@@ -181,24 +191,33 @@ def cell():
 def watering_can():
     m=Prop()
     # Blue-gray cast vessel, chamfered corners, raised rolled seams and open metal handle.
-    m.bevel((4.6,1.3,5.1),(11.4,2.15,11.9),.23,'iron','iron_light')
-    m.bevel((4.8,2.05,5.3),(11.2,8.6,11.7),.60,'teal','can_edge')
-    m.bevel((4.7,8.15,5.2),(11.3,8.85,11.8),.25,'can_edge','rivet_dark')
-    m.bevel((5.2,8.75,5.7),(10.8,9.15,11.3),.35,'teal','can_edge')
-    m.bevel((6.6,9.1,7),(9.4,9.5,10.2),.24,'iron_light')
-    m.block((7.0,9.48,7.4),(9.0,9.51,9.8),'soil_wet')
+    m.bevel((6.2,1.3,4.9),(14.2,2.15,12.1),.23,'iron','iron_light')
+    m.bevel((6.4,2.05,5.1),(14.0,8.6,11.9),.75,'teal','can_edge')
+    m.bevel((6.3,8.15,5),(14.1,8.85,12),.25,'can_edge','rivet_dark')
+    m.bevel((6.8,8.75,5.5),(13.6,9.15,11.5),.35,'teal','can_edge')
+    m.bevel((8.4,9.1,7),(11.6,9.5,10.2),.24,'iron_light')
+    m.block((8.8,9.48,7.4),(11.2,9.51,9.8),'soil_wet')
     # The carry handle is an open arch above the reservoir, with riveted mountings.
-    for a,b in [((6,7.8,11.7),(6,11.8,12.8)),((6,11.8,12.8),(10,11.8,12.8)),((10,11.8,12.8),(10,7.8,11.7))]:m.beam(a,b,.72,'can_edge')
-    for x in (6,10):m.bevel((x-.52,7.15,11.55),(x+.52,8.4,12.0),.10,'iron_light')
+    for a,b in [((8,7.8,11.7),(8,12.5,12.8)),((8,12.5,12.8),(12,12.5,12.8)),((12,12.5,12.8),(12,7.8,11.7))]:m.beam(a,b,.72,'can_edge')
+    for x in (8,12):m.bevel((x-.52,7.15,11.55),(x+.52,8.4,12.0),.10,'iron_light')
     # Tapered three-piece neck and a flared chamfered rose with nine inset holes.
-    for a,b,w in [((5.0,3.4,8.4),(3.1,5.7,8.4),1.40),((3.1,5.7,8.4),(1.4,8.5,8.4),1.13)]:m.beam(a,b,w,'teal')
-    m.bevel((.05,8.25,6.9),(1.85,9.3,9.9),.22,'can_edge','iron_light')
-    for x in (.38,.85,1.32):
-        for z in (7.3,8.2,9.1):m.block((x-.10,9.29,z-.10),(x+.10,9.33,z+.10),'iron')
+    for a,b,w in [((6.6,3.4,8.4),(4.0,6.1,8.4),1.50),((4.0,6.1,8.4),(1.45,9.5,8.4),1.10)]:m.beam(a,b,w,'teal')
+    first=len(m.faces)
+    m.bevel((.35,9.25,6.8),(2.55,10.15,10),.22,'can_edge','iron_light')
+    for x in (.85,1.45,2.05):
+        for z in (7.3,8.4,9.5):m.block((x-.11,10.14,z-.11),(x+.11,10.19,z+.11),'iron')
+    # The flared rose follows the sloping neck instead of sitting flat like a lid.
+    c=math.cos(.55);s=math.sin(.55);cx=1.45-8;cy=9.7
+    for f in range(first,len(m.faces)):
+        mat,vertices,normals,uv=m.faces[f]
+        def tilt(v,normal=False):
+            x,y,z=v if normal else (v[0]-cx,v[1]-cy,v[2])
+            return (x*c-y*s,y*c+x*s,z) if normal else (cx+x*c-y*s,cy+y*c+x*s,z)
+        m.faces[f]=(mat,[tilt(v) for v in vertices],[tilt(v,True) for v in normals],uv)
     # Front pressed panel with an actual recessed border and pale corner fasteners.
-    m.bevel((6.25,3.35,5.22),(9.75,6.8,5.44),.11,'can_edge')
-    m.bevel((6.65,3.75,5.14),(9.35,6.4,5.25),.08,'teal')
-    for x in (5.55,10.45):m.bolt(x,7.6,5.24)
+    m.bevel((7.85,3.35,5.02),(12.55,6.8,5.24),.11,'can_edge')
+    m.bevel((8.25,3.75,4.94),(12.15,6.4,5.05),.08,'teal')
+    for x in (7.15,13.25):m.bolt(x,7.6,5.04)
     return m
 
 
@@ -257,8 +276,10 @@ def generate(root):
     directory=root/'models/block/equipment';directory.mkdir(parents=True,exist_ok=True)
     mtl=[]
     specs=[('packet_front','seed_packet',(1,1,1)),('wood','wood',(1,1,1)),('wood_dark','wood',(.58,.56,.60)),('wood_light','wood',(1.13,1.10,1.02)),('rivet_dark','iron_light',(.86,.83,.89)),('can_edge','teal',(1.25,1.20,1.16)),('ceramic','ceramic',(1,1,1)),('ceramic_light','ceramic_rim',(1,1,1)),('ceramic_dark','ceramic_inner',(1,1,1)),('iron','iron',(1,1,1)),('iron_light','iron_light',(1,1,1)),('rivet','copper',(1,1,1)),('teal','teal',(1,1,1)),('glass','glass',(.6,.55,.68)),('soil','soil',(1,1,1)),('soil_wet','soil_wet',(1,1,1)),('paper','paper',(1,1,1)),('paper_dark','paper',(.65,.61,.61)),('ink','iron',(.6,.6,.6)),('leaf','plant_leaf',(1,1,1)),('seed_bud','plant_bud',(1,1,1)),('emission','glow',(1,1,1)),('emission_core','glow_core',(1,1,1))]
+    specs += [('emission_halo','fixture_halo',(1,1,1)),('emission_aura','fixture_aura',(1,1,1))]
     for name,texture,color in specs:
-        mtl += [f'newmtl {name}','Kd '+' '.join(map(str,color)),f'map_Kd stonedew:block/{texture}', 'Ka 1 1 1' if name.startswith('emission') else 'Ka 0 0 0']
+        if name=='emission':color=(.75,.35,1)
+        mtl += [f'newmtl {name}','Kd '+' '.join(map(str,color)),f'map_Kd {sprite(texture)}', 'Ka 1 1 1' if name.startswith('emission') else 'Ka 0 0 0']
         if name=='seed_bud': mtl.append('neoforge_TintIndex 0')
         mtl.append('')
     (directory/'equipment.mtl').write_text('\n'.join(mtl))

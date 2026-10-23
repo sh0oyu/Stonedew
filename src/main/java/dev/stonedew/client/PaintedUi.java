@@ -5,15 +5,33 @@ import dev.stonedew.Stonedew;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-/** Shared painted wood, copper and parchment used by the HUD and Ledger. */
+/** Shared painted wood, hardware and parchment used by the HUD and Ledger. */
 public final class PaintedUi {
-  private static final ResourceLocation MATERIALS = Stonedew.id("textures/gui/materials.png");
+  private static final ResourceLocation MATERIALS = Stonedew.id("textures/art/materials_v6.png");
   private static final ResourceLocation LEAF = Stonedew.id("textures/block/leaf_emblem.png");
 
   public static void material(GuiGraphics graphics, int cell, int x, int y, int width, int height) {
-    // UV coordinate units are normalized to the 4x4 sheet, independent of source resolution.
+    int tile =
+        switch (cell) {
+          case 0 -> 2;
+          case 4 -> 9;
+          case 8 -> 12;
+          default -> cell;
+        };
+    // The same inset material windows as the equipment; the source painting is unchanged.
     graphics.blit(
-        MATERIALS, x, y, width, height, cell % 4 * 100F + 2, cell / 4 * 100F + 2, 96, 96, 400, 400);
+        MATERIALS,
+        x,
+        y,
+        width,
+        height,
+        tile % 4 * 100F + 9.25F,
+        tile / 4 * 100F + 9.25F,
+        82,
+        82,
+        400,
+        400);
+    if (cell == 0) graphics.fill(x, y, x + width, y + height, 0x40352119);
   }
 
   public static void panel(GuiGraphics graphics, int x, int y, int width, int height) {
@@ -21,6 +39,8 @@ public final class PaintedUi {
     material(graphics, 0, x, y, width, height);
     material(graphics, 4, x + 2, y + 2, width - 4, height - 4);
     material(graphics, 8, x + 3, y + 3, width - 6, height - 6);
+    // Keep the painted parchment quiet enough for the small HUD type.
+    graphics.fill(x + 3, y + 3, x + width - 3, y + height - 3, 0xD0E8D3AD);
   }
 
   public static void leaf(GuiGraphics graphics, int x, int y, int size) {

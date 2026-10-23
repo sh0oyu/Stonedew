@@ -3,7 +3,6 @@ package dev.stonedew.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.stonedew.Stonedew;
-import dev.stonedew.art.ModelLighting;
 import dev.stonedew.plant.GrowTrayBlockEntity;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -78,6 +77,48 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
           .setNormal(pose.last(), 0, 1, 0);
   }
 
+  private static void foliageShadow(
+      PoseStack pose,
+      MultiBufferSource buffers,
+      dev.stonedew.plant.PlantView plant,
+      float offsetX,
+      float offsetZ,
+      int grid,
+      float spread,
+      float cos,
+      float sin,
+      int light) {
+    var vertices =
+        buffers.getBuffer(
+            RenderType.entityTranslucent(
+                Stonedew.id(
+                    "textures/effect/plant_shadow_"
+                        + plant.stage()
+                        + "_"
+                        + plant.shape()
+                        + "_"
+                        + (plant.stage() >= 2 ? plant.budLoad() : 0)
+                        + ".png")));
+    float lo = grid == 1 ? 3.75F / 16 : 1.4F / 16;
+    float hi = grid == 1 ? 12.25F / 16 : 14.6F / 16;
+    float radius = grid == 1 ? .5F : .25F;
+    float x0 = Math.max(-radius, lo - offsetX), x1 = Math.min(radius, hi - offsetX);
+    float z0 = Math.max(-radius, lo - offsetZ), z1 = Math.min(radius, hi - offsetZ);
+    float[][] corners = {{x0, z1}, {x1, z1}, {x1, z0}, {x0, z0}};
+    for (var corner : corners) {
+      float x = corner[0], z = corner[1];
+      vertices
+          .addVertex(pose.last(), x, .015F, z)
+          .setColor(255, 255, 255, 200)
+          .setUv(
+              .5F + (x * cos - z * sin) / spread * (2F / 3),
+              .5F + (x * sin + z * cos) / spread * (2F / 3))
+          .setOverlay(net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY)
+          .setLight(light)
+          .setNormal(pose.last(), 0, 1, 0);
+    }
+  }
+
   @Override
   public void render(
       GrowTrayBlockEntity tray,
@@ -135,6 +176,7 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
       pose.pushPose();
       pose.translate(offsetX, soil, offsetZ);
       contact(pose, buffers, grid == 1 ? (plant.stage() == 0 ? .13F : .23F) : .13F, levels[1]);
+      foliageShadow(pose, buffers, plant, offsetX, offsetZ, grid, sx, cos, sin, levels[1]);
       float sway =
           (float) Math.sin((level.getGameTime() + partial) * .025 + plant.rotation()) * .8F;
       pose.mulPose(Axis.ZP.rotationDegrees(sway));
@@ -170,11 +212,11 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
           b = Math.min(1, b * 1.12F);
         }
         float uv = 0;
-        float diffuse = ModelLighting.diffuse(surface.nx(), surface.ny(), surface.nz(), rotation);
         for (int v = 0; v < 4; v++) {
           float x = surface.x()[v], y = surface.y()[v], z = surface.z()[v];
-          float radius = (float) Math.sqrt(x * x + z * z);
-          brightness[v] = diffuse * ModelLighting.canopy(y, radius, leaf);
+          // The entity shader already lights the transformed geometric normal.
+          // Keep baked occlusion, without applying a second diffuse-light pass.
+          brightness[v] = 1;
           lighting[v] = levels[Math.clamp((int) (soil + y * sy + .25F), 1, 3)];
           uv +=
               GrowLightCache.strength(

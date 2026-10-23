@@ -1,0 +1,124 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:unstitch",
+      "resource": "stonedew:art/materials_v6",
+      "divisor_x": 1254,
+      "divisor_y": 1254,
+      "regions": [
+        {
+          "sprite": "stonedew:block/painted/ceramic",
+          "x": 29,
+          "y": 29,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/ceramic_rim",
+          "x": 342,
+          "y": 29,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/wood",
+          "x": 656,
+          "y": 29,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/wood_edge",
+          "x": 969,
+          "y": 29,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/iron",
+          "x": 29,
+          "y": 342,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/iron_light",
+          "x": 342,
+          "y": 342,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/fabric",
+          "x": 656,
+          "y": 342,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/lining",
+          "x": 969,
+          "y": 342,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/teal",
+          "x": 29,
+          "y": 656,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/copper",
+          "x": 342,
+          "y": 656,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/soil",
+          "x": 656,
+          "y": 656,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/soil_wet",
+          "x": 969,
+          "y": 656,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/paper",
+          "x": 29,
+          "y": 969,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/glass",
+          "x": 342,
+          "y": 969,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/cyan",
+          "x": 656,
+          "y": 969,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/painted/recess",
+          "x": 969,
+          "y": 969,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    }
+  ]
+}

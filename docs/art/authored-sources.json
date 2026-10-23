@@ -1,11 +1,21 @@
 [
   {
+    "path": "src/main/resources/assets/stonedew/textures/art/materials_v6.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "7ae435cf19f8343e7f79baebd15b7675962c086d771c7acc56146e6dacaa6461",
+    "source": "docs/art/sources/materials-v6.png",
+    "creation": "Original reference-guided material painting, unchanged source; native UV swatches"
+  },
+  {
     "path": "src/main/resources/assets/stonedew/textures/block/bud.png",
     "dimensions": [
       32,
       32
     ],
-    "sha256": "0a8bdcf2ecc3acc819b20fa713ed620652328a61e60f15697f1d4c8800057a6c",
+    "sha256": "4c98c110f9d7a501e274e6c9d625c7fc95d6f5825d4a6da739cfe3b263d3f93e",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -66,6 +76,26 @@
       32
     ],
     "sha256": "02901c31260dcba1660ee1bc6bad9cf141aa3deff40336267fb61247f7294362",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/fixture_aura.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "58221fad0a811a7c0c0afa2754b23f1e89eafc93a2f411658344c5e0efc6c66f",
+    "source": "tools/stylized_textures.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/block/fixture_halo.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "5cd267e310e18521c4fa5fa043da2d65090b4b201035aca333d110626107cbc3",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -175,7 +205,7 @@
       32,
       32
     ],
-    "sha256": "28cd76cd35f18602ac8309cbbf28a66ede6c47d9f6be9fd702fb85c2341649d3",
+    "sha256": "a140fa593a1cdf6db326d0c55f21dc23ed2d793c79676b340b27a8afd739a752",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -205,7 +235,7 @@
       32,
       32
     ],
-    "sha256": "2bf85de19f4d7a2cfc1b68c8f2baae879667b6d7dc9817729f798ba8cbf08071",
+    "sha256": "71c0f1e4e1a2c8ec67053d691c9485bd662f8bac92b225a644e6ca3d658f832f",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -330,6 +360,326 @@
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
   {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_0_0_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "4838c08d45e7d6ea689c0b62464d9ce4bf71d630f28233a23dadb38d5fe33125",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_0_1_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "f3e4cc52a5e1740c5a9be73f8d4d76d5b41c18790c467fe53287d81d536c7b80",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_0_2_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "e860ccec3859b5cab6b97e0ae6f353bd67e0a9ced35f1ee465ed3fee99297cf5",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_0_3_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "fae16f6f04831e10348aab796388d6cf43f3059f49a0d844a96029ba4a242ab7",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_1_0_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "20cbe87baaf010f1881fac3d123e5c2dd972b95ce860d355f64abe8f58e85ee3",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_1_1_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "e311ae1f415da1c923d8f7dae5b582614c378b97d08158eaa703456087f0540b",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_1_2_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "c786608ed2dd4becbf2fc9598ecad88d926c40c9063b520093d32233e3fb1b79",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_1_3_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "48313187b6b8cb5774b1f6ab5a42b0b775bed6512c25c3fe7b29962253fc9d70",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_0_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "6435a0af2aa33f5d2b8ca32863c453b4dd196eeb7a54a7f4d3eafcd6ea003179",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_0_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "6435a0af2aa33f5d2b8ca32863c453b4dd196eeb7a54a7f4d3eafcd6ea003179",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_0_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "6435a0af2aa33f5d2b8ca32863c453b4dd196eeb7a54a7f4d3eafcd6ea003179",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_1_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "5133c33834c10d7362612e2be3b379c6fcf582b48ab080a06ec683dfb481dd5f",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_1_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "5133c33834c10d7362612e2be3b379c6fcf582b48ab080a06ec683dfb481dd5f",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_1_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "5133c33834c10d7362612e2be3b379c6fcf582b48ab080a06ec683dfb481dd5f",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_2_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "7d2c7e4f679364d6692b7694d577c97875a2277e95d04d32bd896251eb59564e",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_2_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "7d2c7e4f679364d6692b7694d577c97875a2277e95d04d32bd896251eb59564e",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_2_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "7d2c7e4f679364d6692b7694d577c97875a2277e95d04d32bd896251eb59564e",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_3_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "c274ac0b6a4c2d015d1f78ee1624a165b0ce16a7de80177986a584e387e7e98c",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_3_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "c274ac0b6a4c2d015d1f78ee1624a165b0ce16a7de80177986a584e387e7e98c",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_2_3_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "c274ac0b6a4c2d015d1f78ee1624a165b0ce16a7de80177986a584e387e7e98c",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_0_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "f3fa672dd6289afb80bac768273d53415410c5f6080c27beb2891fb2a217303c",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_0_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "3d680fd5e3f9f851ad594702b8815632facbe9916c3fe718822fa1efc9ab9732",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_0_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "84d531a8727c76edcdd9277a154bd7b75dd3e27649e5ce19822680df0ed38385",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_1_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "1a19293802bb17cab09509ddf7c00b6cf1d3c740185d0e1ddc381b39b2adc2cb",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_1_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "26d31803255dc2d2f1b785c93a1bbffc7d8b073646e932c9018fcb5d269599a6",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_1_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "26d31803255dc2d2f1b785c93a1bbffc7d8b073646e932c9018fcb5d269599a6",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_2_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "4c8fd153536a557cfcf088dc4e394309a5bd25d0fa40a8b2b857b83988dce376",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_2_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "c1e5dd5bdc5f9706f5b023973d9ceca48acf65712fbb176acc9e89ded631f4c6",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_2_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "69f7435e632934ad2b2b15f7d19f8cb0bfb794143fc54c9c11aa9f3186b36866",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_3_0.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "74686cbf5e4107fd0a2ff814a998137dbc99d8645cebc6af39cd43f5691c1ce9",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_3_1.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "fdb7c185a43a91482411d76a201fe34bb8ca1c74e8c679b7d80c359b14dffa61",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/effect/plant_shadow_3_3_2.png",
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "ef3269f57fcfdc9bdf50270c15ced721b4fc29dd391a967f94bac681b6f9e96c",
+    "source": "tools/plant_art.py",
+    "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
+  },
+  {
     "path": "src/main/resources/assets/stonedew/textures/effect/uv_beam.png",
     "dimensions": [
       64,
@@ -345,7 +695,7 @@
       128,
       128
     ],
-    "sha256": "36eb210979672778c96e82a4318b1edac0ed040e51e6ba5767ed3f8b3bbc95f6",
+    "sha256": "dc4bf412e9ee4e36a095c4df82dc5a2071cd225c959694908bc5c67e2f4f1f11",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   }

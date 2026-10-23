@@ -1,6 +1,20 @@
 # Changelog
 
 
+## 0.2.6-p1 — leaf forms, painted materials and local radiance — 2026-10-23
+
+Revises the owner-rejected 0.2.5 art. This is an art review candidate, without a claimed 1:1 recreation or aesthetic approval.
+
+- Broad square-stepped flat leaflets, fuller upper whorls, differently inclined branch/interior fans and a thicker stem replace the drooping narrow canopy. Stepped seedling leaves and leafy young/middle stages follow the reference progression; irregular exposed-voxel bract clusters replace tall cylinder/box tiers at maturity. Saved layouts, proportions, rotation and 5/9/13 mature flower loads remain intact.
+- A new original reference-guided material painting supplies equipment/UI surfaces. The original is preserved and packaged unchanged. Minecraft's native atlas loader exposes sixteen distinct inset 256px swatches; no vanilla sprite overrides, custom Java importer or global mip reduction. Large-panel UV clipping remains.
+- Longer watering-can neck, tilted nine-hole rose, broad gathered tent flaps, reflective floors, corrected fan/control side and automated-pot fasteners. Every current equipment/catalog model uses revised material bindings. Advanced tiers remain labeled art previews.
+- Removed duplicate CPU diffuse shading that dulled the entity shader's lighting. Baked canopy self-shadows supplement spatial AO; original mesh rasterization supplies foliage-shaped soil shadows. Bract facets have stronger painted value variation and a more saturated violet pigment.
+- Lit catalog frames/lining receive stronger ray-tested violet reflections. Separate additive emission passes preserve pale cores and local glow. RGB falloff maps prevent rectangular halos with ONE/ONE blending, and glow planes do not occlude baking. Actual lamps retain fuel/atmosphere-gated halo, spill and shaft. UI parchment is subdued behind small text.
+- Plant detail measures **12,250 / 64 faces** near/distant, within the existing 14,000/100 ceiling. Equipment maximum remains 1,337; catalog maximum is 2,775. This is not a 500-plant performance result.
+
+Validation: clean Java 21 / NeoForge build, datagen with zero changed data outputs, **57 JUnit tests** and **11 asset checks** pass. Removed three tests for the deleted duplicate-lighting helper; gameplay coverage remains. All **267 packaged asset files** match source; **271 resource/report files** regenerate byte-identically. Actual client checks cover loading/reload at mip level 4, stages/load variants, equipment/catalog, Survival watering (0→30 water; 8→7 pours), fuel consumption (8→7 cells; 24,000 ticks of fuel), local lamp on/off and save/reopen with appearance seed 3, genome, stage and can water component intact. Captures are unedited Minecraft output; no shader pack, multiplayer, audio mix or broad hardware benchmark is claimed. Full scene-render identity remains outstanding.
+
+
 ## 0.2.5-p1 — reference geometry, baked shading and complete art catalog — 2026-10-23
 
 Rebuilds the rejected 0.2.4 presentation against CODEX_REFERENCE_NEW and the supplied grow-room reference. Art acceptance remains with the owner; automated checks do not certify a 1:1 match.

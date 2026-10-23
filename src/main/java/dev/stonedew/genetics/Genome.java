@@ -67,7 +67,7 @@ public record Genome(String schema, long lineageSeed, Map<String, Alleles> genes
     return switch (pigment()) {
       case "teal" -> 0x4FE8E0;
       case "amber" -> 0xFFC247;
-      case "violet" -> 0xA46CDE;
+      case "violet" -> 0xB642FF;
       default -> 0x98B847;
     };
   }

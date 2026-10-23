@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 
-/** Shader-free soft halo using the existing vanilla emissive translucent material. */
+/** Fuel-gated local radiance using Minecraft's unlit additive material. */
 public final class LampRenderer implements BlockEntityRenderer<BulbLampBlockEntity> {
   public LampRenderer(BlockEntityRendererProvider.Context context) {}
 
@@ -43,33 +43,33 @@ public final class LampRenderer implements BlockEntityRenderer<BulbLampBlockEnti
     pose.translate(0.5, 0.27, 0.5);
     pose.mulPose(Minecraft.getInstance().gameRenderer.getMainCamera().rotation());
     var vertices =
-        buffers.getBuffer(
-            RenderType.entityTranslucentEmissive(Stonedew.id("textures/effect/lamp_halo.png")));
+        buffers.getBuffer(RenderType.eyes(Stonedew.id("textures/block/fixture_aura.png")));
     var frame = pose.last();
+    int radiance = (int) (255 * Math.min(1, StonedewConfig.VISUAL_INTENSITY.get() * 1.5));
     vertices
         .addVertex(frame, -0.65F, -0.45F, 0)
-        .setColor(255, 255, 255, 115)
+        .setColor(radiance, radiance, radiance, 255)
         .setUv(0, 1)
         .setOverlay(OverlayTexture.NO_OVERLAY)
         .setLight(LightTexture.FULL_BRIGHT)
         .setNormal(frame, 0, 0, 1);
     vertices
         .addVertex(frame, 0.65F, -0.45F, 0)
-        .setColor(255, 255, 255, 115)
+        .setColor(radiance, radiance, radiance, 255)
         .setUv(1, 1)
         .setOverlay(OverlayTexture.NO_OVERLAY)
         .setLight(LightTexture.FULL_BRIGHT)
         .setNormal(frame, 0, 0, 1);
     vertices
         .addVertex(frame, 0.65F, 0.45F, 0)
-        .setColor(255, 255, 255, 115)
+        .setColor(radiance, radiance, radiance, 255)
         .setUv(1, 0)
         .setOverlay(OverlayTexture.NO_OVERLAY)
         .setLight(LightTexture.FULL_BRIGHT)
         .setNormal(frame, 0, 0, 1);
     vertices
         .addVertex(frame, -0.65F, 0.45F, 0)
-        .setColor(255, 255, 255, 115)
+        .setColor(radiance, radiance, radiance, 255)
         .setUv(0, 0)
         .setOverlay(OverlayTexture.NO_OVERLAY)
         .setLight(LightTexture.FULL_BRIGHT)

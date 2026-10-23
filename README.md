@@ -4,7 +4,7 @@ A Minecraft Java **1.21.1 / NeoForge 21.1.264** mod about a cozy underground cul
 
 **Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes one-slot pots, four-slot beds, persistent genome identity, a plant HUD and a working Ledger directive screen. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
 
-[**Download stonedew-0.2.5-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.5-p1.jar)
+[**Download stonedew-0.2.6-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.6-p1.jar)
 
 ## Install
 
@@ -39,15 +39,16 @@ See the [eight-step playtest and remaining placeholders](docs/P1_PLAYTEST.md). D
 
 ## Art direction
 
-The unchanged **CODEX_REFERENCE_NEW** sheets and supplied grow-room image remain the visual target. This rebuild uses individually serrated flat leaflets, offset solid flower bracts, modeled bevels, painted material detail and ray-baked vertex ambient occlusion. Every working equipment model has been revised; the bed now has a full-height reinforced timber body and the can is blue-gray cast metal. Fueled UV lights have pale tube cores, local colored light, floor spill and a subtle shaft.
+The unchanged **CODEX_REFERENCE_NEW** sheets and supplied grow-room image remain the target. The owner rejected 0.2.5; the current **0.2.6 art revision is still subject to visual review**. Plants now use broad, stepped flat leaf fans, a fuller upper canopy and irregular voxel flower bracts. Seedling, young, leafy and flowering stages follow the reference progression. A new original material painting supplies terracotta, timber, metal, fabric/lining, soil and tool surfaces across the equipment catalog.
 
+Baked leaf-to-leaf shadows, spatial occlusion and foliage-shaped soil shadows supply depth. A duplicate diffuse-light pass has been removed. UV fixtures have pale cores, violet radiance and local reflections; actual lamp effects remain fuel-dependent.
 Four saved branch layouts, three mature flower loads (5/9/13) and persistent size/rotation variation remain. Bud loads remain visual until P3 harvesting.
 
 `/stonedew debug art` builds a checked, labeled reference-art gallery in clear loaded space. It includes all four pot, all four UV and all four tent designs. Future-tier models are **display previews**, without automation gameplay. Working P1 equipment remains in the Creative tab.
 
-![Actual rebuilt plant in Minecraft](docs/screenshots/p1-rebuilt-violet.png)
+![Actual rebuilt plant in Minecraft](docs/screenshots/p1-revision-violet.png)
 
-[Green/orange plant](docs/screenshots/p1-rebuilt-kush.png) · [Reference catalog](docs/screenshots/p1-rebuilt-catalog.png) · [Equipment](docs/screenshots/p1-rebuilt-equipment.png) · [Rendering/source notes](docs/art/ART_DIRECTION.md)
+[Green/orange plant](docs/screenshots/p1-revision-kush.png) · [Reference catalog](docs/screenshots/p1-revision-catalog.png) · [Equipment](docs/screenshots/p1-revision-equipment.png) · [Rendering/source notes](docs/art/ART_DIRECTION.md)
 
 These are actual game captures. Baked/local shading is included; the promotional image's full scene shadows and HDR bloom require a compatible shader renderer/pack. No shader pack is bundled or claimed tested. See [asset sources/status](ASSETS.md).
 
@@ -59,7 +60,7 @@ Install a **Java 21 JDK**. Ordinary builds use the checked-in assets. Regenerati
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
-./gradlew build       # build/libs/stonedew-0.2.5-p1.jar
+./gradlew build       # build/libs/stonedew-0.2.6-p1.jar
 ./gradlew runClient
 ```
 

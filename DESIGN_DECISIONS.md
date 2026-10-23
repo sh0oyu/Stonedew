@@ -70,3 +70,12 @@ The owner rejected 0.2.4 and asked for substantially closer reference fidelity a
 Bake actual spatial ambient occlusion through Blender BVH rays into NeoForge OBJ vertex colors, preserving emission. Blender is an authoring dependency only. Keep indexed geometry and bounded near/distant budgets; the increased detail has an explicit performance cost and is not a completed 500-plant benchmark. Atlas UVs must stay inside each sprite; clip large panels into material tiles to prevent neighboring-texture sampling. Stage generated resources and fail on any bake error before installing results.
 
 Author all referenced pot, lamp and tent tiers now as inspectable art. `/stonedew debug art` creates labeled vanilla display previews in a checked empty loaded volume. It does not register fake functional automation, consume the P3 Fun Gate or change the gameplay phase. Clearly label those limits in the gallery and docs. Do not claim vanilla local effects reproduce a promotional render's full scene shadows/HDR bloom; publish actual in-game evidence.
+
+
+## Reference art revision — 0.2.6
+
+The owner rejected 0.2.5. Use broader stepped flat fans and a fuller upper canopy, an irregular exposed-voxel bract cluster rather than large cylinder/box tiers, and the reference's leafy-to-flowering stage progression. Preserve saved identities and mature 5/9/13 bud loads.
+
+Create a new original reference-guided material painting with imagegen; preserve and package it unchanged. Bind distinct inset 256px swatches through Minecraft's native unstitch source, without a custom importer, reference-image extraction, vanilla sprite overrides or reduced global mip levels. Equipment and UI share the painting. Keep procedural foliage/effect art separate.
+
+Remove duplicate CPU diffuse shading: the vanilla entity shader already lights normals. Bake spatial AO plus authored leaf-to-leaf shadows, and rasterize original mesh silhouettes for clipped soil shadows. Catalog fixture glow stores radiance in RGB with black borders for additive blending; exclude those planes from occlusion and working chunk models. Actual lamp effects remain fuel-gated. Publish actual game captures, with no claim that tests establish reference identity or a full scene-render match. Automation remains behind the P3 Fun Gate.

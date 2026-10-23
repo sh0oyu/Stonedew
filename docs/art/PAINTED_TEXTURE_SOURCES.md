@@ -1,5 +1,7 @@
-# Historical source archive
+# Painted sources
 
-The imagegen fan and 4×4 material sheet used in 0.2.3 were rejected by the owner. They are preserved unchanged under `archive/0.2.3`; hashes, dimensions and original creation method remain in `painted-sources.json`. These files are not current art references, runtime textures or packaged mod resources.
+The current **new** original material painting is `sources/materials-v6.png`. See [its provenance](sources/README.md) and [current bindings/rendering notes](ART_DIRECTION.md). It is packaged unchanged and exposed through native atlas UV windows; its dimensions/hash are in `authored-sources.json`.
 
-Active original pixel art now comes from `tools/stylized_textures.py`: authored silhouettes, serrations, crease tones, palettes and controlled material marks. Generated outputs and their integrity hashes are listed in `authored-sources.json`. See ART_DIRECTION.md for current source bindings, shading and review requirements. CODEX_REFERENCE_NEW remains the owner's visual target.
+The fan and material sheet used in 0.2.3 were rejected. They remain unchanged under `archive/0.2.3`; their original hashes, dimensions and creation method remain in `painted-sources.json`. They are not current art references or runtime assets.
+
+Foliage silhouettes, seed printing, material masks and local effects come from original authoring code. The owner's CODEX_REFERENCE_NEW uploads are unchanged visual targets, not textures extracted for the mod.

@@ -5,92 +5,92 @@ Ka 0 0 0
 
 newmtl wood
 Kd 1 1 1
-map_Kd stonedew:block/wood
+map_Kd stonedew:block/painted/wood
 Ka 0 0 0
 
 newmtl wood_dark
 Kd 0.58 0.56 0.6
-map_Kd stonedew:block/wood
+map_Kd stonedew:block/painted/wood
 Ka 0 0 0
 
 newmtl wood_light
 Kd 1.13 1.1 1.02
-map_Kd stonedew:block/wood
+map_Kd stonedew:block/painted/wood
 Ka 0 0 0
 
 newmtl rivet_dark
 Kd 0.86 0.83 0.89
-map_Kd stonedew:block/iron_light
+map_Kd stonedew:block/painted/iron_light
 Ka 0 0 0
 
 newmtl can_edge
 Kd 1.25 1.2 1.16
-map_Kd stonedew:block/teal
+map_Kd stonedew:block/painted/teal
 Ka 0 0 0
 
 newmtl ceramic
 Kd 1 1 1
-map_Kd stonedew:block/ceramic
+map_Kd stonedew:block/painted/ceramic
 Ka 0 0 0
 
 newmtl ceramic_light
 Kd 1 1 1
-map_Kd stonedew:block/ceramic_rim
+map_Kd stonedew:block/painted/ceramic_rim
 Ka 0 0 0
 
 newmtl ceramic_dark
 Kd 1 1 1
-map_Kd stonedew:block/ceramic_inner
+map_Kd stonedew:block/painted/ceramic
 Ka 0 0 0
 
 newmtl iron
 Kd 1 1 1
-map_Kd stonedew:block/iron
+map_Kd stonedew:block/painted/iron
 Ka 0 0 0
 
 newmtl iron_light
 Kd 1 1 1
-map_Kd stonedew:block/iron_light
+map_Kd stonedew:block/painted/iron_light
 Ka 0 0 0
 
 newmtl rivet
 Kd 1 1 1
-map_Kd stonedew:block/copper
+map_Kd stonedew:block/painted/copper
 Ka 0 0 0
 
 newmtl teal
 Kd 1 1 1
-map_Kd stonedew:block/teal
+map_Kd stonedew:block/painted/teal
 Ka 0 0 0
 
 newmtl glass
 Kd 0.6 0.55 0.68
-map_Kd stonedew:block/glass
+map_Kd stonedew:block/painted/glass
 Ka 0 0 0
 
 newmtl soil
 Kd 1 1 1
-map_Kd stonedew:block/soil
+map_Kd stonedew:block/painted/soil
 Ka 0 0 0
 
 newmtl soil_wet
 Kd 1 1 1
-map_Kd stonedew:block/soil_wet
+map_Kd stonedew:block/painted/soil_wet
 Ka 0 0 0
 
 newmtl paper
 Kd 1 1 1
-map_Kd stonedew:block/paper
+map_Kd stonedew:block/painted/paper
 Ka 0 0 0
 
 newmtl paper_dark
 Kd 0.65 0.61 0.61
-map_Kd stonedew:block/paper
+map_Kd stonedew:block/painted/paper
 Ka 0 0 0
 
 newmtl ink
 Kd 0.6 0.6 0.6
-map_Kd stonedew:block/iron
+map_Kd stonedew:block/painted/iron
 Ka 0 0 0
 
 newmtl leaf
@@ -105,8 +105,8 @@ Ka 0 0 0
 neoforge_TintIndex 0
 
 newmtl emission
-Kd 1 1 1
-map_Kd stonedew:block/glow
+Kd 0.75 0.35 1
+map_Kd stonedew:block/painted/glass
 Ka 1 1 1
 
 newmtl emission_core
@@ -114,19 +114,34 @@ Kd 1 1 1
 map_Kd stonedew:block/glow_core
 Ka 1 1 1
 
+newmtl emission_halo
+Kd 1 1 1
+map_Kd stonedew:block/fixture_halo
+Ka 1 1 1
+
+newmtl emission_aura
+Kd 1 1 1
+map_Kd stonedew:block/fixture_aura
+Ka 1 1 1
+
 newmtl fabric
 Kd 1 1 1
-map_Kd stonedew:block/fabric
+map_Kd stonedew:block/painted/recess
+Ka 0 0 0
+
+newmtl fabric_fold
+Kd 0.68 0.67 0.74
+map_Kd stonedew:block/painted/recess
 Ka 0 0 0
 
 newmtl lining
 Kd 1 1 1
-map_Kd stonedew:block/lining
+map_Kd stonedew:block/painted/lining
 Ka 0 0 0
 
 newmtl lining_seam
 Kd 0.77 0.77 0.81
-map_Kd stonedew:block/lining
+map_Kd stonedew:block/painted/lining
 Ka 0 0 0
 
 newmtl cyan_emission

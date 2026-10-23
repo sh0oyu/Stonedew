@@ -3,7 +3,8 @@ Shared construction/materials with the working P1 equipment; original authored g
 """
 import json
 import math
-from equipment_art import Prop, pot, bed, lamp, DISPLAY, emission_pass
+from material_atlas import sprite
+from equipment_art import Prop, pot, bed, lamp, DISPLAY, emission_pass, fixture_bloom
 
 
 def cloth_pot():
@@ -31,6 +32,9 @@ def automated_pot():
         for z in (.15,13.9):
             m.bevel((x,0,z),(x+1.95,13.9,z+1.95),.16,'iron_light','rivet_dark')
             for y in (1.2,12.6):m.bevel((x-.12,y-.7,z-.12),(x+2.07,y+.7,z+2.07),.18,'iron_light')
+            for y in (1.2,12.6):
+                m.bolt(x+.975,y,z-.19 if z<8 else z+2.14)
+                m.bolt(x-.19 if x<8 else x+2.14,y,z+.975,'x')
     m.bevel((6.2,3,.65),(9.8,8.3,1),.18,'iron_light')
     m.bevel((6.7,3.5,.5),(9.3,7.8,.72),.09,'iron')
     for y in (4,5.1,6.2):m.block((7.3,y,.43),(8.7,y+.7,.53),'cyan_emission')
@@ -57,6 +61,7 @@ def panel(tier=3):
         m.bevel((x-.65,4.35,z0+1.2),(x+.65,5.7,z1-1.2),.13,'iron_light')
         m.bevel((x-.46,4.15,z0+1.7),(x+.46,4.6,z1-1.7),.08,'emission')
         m.block((x-.22,4.12,z0+1.9),(x+.22,4.2,z1-1.9),'white_emission')
+        fixture_bloom(m,[(x-1.7,4.08,z0+.6),(x+1.7,4.08,z0+.6),(x+1.7,4.08,z1-.6),(x-1.7,4.08,z1-.6)])
     for x in (x0+.7,x1-.7):
         for z in (z0,z1-1):
             m.bevel((x-.7,4.5,z-.25),(x+.7,7.4,z+1.25),.15,'iron_light')
@@ -78,6 +83,8 @@ def pendant():
     m.bevel((5,3.3,5),(11,6.5,11),.4,'glass')
     m.bevel((5.6,2.9,5.6),(10.4,6.8,10.4),.26,'emission')
     m.bevel((6.5,1.2,6.5),(9.5,3.1,9.5),.24,'white_emission')
+    for vertices in ([(3,0,8),(13,0,8),(13,10,8),(3,10,8)],
+                     [(8,0,3),(8,0,13),(8,10,13),(8,10,3)]):fixture_bloom(m,vertices,True)
     for x in (4.5,10.7):
         for z in (4.5,10.7):m.beam((x,3,z),(x,8,z),.65,'iron')
     m.bevel((4,6.8,4),(12,8.4,12),.25,'iron','iron_light')
@@ -97,6 +104,7 @@ def tent(tier):
     m=Prop();w=(18,24,29,34)[tier-1];d=(18,20,23,26)[tier-1];h=(36,37,40,43)[tier-1]
     # Outer fabric envelope, real panel seams and pale reflective inner lining.
     m.bevel((0,0,0),(w,1.5,d),.2,'fabric','iron_light')
+    m.block((1.6,1.51,1.6),(w-1.6,1.55,d-1.6),'lining')
     m.bevel((0,h-2.1,0),(w,h,d),.28,'fabric','iron_light')
     for x in (0,w-1):
         m.bevel((x,1.5,.7),(x+1,h-2.1,d-.5),.16,'fabric')
@@ -113,16 +121,27 @@ def tent(tier):
                 m.bevel((x-.6,y,z-.6),(x+1.6,y+1.7,z+1.6),.14,'iron_light','rivet_dark')
                 if z<2:m.bolt(x+.5,y+.85,z-.67)
     m.bevel((.5,.6,-.2),(w-.5,2.1,1.3),.18,'iron','iron_light')
-    # Gathered fabric side flaps with folds, cinched straps and rolled upper corners.
+    # Broad folded cloth narrows at the middle ties, then opens again at its hem.
+    # Faceted panels preserve the reference's triangular, gathered silhouette.
     for side in (0,1):
         x=2.1 if side==0 else w-3.3
-        for a,b,th in [((x,2,1.3),(x+.4,h*.48,1.0),1.5),((x+.4,h*.48,1),(x+.7,h-7,1.0),2.0)]:m.beam(a,b,th,'fabric')
+        def point(inward,y,z):return (1.7+inward if side==0 else w-1.7-inward,y,z)
+        rows=((2,2.5,.7),(h*.26,1.8,.4),(h*.48,1.15,.15),(h*.72,2.45,.45),(h-6.4,4.3,.9))
+        for a,b in zip(rows,rows[1:]):
+            for half in (0,1):
+                vertices=[]
+                for row,u in ((a,half/2),(b,half/2),(b,(half+1)/2),(a,(half+1)/2)):
+                    y,width,z=row
+                    vertices.append(point(width*u,y,z-.42*(1-abs(u*2-1))))
+                if side:vertices.reverse()
+                m.face('fabric' if half else 'fabric_fold',vertices)
+                m.face('fabric_fold',list(reversed(vertices)))
         for delta in (-.42,.45):m.beam((x+delta,3,.7),(x+.3+delta,h*.48,.4),.23,'iron')
         m.bevel((x-.8,h*.48-.3,-.1),(x+1.9,h*.48+.9,1.5),.12,'iron_light')
         m.bevel((x-.1,h*.48-.02,-.17),(x+.8,h*.48+.6,-.03),.08,'iron')
         m.bevel((x-.5,h-7.3,.0),(x+2,h-4.8,2.8),.55,'fabric','iron')
     # Actual lamp geometry in the preview, matching the corresponding reference tier.
-    fixture=pendant() if tier==1 else lamp(True) if tier==2 else panel(tier)
+    fixture=pendant() if tier==1 else lamp(True,True) if tier==2 else panel(tier)
     append(m,fixture,((w-16)/2,h-20,(d-16)/2))
     # Reflective panel quilting has shallow, irregular seams, not busy white noise.
     for x in range(4,int(w)-2,6):m.beam((x,3,d-1.13),(x+.35,h-7,d-1.13),.12,'lining_seam')
@@ -143,6 +162,12 @@ def tent(tier):
         m.bevel((w-.1,13,5),(w+2.5,24,9.5),.23,'iron','iron_light')
         for y in (15,18,21):m.block((w+2.49,y,6.2),(w+2.59,y+1.6,8.3),'cyan_emission')
         for y in (9,27):m.bevel((w-.2,y,6.1),(w+.8,y+.8,8.4),.13,'iron_light')
+    # Facing the opening, the reference's duct and controls sit on the right.
+    # Reflect complete geometry, including normals/winding, rather than showing
+    # a reversed camera view of the apparatus.
+    m.faces=[(mat,[(w-16-x,y,z) for x,y,z in reversed(vertices)],
+              [(-nx,ny,nz) for nx,ny,nz in reversed(normals)],list(reversed(uv)))
+             for mat,vertices,normals,uv in m.faces]
     return m
 
 
@@ -150,11 +175,11 @@ def generate(root):
     directory=root/'models/block/catalog';directory.mkdir(parents=True,exist_ok=True)
     meshes={'pot_fabric':cloth_pot(),'pot_automated':automated_pot(),'uv_pendant':pendant(),'uv_panel_4':panel(3),'uv_panel_6':panel(4)}
     meshes.update({f'tent_{tier}':tent(tier) for tier in range(1,5)})
-    meshes['uv_twin']=lamp(True)
+    meshes['uv_twin']=lamp(True,True)
     # Share exactly the same authored material library and maps as the working equipment.
     material=(root/'models/block/equipment/equipment.mtl').read_text()
-    for name,texture,color,emissive in [('fabric','fabric',(1,1,1),False),('lining','lining',(1,1,1),False),('lining_seam','lining',(.77,.77,.81),False),('cyan_emission','glow_cyan',(1,1,1),True),('white_emission','glow_core',(1,1,1),True)]:
-        material+=f'\nnewmtl {name}\nKd '+' '.join(map(str,color))+f'\nmap_Kd stonedew:block/{texture}\nKa '+('1 1 1' if emissive else '0 0 0')+'\n'
+    for name,texture,color,emissive in [('fabric','fabric',(1,1,1),False),('fabric_fold','fabric',(.68,.67,.74),False),('lining','lining',(1,1,1),False),('lining_seam','lining',(.77,.77,.81),False),('cyan_emission','glow_cyan',(1,1,1),True),('white_emission','glow_core',(1,1,1),True)]:
+        material+=f'\nnewmtl {name}\nKd '+' '.join(map(str,color))+f'\nmap_Kd {sprite(texture)}\nKa '+('1 1 1' if emissive else '0 0 0')+'\n'
     (directory/'catalog.mtl').write_text(material)
     overrides=[];report=[]
     for code,(name,mesh) in enumerate(meshes.items(),100):

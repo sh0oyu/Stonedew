@@ -9,6 +9,17 @@ ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "src/main/resources/assets/stonedew"
 
 
+def atlas_regions():
+    path=ROOT / 'src/main/resources/assets/minecraft/atlases/blocks.json'
+    if not path.exists():return {}
+    return {region['sprite']:region for source in json.loads(path.read_text())['sources']
+            for region in source.get('regions',[])}
+
+
+def texture_exists(texture):
+    return (ASSETS / 'textures' / (texture.split(':',1)[1]+'.png')).is_file() or texture in atlas_regions()
+
+
 def read_obj(path):
     result = {"v": [], "vn": [], "vt": [], "vc": [], "f": [], "usemtl": [], "mtllib": []}
     for line in path.read_text().splitlines():
@@ -70,7 +81,7 @@ class AssetTests(unittest.TestCase):
             model = json.loads(path.read_text())
             for texture in model.get("textures", {}).values():
                 if texture.startswith("stonedew:"):
-                    self.assertTrue((ASSETS / "textures" / (texture.split(":", 1)[1]+".png")).is_file())
+                    self.assertTrue(texture_exists(texture),texture)
             for override in model.get("overrides", []):
                 if override["model"].startswith("stonedew:"):
                     self.assertTrue((ASSETS/"models"/(override["model"].split(":",1)[1]+".json")).is_file())
@@ -83,7 +94,7 @@ class AssetTests(unittest.TestCase):
                 if line.startswith("map_Kd "):
                     texture = line.split()[1]
                     if texture.startswith("stonedew:"):
-                        self.assertTrue((ASSETS / "textures" / (texture.split(":", 1)[1]+".png")).is_file())
+                        self.assertTrue(texture_exists(texture),texture)
 
     def test_texture_dimensions_and_painted_sources(self):
         for path in (ASSETS / "textures").rglob("*.png"):
@@ -101,14 +112,28 @@ class AssetTests(unittest.TestCase):
                 else:
                     self.assertIn(data[25], (2, 6))
             else:
-                expected = 128 if path.parent.name == "gui" else 64 if path.name in ("leaf_fan.png", "leaf_emblem.png", "lamp_halo.png", "seed_packet.png", "uv_beam.png") else 32 if path.parent.name == "block" or path.name == "contact_shadow.png" else 16
+                expected = 128 if path.parent.name == "gui" else 64 if path.name.startswith('plant_shadow_') or path.name in ("leaf_fan.png", "leaf_emblem.png", "lamp_halo.png", "seed_packet.png", "uv_beam.png", "fixture_halo.png", "fixture_aura.png") else 32 if path.parent.name == "block" or path.name == "contact_shadow.png" else 16
                 self.assertEqual((width, height), (expected, expected), path)
         self.assertTrue((ASSETS / "textures/block/leaf_fan.png").is_file())
         self.assertTrue((ASSETS / "textures/gui/materials.png").is_file())
 
     def test_painted_sprite_source_and_card_binding_are_packaged(self):
-        # Ordinary power-of-two sprites must not be overwritten by the rejected atlas importer.
-        self.assertFalse((ROOT / "src/main/resources/assets/minecraft/atlases/blocks.json").exists())
+        # Painting windows have distinct IDs: never overwrite ordinary 32px sprites,
+        # import the non-power-of-two source as a block sprite, or lower global mips.
+        atlas=json.loads((ROOT/'src/main/resources/assets/minecraft/atlases/blocks.json').read_text())
+        self.assertEqual(len(atlas['sources']),1)
+        source=atlas['sources'][0]
+        self.assertEqual(source['type'],'minecraft:unstitch')
+        self.assertEqual(source['resource'],'stonedew:art/materials_v6')
+        original=(ROOT/'docs/art/sources/materials-v6.png').read_bytes()
+        self.assertEqual(original,(ASSETS/'textures/art/materials_v6.png').read_bytes())
+        width,height=struct.unpack('>II',original[16:24])
+        self.assertEqual((source['divisor_x'],source['divisor_y']),(width,height))
+        self.assertEqual(len(atlas_regions()),16)
+        for region in source['regions']:
+            self.assertTrue(region['sprite'].startswith('stonedew:block/painted/'))
+            self.assertEqual((region['width'],region['height']),(256,256))
+            self.assertTrue(0<=region['x']<=width-256 and 0<=region['y']<=height-256)
         materials = (ASSETS / "models/block/plants/plants.mtl").read_text()
         self.assertIn("map_Kd stonedew:block/leaf_fan", materials)
         self.assertIn("neoforge_TintIndex 3", materials)
@@ -123,13 +148,17 @@ class AssetTests(unittest.TestCase):
 
     def test_bud_load_and_branch_layouts_have_distinct_geometry(self):
         from plant_art import plant
-        for stage in (2, 3):
+        for stage in (3,):
             for shape in range(4):
                 counts = [len(plant(stage, shape, load).faces) for load in range(3)]
                 self.assertLess(counts[0], counts[1])
                 self.assertLess(counts[1], counts[2])
         meshes = [str(plant(3, shape, 1).faces) for shape in range(4)]
         self.assertEqual(len(set(meshes)), 4)
+        for stage in (0, 1, 2):
+            self.assertFalse(any(material.startswith('bud') or material == 'hair'
+                                 for material, *_ in plant(stage, 0).faces),
+                             'The reference progression flowers only at maturity')
 
     def test_equipment_is_bounded_and_uses_outward_closed_surfaces(self):
         from plant_art import Mesh

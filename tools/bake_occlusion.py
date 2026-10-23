@@ -60,7 +60,8 @@ def bake(path):
         path.write_text('\n'.join(out)+'\n')
         cache_path.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,cache_path)
         return
-    tree=BVHTree.FromPolygons(verts,[[v[0]-1 for v in face] for _,face in faces],all_triangles=False)
+    tree=BVHTree.FromPolygons(verts,[[v[0]-1 for v in face] for material,face in faces
+                                   if material not in ('emission_halo','emission_aura')],all_triangles=False)
     light_points=[]
     if path.parent.name=='catalog':
         for mat,face in faces:
@@ -72,10 +73,12 @@ def bake(path):
     for i in range(16):
         r=math.sqrt((i+.5)/16);a=i*2.399963229728653
         samples.append((r*math.cos(a),r*math.sin(a),math.sqrt(1-r*r)))
-    cache={};colors=[];color_indices={}
+    cache={};shadow_cache={};colors=[];color_indices={}
+    plant=path.parent.name=='plants'
+    key_light=Vector((-.45,.82,-.35)).normalized()
     for material,face in faces:
         # Emissive lenses and light cores must not receive baked shadows.
-        emission=material in ('emission','emission_core','cyan_emission','white_emission')
+        emission=material.startswith('emission') or material in ('cyan_emission','white_emission')
         center=sum((Vector(verts[v[0]-1]) for v in face),Vector())/len(face)
         for v in face:
             p=Vector(verts[v[0]-1]);n=Vector(normals[v[2]-1]);key=tuple(round(t,5) for t in (*p,*n))
@@ -92,6 +95,20 @@ def bake(path):
                     visibility+=1 if location is None else min(1,(distance/.33)**.60)
                 ao=.53+.47*visibility/len(samples)
                 cache[key]=ao
+            if plant and not emission and material!='hair':
+                # Cast foliage/flower shadows are separate from ambient occlusion.
+                # This authored key fills the deep spaces between overlapping fans;
+                # runtime entity lighting is still applied once to surface normals.
+                if key not in shadow_cache:
+                    origin=p.lerp(center,.02)+n*.0015
+                    hits=0
+                    for offset in ((0,0,0),(.045,0,-.02),(-.025,0,.04)):
+                        direction=(key_light+Vector(offset)).normalized()
+                        hit,_,_,_=tree.ray_cast(origin,direction,1.5)
+                        hits+=hit is None
+                    shadow_cache[key]=hits/3
+                shade=shadow_cache[key]
+                ao*= (.48+.52*shade) if material.startswith('leaf') else (.76+.24*shade)
             # Static lit reference previews also bake occlusion-aware violet reflections.
             # Working P1 plants still get their actual fuel-dependent UV light at runtime.
             uv=0
@@ -104,8 +121,8 @@ def bake(path):
                     if cosine<=0:continue
                     hit,_,_,_=tree.ray_cast(origin,direction,max(0,distance-.004))
                     if hit is None:uv+=cosine/(.35+distance*distance)
-                uv=min(1,uv/max(1,len(light_points))*.65)
-            color=tuple(round(max(0,min(1,c))*63)/63 for c in (ao+.15*uv,ao*(1-.20*uv),ao+.33*uv))+(1,)
+                uv=min(1,uv/max(1,len(light_points))*2.4)
+            color=tuple(round(max(0,min(1,c))*63)/63 for c in (ao+.05*uv,ao*(1-.48*uv),ao+.45*uv))+(1,)
             if color not in color_indices:
                 colors.append(color);color_indices[color]=len(colors)
             v.append(color_indices[color])

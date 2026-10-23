@@ -54,14 +54,17 @@ def material(name, palette, size=32):
                 t=.46+.15*math.sin(x*.19)+macro[y//4][x//4]*.65
                 if y in (3,14,26):t+=.09
             elif name in ('plant_bud','bud'):
-                t=.68+.11*math.sin(x*.32+y*.23)+macro[y//4][x//4]*.22
+                # Broad painted facet clusters, readable at the scale of a bract.
+                t=.80+macro[y//4][x//4]*.9
+                if x<3:t=.40
+                if y<3:t=.98
+                if x>26 and y>12:t=.58
+                if 8<=x<17 and 8<=y<15:t=.95
             elif name=='leaf_surface':
                 # Midrib-to-edge luminosity and restrained broad painted patches.
-                t=.87+.05*math.sin(y*.22)
-                if x<2:t=.48
-                elif x>29:t=.94
-                elif (y+round(x*.4))%10==0:t-=.13
-                if 6<x<20 and y in (9,10,21,22):t+=.07
+                t=.94 if x<18 else .86
+                if x<2:t=.65
+                if x>29:t=.98
             elif name in ('plant_stem','stem'):
                 t=.45+.17*math.sin(x*.9)+macro[y//4][x//4]*.3
             elif name in ('soil','soil_wet'):
@@ -183,7 +186,7 @@ PALETTES={
  'glow':('763AB3','B35EF0','EDB0FF'),
  'glass':('695780','947CAB','B8A2C8'),
  'dewstone':('29252E','39313F','4A4051'),
- 'plant_bud':('B5B5B5','E4E4E4','FFFFFF'),
+ 'plant_bud':('595959','C1C1C1','FFFFFF'),
  'plant_leaf':('358627','4AA32D','65BA38'),
  'plant_stem':('305221','3F6926','527C2C'),
  'plant_pistil':('DFD9C8','F2EBDB','FFFFFF'),
@@ -195,6 +198,8 @@ PALETTES={
 
 
 def generate(root):
+    from material_atlas import generate as painted_materials
+    painted_materials(root)
     tiles={name:material(name,palette) for name,palette in PALETTES.items()}
     for name,pixels in tiles.items():write_png(root/f'textures/block/{name}.png',pixels)
     write_png(root/'textures/block/seed_packet.png',seed_packet())
@@ -228,3 +233,15 @@ def generate(root):
         t=y/63
         beam.append([(163,81,255,round(max(0,1-abs(x-31.5)/31.5)**1.7*(1-t)**1.2*38)) for x in range(64)])
     write_png(root/'textures/effect/uv_beam.png',beam)
+    strip=[];aura=[]
+    for y in range(64):
+        strip_row=[];aura_row=[]
+        for x in range(64):
+            u=(x-31.5)/31.5;v=(y-31.5)/31.5
+            a=max(0,1-abs(u)**4)**2*max(0,1-abs(v))**2.3
+            b=max(0,1-math.hypot(u,v))**2.4
+            strip_row.append((round(42*a),round(5*a),round(75*a),255))
+            aura_row.append((round(65*b),round(9*b),round(100*b),255))
+        strip.append(strip_row);aura.append(aura_row)
+    write_png(root/'textures/block/fixture_halo.png',strip)
+    write_png(root/'textures/block/fixture_aura.png',aura)
