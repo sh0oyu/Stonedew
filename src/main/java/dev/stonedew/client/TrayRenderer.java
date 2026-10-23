@@ -203,9 +203,9 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
               }
               default -> 0xFFFFFF;
             };
-        float r = leaf ? .48F : ((color >> 16) & 255) / 255F;
+        float r = leaf ? 1.0F : ((color >> 16) & 255) / 255F;
         float g = leaf ? 1.0F : ((color >> 8) & 255) / 255F;
-        float b = leaf ? .17F : (color & 255) / 255F;
+        float b = leaf ? 1.0F : (color & 255) / 255F;
         if (quad.getTintIndex() == 1 || quad.getTintIndex() == 4) {
           r = Math.min(1, r * 1.12F);
           g = Math.min(1, g * 1.12F);

@@ -36,12 +36,12 @@ class Mesh:
             normals = [normal] * len(vertices)
         self.faces.append((material, vertices, normals, uv or [(0, 0), (1, 0), (1, 1), (0, 1)][:len(vertices)]))
 
-    def tube(self, start, end, radius=.13, material="stem", sides=5):
+    def tube(self, start, end, radius=.13, material="stem", sides=5, end_radius=None):
         direction = unit(add(end, mul(start, -1)))
         side = unit(cross(direction, (0, 0, 1)))
         across = unit(cross(direction, side))
         rings = []
-        for center, taper in ((start, 1), (end, .65)):
+        for center, taper in ((start, 1), (end, .65 if end_radius is None else end_radius/radius)):
             rings.append([add(center, add(mul(side, radius*taper*math.cos(i*math.tau/sides)),
                                           mul(across, radius*taper*math.sin(i*math.tau/sides))))
                           for i in range(sides)])
@@ -77,41 +77,45 @@ class Mesh:
                 self.face(material,vertices,uv=uv)
                 self.face(material,list(reversed(vertices)),uv=list(reversed(uv)))
 
-    def fan(self, base, angle, length, pitch=.12, material="leaf", young=False):
-        """Flat palmate fans with deliberately stepped, square-ended silhouettes.
+    def fan(self, base, angle, length, pitch=.12, material="leaf", young=False,
+            roll=0, curl=.035):
+        """Fixed, gently cupped cannabis fan; original painting supplies every tooth.
 
-        The leaflet outline is authored on a small grid, like the reference's cut
-        paper foliage. There is no smooth sine taper or sagging needle tip. Each
-        half is almost planar; its very shallow fold keeps the midrib readable.
+        All seven fingers share one petiole. Source alpha is only read for mesh
+        coverage; native 256px atlas windows retain the complete original image.
         """
-        forward=(math.cos(angle),0,math.sin(angle))
-        across=(-math.sin(angle),0,math.cos(angle))
-        profile=(1,1,2,2,3,2,3,3,4,3,4,3,4,3,4,3,3,2,3,2,2,1,1,1)
-        for finger,(degrees,ratio) in enumerate(((-78,.36),(-53,.62),(-27,.86),(0,1),(27,.86),(53,.62),(78,.36))):
-            theta=math.radians(degrees); reach=length*ratio
-            rows=max(8,round(24*ratio))
-            half=reach*(.14 if young else .18)
-            def point(along,side):
-                x=math.sin(theta)*along+math.cos(theta)*side
-                z=math.cos(theta)*along-math.sin(theta)*side
-                return add(base,add(mul(across,x),add(mul(forward,z*math.cos(pitch)),
-                    (0,z*math.sin(pitch)-abs(side)*.11,0))))
-            spans=[]
-            for row in range(rows):
-                width=half*profile[min(23,int((row+.5)*24/rows))]/4
-                if spans and spans[-1][2]==width:spans[-1]=(spans[-1][0],row+1,width)
-                else:spans.append((row,row+1,width))
-            for first,last,width in spans:
-                start=reach*first/rows;end=reach*last/rows
-                for side in range(2):
-                    edge=width*(-1 if side else 1)
-                    vertices=[point(start,0),point(end,0),point(end,edge),point(start,edge)]
-                    if side:vertices.reverse()
-                    mat=material+('_shade' if side else '')
-                    uv=[(0,first/rows),(0,last/rows),(width/half,last/rows),(width/half,first/rows)]
-                    if side:uv.reverse()
-                    self.face(mat,vertices,uv=uv)
-                    self.face(mat,list(reversed(vertices)),uv=list(reversed(uv)))
+        from botanical_leaf import profile
+        data=profile();rx,ry=data['root'];scale=length/data['length']
+        forward=(math.cos(angle)*math.cos(pitch),math.sin(pitch),math.sin(angle)*math.cos(pitch))
+        side=(-math.sin(angle),0,math.cos(angle))
+        normal=unit(cross(side,forward))
+        side,normal=add(mul(side,math.cos(roll)),mul(normal,math.sin(roll))),add(mul(normal,math.cos(roll)),mul(side,-math.sin(roll)))
+        def point(p):
+            x=(p[0]-rx)*scale;along=(ry-p[1])*scale
+            bend=curl*along*along/length-.035*abs(x)
+            return add(base,add(mul(side,x),add(mul(forward,along),mul(normal,bend))))
+        for col,row,polygon,uv in data['pieces']:
+            vertices=[point(p) for p in polygon]
+            n=unit(cross(add(vertices[1],mul(vertices[0],-1)),add(vertices[2],mul(vertices[0],-1))))
+            if sum(a*b for a,b in zip(n,normal))<0:
+                vertices.reverse();uv=list(reversed(uv))
+            self.face(f'leaf_{col}_{row}',vertices,uv=uv)
+            self.face(f'leaf_back_{col}_{row}',list(reversed(vertices)),uv=list(reversed(uv)))
+
+    def leaflet(self, base, angle, length, pitch=.3, roll=0):
+        """Small serrated sugar leaf, not another complete fan around each flower."""
+        forward=(math.cos(angle)*math.cos(pitch),math.sin(pitch),math.sin(angle)*math.cos(pitch))
+        side=(-math.sin(angle),0,math.cos(angle));normal=unit(cross(side,forward))
+        side=add(mul(side,math.cos(roll)),mul(normal,math.sin(roll)))
+        widths=(.025,.13,.095,.17,.12,.18,.13,.14,.085,.10,.035,0)
+        def point(t,w):return add(base,add(mul(forward,length*t),add(mul(side,length*w),mul(normal,-length*.04*abs(w)))))
+        for i in range(len(widths)-1):
+            for sign in (-1,1):
+                vertices=[point(i/11,0),point((i+1)/11,0),point((i+1)/11,widths[i+1]*sign),point(i/11,widths[i]*sign)]
+                if i==10:vertices=vertices[:2]+vertices[3:]
+                if sign>0:vertices.reverse()
+                self.face('sugar_leaf',vertices)
+                self.face('sugar_leaf',list(reversed(vertices)))
 
     def cotyledon(self, base, angle):
         forward=(math.cos(angle),0,math.sin(angle));side=(-math.sin(angle),0,math.cos(angle))
@@ -203,7 +207,15 @@ def flower(mesh, center, size, phase, lod=False):
     """A compact stepped cluster: blocky bracts, recessed seams and lit shoulders."""
     x,y,z=center
     if lod:
-        mesh.block((x-size,y,z-size),(x+size,y+size*2.6,z+size),"bud")
+        # Eight-face tapered flower silhouette, rather than a rectangular block.
+        # The tiny open root is buried in its stem; detail stays below 100 faces.
+        lower=[(x+a*.22*size,y,z+b*.22*size) for a,b in ((-1,-1),(-1,1),(1,1),(1,-1))]
+        middle=[(x+a*size,y+.95*size,z+b*size) for a,b in ((-1,-1),(-1,1),(1,1),(1,-1))]
+        tip=(x+.08*size,y+2.6*size,z-.10*size)
+        for i in range(4):
+            j=(i+1)%4
+            mesh.face('bud',[lower[i],lower[j],middle[j],middle[i]])
+            mesh.face('bud_light',[middle[j],tip,middle[i]])
         return
     rng=random.Random(round(phase*1000)+441)
     # An irregular solid egg made of small voxel bracts. Only exposed faces are
@@ -228,86 +240,135 @@ def flower(mesh, center, size, phase, lod=False):
             material='bud_light' if direction[1]>0 else 'bud_dark' if direction[1]<0 else side_material
             mesh.face(material,[(x+px*size,y+py*size,z+pz*size) for px,py,pz in vertices],normals,uv)
             if direction[1]>0:shoulders.append((a*cell,(layer+1)*cell,b*cell))
-    # Five short colored pistil clusters sit on exposed upper bract shoulders.
+    # Paired, curved pistils grow from exposed bract shoulders. Crossed fine
+    # ribbons read as short hairs instead of the previous five square post caps.
     shoulders.sort(key=lambda p:(p[1],p[0],p[2]))
-    for index in (0,len(shoulders)//4,len(shoulders)//2,3*len(shoulders)//4,len(shoulders)-1):
-        px,py,pz=shoulders[index];cx=x+px*size;cz=z+pz*size;cy=y+py*size
-        mesh.block((cx-.105*size,cy,cz-.105*size),(cx+.105*size,cy+.15*size,cz+.105*size),'hair')
+    outer=[p for p in shoulders if math.hypot(p[0],p[2])>.65]
+    for i in range(8):
+        heading=phase+i*2.39996;level=.8+(i%3)*.65
+        px,py,pz=max(outer,key=lambda p:p[0]*math.cos(heading)+p[2]*math.sin(heading)-abs(p[1]-level)*.75)
+        for strand in range(2):
+            angle=phase+i*2.39+strand*.8
+            start=(x+(px+(strand-.5)*.055)*size,y+py*size,z+pz*size)
+            points=[add(start,(math.cos(angle)*distance*size,up*size,math.sin(angle)*distance*size))
+                    for distance,up in ((0,0),(.10,.18),(.26,.30),(.34,.24))]
+            for j,(first,last) in enumerate(zip(points,points[1:])):
+                width=(.032-j*.008)*size
+                for across in ((width,0,0),(0,0,width)):
+                    vertices=[add(first,mul(across,-1)),add(last,mul(across,-.55)),add(last,mul(across,.55)),add(first,across)]
+                    mesh.face('hair',vertices)
+                    mesh.face('hair',list(reversed(vertices)))
+    # Small sugar leaves break up the lower and middle flower silhouette; the
+    # established voxel-egg bract volume stays intact underneath these details.
+    for i in range(4):
+        angle=phase+i*2.4
+        level=(.55,1.25,1.8,2.25)[i]*size
+        base=(x+math.cos(angle)*.65*size,y+level,z+math.sin(angle)*.65*size)
+        mesh.leaflet(base,angle,(1.35 if i<2 else .95)*size,.35+i*.06,roll=(i-1.5)*.2)
+    # A few non-emissive resin points catch normal light; no sparkling aura.
+    for i in range(7):
+        px,py,pz=shoulders[round((len(shoulders)-1)*(i+.6)/8)]
+        center=(x+px*size,y+py*size+.008*size,z+pz*size);r=.045*size
+        corners=[add(center,offset) for offset in ((-r,0,0),(0,0,r),(r,0,0),(0,0,-r))]
+        tip=add(center,(0,r,0))
+        for j in range(4):mesh.face('resin',[corners[j],tip,corners[(j+1)%4]])
+
+
+# Four deliberately asymmetric branch gestures. Tuples are attachment height,
+# heading, reach, tip height, bend. No repeated radial tiers or crown rosette.
+BRANCH_LAYOUTS=(
+    ((2.3,2.94,5.0,7.4,.25),(4.0,.52,4.7,8.8,-.18),(5.7,-1.18,3.9,10.0,.22),(3.1,-2.23,4.4,6.6,-.24)),
+    ((2.9,-2.75,4.2,8.5,-.20),(3.8,.26,5.4,7.5,.24),(5.3,1.86,3.7,9.7,-.28),(2.1,-.94,5.1,6.4,.15)),
+    ((2.0,2.44,5.5,6.8,.18),(4.8,-.12,4.0,9.7,-.27),(4.0,-1.65,4.7,8.0,.24),(3.2,.95,4.8,7.4,-.15)),
+    ((3.4,-2.93,4.6,8.4,.22),(2.1,.80,5.5,6.9,-.25),(5.5,-.78,3.7,10.2,.18),(4.4,2.03,4.2,8.7,-.21)),
+)
 
 
 def plant(stage, shape, load=1, lod=False):
-    mesh=Mesh();rng=random.Random(7701+shape*391)
-    height=(2.6,7.6,12.1,13.0)[stage]*(1,.97,1.04,.98)[shape]
-    wide=(1,1.06,.92,1.03)[shape]
-    lean=((.1,.1),(.7,-.4),(-.5,.5),(.5,.6))[shape]
-    def stem(y):return(lean[0]*y/height,y,lean[1]*y/height)
-    mesh.tube((0,0,0),stem(height if stage else 1.8),(.30 if stage>=2 else .18) if stage else .10,sides=4)
+    mesh=Mesh()
     if stage==0:
-        for i in range(2):mesh.cotyledon(stem(1.8),i*math.pi+shape*.3)
+        mesh.tube((0,0,0),(.13,1.9,-.08),.10,sides=4)
+        for i in range(2):mesh.cotyledon((.13,1.9,-.08),i*math.pi+shape*.3)
         return mesh
-    tiers=(.18,.51,.79) if stage==1 else (.13,.31,.49,.67,.85)
-    if lod:tiers=(.16,.49,.80)
-    for tier,fraction in enumerate(tiers):
-        y=height*fraction
-        count=3 if lod or stage>=2 else 2
-        phase=shape*.49+tier*math.pi*.27
-        for i in range(count):
-            angle=i*math.tau/count+phase+rng.uniform(-.10,.10)
-            length=(9.4-4.7*fraction)*wide*rng.uniform(.94,1.06)
-            if stage==1:length*=.70
-            base=stem(y)
-            petiole=length*.19
-            tip=add(base,(math.cos(angle)*petiole,.16,math.sin(angle)*petiole))
-            if not lod:mesh.tube(base,tip,.08,sides=4)
-            if lod:
-                mesh.card(tip,angle,length,width=length*1.32,pitch=.12,simple=True,material="leaf_lod")
-            else:
-                mesh.fan(tip,angle,length*.81,pitch=rng.uniform(-.26,.30)+fraction*.08,material="leaf_old" if fraction<.4 else "leaf",young=stage==1)
-    if stage>=2 and not lod:
-        for i in range(3):
-            mesh.fan(stem(height-.10),i*math.tau/3+shape*.6,5.0,pitch=.18)
-        # Secondary branch fans occupy the spaces between the main whorls. Their
-        # different inclinations make a full cone rather than flat separated shelves.
-        for tier,(fraction,length,pitch) in enumerate(((.23,4.6,-.33),(.42,4.0,.45),(.62,3.2,-.30),(.80,2.8,.35))):
-            for i in range(2):
-                angle=shape*.49+tier*1.04+i*math.pi+.5
-                root=stem(height*fraction)
-                base=add(root,(math.cos(angle)*1.7,.1,math.sin(angle)*1.7))
-                mesh.tube(root,base,.09,sides=4)
-                mesh.fan(base,angle,length*wide,pitch=pitch,material='leaf_old' if tier==0 else 'leaf')
-        # Upright interior fans fill the trunk gap without enlarging the outline.
-        for i,(fraction,length) in enumerate(((.35,5.0),(.57,4.5),(.77,3.5))):
-            mesh.fan(stem(height*fraction),shape*.6+i*2.1,length,pitch=.95,material='leaf_old')
-    if stage==1 and not lod:
-        for i in range(2):mesh.fan(stem(height*.91),i*math.pi+shape*.6,2.6,pitch=.65,young=True)
+    if stage==1:
+        joints=((0,0,0),(.1,2.3,-.1),(-.15,4.3,.15),(.2,6.0,.12))
+        for i,(a,b) in enumerate(zip(joints,joints[1:])):mesh.tube(a,b,.14-i*.025,sides=4,end_radius=.115-i*.025)
+        for i,(y,angle,length,pitch,roll) in enumerate(((2.2,.4,3.6,.18,.2),(3.1,3.4,3.8,.38,-.4),(4.9,-1.35,2.7,.64,.35))):
+            root=(0,y,0);tip=add(root,(math.cos(angle)*.9,.3,math.sin(angle)*.9))
+            if not lod:mesh.tube(root,tip,.055,sides=4)
+            if lod:mesh.card(tip,angle,length,length*1.1,pitch,material='leaf_lod',simple=True)
+            else:mesh.fan(tip,angle,length,pitch,roll=roll)
+        return mesh
+    scale=.86 if stage==2 else 1
+    lean=((.55,.1),(-.55,.45),(.6,-.45),(-.4,-.5))[shape]
+    height=(11.8,12.2,11.3,12.0)[shape]
+    anchors=[(0,0,0)]+[(lean[0]*(y/height)+.18*math.sin(y*.8+shape),y,
+                         lean[1]*(y/height)+.16*math.sin(y*.61)) for y in (3.4,7.2,height)]
+    def main(y):
+        for a,b in zip(anchors,anchors[1:]):
+            if y<=b[1]:return add(a,mul(add(b,mul(a,-1)),(y-a[1])/(b[1]-a[1])))
+        return anchors[-1]
+    def scaled(p):return mul(p,scale)
+    joints=anchors
+    for i,(a,b) in enumerate(zip(joints,joints[1:])):
+        mesh.tube(scaled(a),scaled(b),(.20-i*.045)*scale,sides=4,end_radius=(.155-i*.045)*scale)
+    branches=[]
+    for i,(at,angle,reach,top,bend) in enumerate(BRANCH_LAYOUTS[shape]):
+        root=main(at)
+        mid=add(root,(math.cos(angle+bend)*reach*.62,(top-at)*.42,math.sin(angle+bend)*reach*.62))
+        outer=add(root,(math.cos(angle)*reach,(top-at)*.78,math.sin(angle)*reach))
+        tip=(outer[0]+math.cos(angle-bend)*.22,top,outer[2]+math.sin(angle-bend)*.22)
+        if lod:mesh.tube(scaled(root),scaled(tip),.12*scale,sides=4)
+        else:
+            for a,b,r,R in ((root,mid,.135,.105),(mid,outer,.105,.07),(outer,tip,.07,.04)):
+                mesh.tube(scaled(a),scaled(b),r*scale,sides=5,end_radius=R*scale)
+        branches.append((root,mid,outer,tip,angle))
+        # One large fan and one smaller fan on different sides of each branch.
+        poses=((mid,angle+(.50 if i%2 else -.48),6.1+(i%2)*.25,.14+(i%3)*.14,(-.62,.35,.78,-.35)[i]),
+               (outer,angle+(-.78 if i%2 else .83),3.35+(i%2)*.2,.48-i*.12,(.42,-.72,.24,.65)[i]))
+        for k,(node,yaw,length,pitch,roll) in enumerate(poses):
+            if lod and k:continue
+            petiole=add(node,(math.cos(yaw)*.68,.18,math.sin(yaw)*.68))
+            if not lod:mesh.tube(scaled(node),scaled(petiole),.05*scale,sides=4)
+            if lod:mesh.card(scaled(petiole),yaw,length*scale,length*1.1*scale,pitch,material='leaf_lod',simple=True)
+            else:mesh.fan(scaled(petiole),yaw,length*scale,pitch,roll=roll,curl=(-.04 if i%2 else .05))
+    # Staggered stem leaves face into open space, rather than closing a cone.
+    for y,angle,length,pitch,roll in ((4.9,1.52+shape*.4,4.2,.62,.8),(8.1,3.5+shape*.35,3.8,.48,-.6),(height-.3,-.3+shape*.7,2.7,.70,.25)):
+        root=main(y);petiole=add(root,(math.cos(angle)*.6,.22,math.sin(angle)*.6))
+        if not lod:mesh.tube(scaled(root),scaled(petiole),.045*scale,sides=4)
+        if lod:mesh.card(scaled(petiole),angle,length*scale,length*1.1*scale,pitch,material='leaf_lod',simple=True)
+        else:mesh.fan(scaled(petiole),angle,length*scale,pitch,roll=roll)
     if stage==3:
+        sites=[(main(height-.28),1.0,0)]
+        for root,mid,outer,tip,angle in branches:sites.append((tip,.69+(.08 if tip[1]>8 else 0),angle))
+        for i,(_,mid,outer,_,angle) in enumerate(branches):
+            node=add(mid,mul(add(outer,mul(mid,-1)),.25))
+            spur=add(node,(math.cos(angle+1)*.75,.45,math.sin(angle+1)*.75))
+            sites.append((spur,.50+(i%2)*.05,angle+.35))
+        for i,(root,mid,_,_,angle) in enumerate(branches):
+            node=add(root,mul(add(mid,mul(root,-1)),.58))
+            spur=add(node,(math.cos(angle-1)*.6,.45,math.sin(angle-1)*.6))
+            sites.append((spur,.43+(i%2)*.04,angle-.4))
         count=(5,9,13)[load]
-        sites=[(*stem(height-.3),1.13)]
-        for i in range(12):
-            tier=i//4
-            angle=(i%4)*math.pi/2+tier*.78+shape*.5
-            fraction=(.55,.33,.76)[tier]
-            radius=(4.8,6.0,2.8)[tier]*wide
-            root=stem(height*fraction)
-            sites.append((root[0]+math.cos(angle)*radius,root[1]+.65,
-                          root[2]+math.sin(angle)*radius,rng.uniform(.67,.83)))
-        for i,(x,y,z,size) in enumerate(sites[:count]):
+        for i,(center,size,angle) in enumerate(sites[:count]):
             if lod and i>=(3,5,7)[load]:continue
-            if not lod:mesh.tube(stem(y*.82),(x,y,z),.12,sides=4)
-            first=len(mesh.faces)
-            flower(mesh,(x,y,z),size,shape+i*.7,lod)
-            # Side colas lean out from their branch; the central leader remains upright.
+            if not lod and i>=5:
+                branch=branches[(i-5)%4]
+                origin=branch[1] if i<9 else add(branch[0],mul(add(branch[1],mul(branch[0],-1)),.58))
+                mesh.tube(origin,center,.055,sides=4)
+            first=len(mesh.faces);flower(mesh,center,size,shape+i*.7,lod)
+            # Preserve the bract volume; tilt side flowers with their branch.
             if i and not lod:
-                tilt=.20;angle=math.atan2(z,x)
+                x,y,z=center;tilt=.13+(i%3)*.06
+                def rotate(v,normal=False):
+                    dx,dy,dz=v if normal else (v[0]-x,v[1]-y,v[2]-z)
+                    radial=dx*math.cos(angle)+dz*math.sin(angle)
+                    along=-radial*math.sin(tilt)+dy*math.cos(tilt)
+                    out=radial*math.cos(tilt)+dy*math.sin(tilt)-radial
+                    result=(dx+out*math.cos(angle),along,dz+out*math.sin(angle))
+                    return result if normal else (x+result[0],y+result[1],z+result[2])
                 for face in range(first,len(mesh.faces)):
                     mat,vertices,normals,uv=mesh.faces[face]
-                    def rotate(v,normal=False):
-                        dx,dy,dz=v if normal else (v[0]-x,v[1]-y,v[2]-z)
-                        radial=dx*math.cos(angle)+dz*math.sin(angle)
-                        along=-radial*math.sin(tilt)+dy*math.cos(tilt)
-                        out=radial*math.cos(tilt)+dy*math.sin(tilt)-radial
-                        result=(dx+out*math.cos(angle),along,dz+out*math.sin(angle))
-                        return result if normal else (x+result[0],y+result[1],z+result[2])
                     mesh.faces[face]=(mat,[rotate(v) for v in vertices],[rotate(v,True) for v in normals],uv)
     return mesh
 
@@ -357,17 +418,26 @@ def generate(root):
     for name, texture, tint, color in [
         ("stem", "plant_stem", -1, (1, 1, 1)),
         ("leaf_lod", "leaf_fan", 3, (1,1,1)),
-        ("leaf", "leaf_surface", 3, (1, 1, 1)),
-        ("leaf_shade", "leaf_surface", 3, (.76, .91, .67)),
-        ("leaf_old", "leaf_surface", 3, (.81, .96, .69)),
-        ("leaf_old_shade", "leaf_surface", 3, (.64, .80, .51)),
+        ("leaf", "plant_leaf", 3, (1, 1, 1)),
+        ("leaf_shade", "plant_leaf", 3, (.76, .91, .67)),
+        ("sugar_leaf", "plant_leaf", 3, (1, 1, 1)),
         ("bud", "plant_bud", 1, (1, 1, 1)),
         ("bud_dark", "plant_bud", 1, (.52, .47, .65)),
         ("bud_light", "plant_bud", 4, (1, 1, 1)),
         ("hair", "plant_pistil", 2, (1, 1, 1)),
+        ("resin", "plant_pistil", -1, (.82, .92, .78)),
     ]:
         materials += [f"newmtl {name}", "Kd " + " ".join(map(str, color)),
                       f"map_Kd stonedew:block/{texture}", f"neoforge_TintIndex {tint}", ""]
+    from botanical_leaf import profile
+    leaf=profile()
+    for row in range(leaf['rows']):
+        for col in range(leaf['cols']):
+            for back,color in ((False,(1,1,1)),(True,(.72,.80,.67))):
+                name=f"leaf_{'back_' if back else ''}{col}_{row}"
+                materials += [f'newmtl {name}','Kd '+' '.join(map(str,color)),
+                              f'map_Kd stonedew:block/botanical/leaf_{col}_{row}',
+                              'neoforge_TintIndex 3','']
     (directory / "plants.mtl").write_text("\n".join(materials))
     report=[]
     for stage in range(4):

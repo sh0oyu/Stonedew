@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 0.2.7-p1 — cannabis fans and natural branches — 2026-10-23
+
+Replaces the rejected 0.2.6 plant architecture following the owner's latest banner-led correction.
+
+- Four uneven connected side branches, a slender bent stem and eleven individually pitched/rolled mature leaf fans replace radial tiers and the crown rosette. Larger fans have recognizable narrow serrated fingers, veins and visible petioles; gaps and different facing directions preserve the branch silhouette. Young plants use three staggered fans before the leafy branch stage.
+- New original seven-finger cannabis painting, preserved and packaged unchanged. Read-only alpha analysis authors conservative double-sided geometry; 25 native 256px atlas windows cover the entire original without image editing. Existing material swatches and mip level 4 remain. White runtime leaf tint preserves the painted greens.
+- Retained the established flower bract volume; added small serrated sugar leaves, eight pairs of curved pistils and sparse non-emissive resin points per detailed flower. Saved 5/9/13 mature loads now add smaller axillary flowers rather than equal-sized flower tiers. Persistence and gameplay remain P1.
+- All 64 near/distant plant meshes regenerated; maximum **11,762 / 98 faces**, within existing 14,000/100 limits. Distant flowers also use tapered eight-face silhouettes instead of rectangular blocks. Equipment/catalog art is unchanged.
+
+Validation: Java 21 / NeoForge build and datagen pass (zero changed data outputs); **57 JUnit tests** and **11 asset checks** pass. All **272 resource/report files** regenerate byte-identically; all **268 packaged asset files** match source. Actual Minecraft checks cover both flower palettes, front/back and bud close-up, four growth stages, saved 5/9/13 loads, native atlas reload at mip level 4 and fueled lamp on/off. Survival watering changes water about **7.48→37.28**, using one pour (8→7) while preserving appearance seed 3, genome and stage. Save/reopen also retained the green genome, stage 3, appearance seed 3 and seven-pour can component; water followed normal simulation. Unedited captures use the `p1-botanical-*` prefix. Reference images and the original master brief remain unchanged. Owner aesthetic acceptance, shader compatibility and the full hardware/performance target remain open.
+
+
 ## 0.2.6-p1 — leaf forms, painted materials and local radiance — 2026-10-23
 
 Revises the owner-rejected 0.2.5 art. This is an art review candidate, without a claimed 1:1 recreation or aesthetic approval.

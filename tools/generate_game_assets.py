@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate original game art, bake vertex AO, then install only a successful result.
-Blender is an authoring dependency. Ordinary Gradle builds use the checked-in assets.
+Blender and tools/requirements-art.txt are authoring dependencies. Ordinary Gradle
+builds use the checked-in assets.
 """
 from pathlib import Path
 import hashlib
@@ -47,9 +48,10 @@ def generate():
     for path in sorted((ROOT/'textures').rglob('*.png')):
         if path.parent.name=='item':continue
         raw=path.read_bytes()
-        painted=path.name=='materials_v6.png'
+        painted=path.name in ('materials_v6.png','cannabis_fan_v7.png')
+        painting='docs/art/sources/'+('materials-v6.png' if path.name=='materials_v6.png' else 'cannabis-fan-v7.png')
         sources.append(dict(path=str(path.relative_to(REPO)),dimensions=list(struct.unpack('>II',raw[16:24])),
-                            sha256=hashlib.sha256(raw).hexdigest(),source='docs/art/sources/materials-v6.png' if painted else 'tools/plant_art.py' if path.name.startswith('plant_shadow_') else 'tools/stylized_textures.py',
+                            sha256=hashlib.sha256(raw).hexdigest(),source=painting if painted else 'tools/plant_art.py' if path.name.startswith('plant_shadow_') else 'tools/stylized_textures.py',
                             creation='Original reference-guided material painting, unchanged source; native UV swatches' if painted else 'Original authored silhouettes, palettes and material marks; deterministic generation'))
     (reports/'authored-sources.json').write_text(json.dumps(sources,indent=2)+'\n')
     print('Generated original materials, working equipment, complete reference catalog and 64 plant meshes.')

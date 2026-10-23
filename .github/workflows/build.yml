@@ -15,6 +15,14 @@ jobs:
         with:
           python-version: '3.12'
       - uses: gradle/actions/setup-gradle@v4
+      - name: Install art authoring tools
+        run: |
+          python3 -m pip install -r tools/requirements-art.txt
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender4.3/blender-4.3.2-linux-x64.tar.xz -o "$RUNNER_TEMP/blender-4.3.2-linux-x64.tar.xz"
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender4.3/blender-4.3.2.sha256 -o "$RUNNER_TEMP/blender-4.3.2.sha256"
+          (cd "$RUNNER_TEMP" && sha256sum --check --ignore-missing blender-4.3.2.sha256)
+          tar -xf "$RUNNER_TEMP/blender-4.3.2-linux-x64.tar.xz" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/blender-4.3.2-linux-x64" >> "$GITHUB_PATH"
       - name: Verify assets and data generation
         run: |
           python3 tools/generate_game_assets.py

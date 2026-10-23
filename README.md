@@ -4,7 +4,7 @@ A Minecraft Java **1.21.1 / NeoForge 21.1.264** mod about a cozy underground cul
 
 **Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes one-slot pots, four-slot beds, persistent genome identity, a plant HUD and a working Ledger directive screen. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
 
-[**Download stonedew-0.2.6-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.6-p1.jar)
+[**Download stonedew-0.2.7-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.7-p1.jar)
 
 ## Install
 
@@ -39,28 +39,28 @@ See the [eight-step playtest and remaining placeholders](docs/P1_PLAYTEST.md). D
 
 ## Art direction
 
-The unchanged **CODEX_REFERENCE_NEW** sheets and supplied grow-room image remain the target. The owner rejected 0.2.5; the current **0.2.6 art revision is still subject to visual review**. Plants now use broad, stepped flat leaf fans, a fuller upper canopy and irregular voxel flower bracts. Seedling, young, leafy and flowering stages follow the reference progression. A new original material painting supplies terracotta, timber, metal, fabric/lining, soil and tool surfaces across the equipment catalog.
+The unchanged **CODEX_REFERENCE_NEW** sheets and Stonedew banner guide the art. The 0.2.7 plant revision replaces the rejected stacked canopy with **four uneven side branches**, a bent slender stem and individually tilted cannabis fans. Each painted fan has seven narrow serrated fingers, visible veins and its own petiole. Larger leaves face different directions, leaving space between branches.
 
-Baked leaf-to-leaf shadows, spatial occlusion and foliage-shaped soil shadows supply depth. A duplicate diffuse-light pass has been removed. UV fixtures have pale cores, violet radiance and local reflections; actual lamp effects remain fuel-dependent.
-Four saved branch layouts, three mature flower loads (5/9/13) and persistent size/rotation variation remain. Bud loads remain visual until P3 harvesting.
+Flowers retain their established solid bract shape, with small sugar leaves, paired curved pistils and sparse non-emissive resin points. Four saved layouts, three mature flower loads (5/9/13) and persistent size/rotation variation remain; extra flowers grow at branch joints. Bud loads remain visual until P3 harvesting. Baked canopy occlusion, foliage-shaped soil shadows and fuel-dependent UV lighting remain active.
 
 `/stonedew debug art` builds a checked, labeled reference-art gallery in clear loaded space. It includes all four pot, all four UV and all four tent designs. Future-tier models are **display previews**, without automation gameplay. Working P1 equipment remains in the Creative tab.
 
-![Actual rebuilt plant in Minecraft](docs/screenshots/p1-revision-violet.png)
+![Actual rebuilt plant in Minecraft](docs/screenshots/p1-botanical-violet.png)
 
-[Green/orange plant](docs/screenshots/p1-revision-kush.png) · [Reference catalog](docs/screenshots/p1-revision-catalog.png) · [Equipment](docs/screenshots/p1-revision-equipment.png) · [Rendering/source notes](docs/art/ART_DIRECTION.md)
+[Green/orange plant](docs/screenshots/p1-botanical-kush.png) · [Bud detail](docs/screenshots/p1-botanical-bud-detail.png) · [Normal FOV](docs/screenshots/p1-botanical-gameplay.png) · [Growth stages](docs/screenshots/p1-botanical-stages.png) · [Variations](docs/screenshots/p1-botanical-variation.png) · [Reference catalog](docs/screenshots/p1-revision-catalog.png) · [Equipment](docs/screenshots/p1-revision-equipment.png) · [Rendering/source notes](docs/art/ART_DIRECTION.md)
 
 These are actual game captures. Baked/local shading is included; the promotional image's full scene shadows and HDR bloom require a compatible shader renderer/pack. No shader pack is bundled or claimed tested. See [asset sources/status](ASSETS.md).
 
 ## Develop
 
-Install a **Java 21 JDK**. Ordinary builds use the checked-in assets. Regenerating artwork requires Python 3 and Blender 4.x for ray-baked vertex shading. Windows uses `gradlew.bat`.
+Install a **Java 21 JDK**. Ordinary builds use the checked-in assets. Regenerating artwork requires Python 3 with Pillow/NumPy (read-only alpha analysis) and Blender 4.x for ray-baked vertex shading. Windows uses `gradlew.bat`.
 
 ```sh
+python3 -m pip install -r tools/requirements-art.txt  # art authoring only
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
-./gradlew build       # build/libs/stonedew-0.2.6-p1.jar
+./gradlew build       # build/libs/stonedew-0.2.7-p1.jar
 ./gradlew runClient
 ```
 

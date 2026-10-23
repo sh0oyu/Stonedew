@@ -58,3 +58,7 @@ A new unchanged original material painting is packaged outside the block sprite 
 Every planted seed gets a server-random appearance identity without changing its immutable genome. PlantView synchronizes shape/load/height/spread/rotation; disk stores the full identity. Legacy version-1 JSON acquires a deterministic identity from lineage, tray position and slot. The four branch layouts and three mature flower loads use 64 shared near/distant models; existing genetic habits still affect scale. See PlantAppearanceTest for persistence/migration/diversity coverage.
 
 The optional checked `ArtGallery` uses tagged vanilla item/text display entities to inspect every pot/tent/UV reference tier. Future-tier models are custom-model previews on existing items, with no added machine gameplay. Existing P1 registries and saved plant state remain authoritative.
+
+## 0.2.7 plant authoring
+
+Plant fans use a fixed original RGBA painting exposed through 25 native 256px atlas windows. `botanical_leaf.py` reads alpha with Pillow/NumPy to author conservative double-sided mesh coverage, without rewriting images. `plant_art.py` poses the leaves on four asymmetric connected branch layouts; the distant mesh preserves that architecture. Painted leaf tint is white at runtime. Small sugar leaves, crossed curved-pistil ribbons and non-emissive resin geometry supplement the retained bract volume. Save/network schemas and simulation are unchanged.

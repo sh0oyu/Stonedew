@@ -200,10 +200,12 @@ PALETTES={
 def generate(root):
     from material_atlas import generate as painted_materials
     painted_materials(root)
+    from botanical_leaf import generate as botanical_materials
+    botanical_materials(root)
     tiles={name:material(name,palette) for name,palette in PALETTES.items()}
     for name,pixels in tiles.items():write_png(root/f'textures/block/{name}.png',pixels)
     write_png(root/'textures/block/seed_packet.png',seed_packet())
-    write_png(root/'textures/block/leaf_fan.png',leaf_fan(True))
+    write_png(root/'textures/block/leaf_fan.png',leaf_fan())
     write_png(root/'textures/block/leaf_emblem.png',leaf_fan())
     # UI shares the very same authored material ramps, rather than the old imagegen atlas.
     order=('wood','wood_edge','ceramic','teal','copper','iron','soil','soil_wet','paper','glow','glass','dewstone','plant_bud','plant_leaf','plant_stem','plant_pistil')

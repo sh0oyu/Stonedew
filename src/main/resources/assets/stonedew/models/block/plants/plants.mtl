@@ -11,22 +11,17 @@ neoforge_TintIndex 3
 
 newmtl leaf
 Kd 1 1 1
-map_Kd stonedew:block/leaf_surface
+map_Kd stonedew:block/plant_leaf
 neoforge_TintIndex 3
 
 newmtl leaf_shade
 Kd 0.76 0.91 0.67
-map_Kd stonedew:block/leaf_surface
+map_Kd stonedew:block/plant_leaf
 neoforge_TintIndex 3
 
-newmtl leaf_old
-Kd 0.81 0.96 0.69
-map_Kd stonedew:block/leaf_surface
-neoforge_TintIndex 3
-
-newmtl leaf_old_shade
-Kd 0.64 0.8 0.51
-map_Kd stonedew:block/leaf_surface
+newmtl sugar_leaf
+Kd 1 1 1
+map_Kd stonedew:block/plant_leaf
 neoforge_TintIndex 3
 
 newmtl bud
@@ -48,3 +43,258 @@ newmtl hair
 Kd 1 1 1
 map_Kd stonedew:block/plant_pistil
 neoforge_TintIndex 2
+
+newmtl resin
+Kd 0.82 0.92 0.78
+map_Kd stonedew:block/plant_pistil
+neoforge_TintIndex -1
+
+newmtl leaf_0_0
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_0_0
+neoforge_TintIndex 3
+
+newmtl leaf_back_0_0
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_0_0
+neoforge_TintIndex 3
+
+newmtl leaf_1_0
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_1_0
+neoforge_TintIndex 3
+
+newmtl leaf_back_1_0
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_1_0
+neoforge_TintIndex 3
+
+newmtl leaf_2_0
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_2_0
+neoforge_TintIndex 3
+
+newmtl leaf_back_2_0
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_2_0
+neoforge_TintIndex 3
+
+newmtl leaf_3_0
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_3_0
+neoforge_TintIndex 3
+
+newmtl leaf_back_3_0
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_3_0
+neoforge_TintIndex 3
+
+newmtl leaf_4_0
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_4_0
+neoforge_TintIndex 3
+
+newmtl leaf_back_4_0
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_4_0
+neoforge_TintIndex 3
+
+newmtl leaf_0_1
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_0_1
+neoforge_TintIndex 3
+
+newmtl leaf_back_0_1
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_0_1
+neoforge_TintIndex 3
+
+newmtl leaf_1_1
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_1_1
+neoforge_TintIndex 3
+
+newmtl leaf_back_1_1
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_1_1
+neoforge_TintIndex 3
+
+newmtl leaf_2_1
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_2_1
+neoforge_TintIndex 3
+
+newmtl leaf_back_2_1
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_2_1
+neoforge_TintIndex 3
+
+newmtl leaf_3_1
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_3_1
+neoforge_TintIndex 3
+
+newmtl leaf_back_3_1
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_3_1
+neoforge_TintIndex 3
+
+newmtl leaf_4_1
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_4_1
+neoforge_TintIndex 3
+
+newmtl leaf_back_4_1
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_4_1
+neoforge_TintIndex 3
+
+newmtl leaf_0_2
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_0_2
+neoforge_TintIndex 3
+
+newmtl leaf_back_0_2
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_0_2
+neoforge_TintIndex 3
+
+newmtl leaf_1_2
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_1_2
+neoforge_TintIndex 3
+
+newmtl leaf_back_1_2
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_1_2
+neoforge_TintIndex 3
+
+newmtl leaf_2_2
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_2_2
+neoforge_TintIndex 3
+
+newmtl leaf_back_2_2
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_2_2
+neoforge_TintIndex 3
+
+newmtl leaf_3_2
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_3_2
+neoforge_TintIndex 3
+
+newmtl leaf_back_3_2
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_3_2
+neoforge_TintIndex 3
+
+newmtl leaf_4_2
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_4_2
+neoforge_TintIndex 3
+
+newmtl leaf_back_4_2
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_4_2
+neoforge_TintIndex 3
+
+newmtl leaf_0_3
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_0_3
+neoforge_TintIndex 3
+
+newmtl leaf_back_0_3
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_0_3
+neoforge_TintIndex 3
+
+newmtl leaf_1_3
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_1_3
+neoforge_TintIndex 3
+
+newmtl leaf_back_1_3
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_1_3
+neoforge_TintIndex 3
+
+newmtl leaf_2_3
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_2_3
+neoforge_TintIndex 3
+
+newmtl leaf_back_2_3
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_2_3
+neoforge_TintIndex 3
+
+newmtl leaf_3_3
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_3_3
+neoforge_TintIndex 3
+
+newmtl leaf_back_3_3
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_3_3
+neoforge_TintIndex 3
+
+newmtl leaf_4_3
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_4_3
+neoforge_TintIndex 3
+
+newmtl leaf_back_4_3
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_4_3
+neoforge_TintIndex 3
+
+newmtl leaf_0_4
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_0_4
+neoforge_TintIndex 3
+
+newmtl leaf_back_0_4
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_0_4
+neoforge_TintIndex 3
+
+newmtl leaf_1_4
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_1_4
+neoforge_TintIndex 3
+
+newmtl leaf_back_1_4
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_1_4
+neoforge_TintIndex 3
+
+newmtl leaf_2_4
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_2_4
+neoforge_TintIndex 3
+
+newmtl leaf_back_2_4
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_2_4
+neoforge_TintIndex 3
+
+newmtl leaf_3_4
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_3_4
+neoforge_TintIndex 3
+
+newmtl leaf_back_3_4
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_3_4
+neoforge_TintIndex 3
+
+newmtl leaf_4_4
+Kd 1 1 1
+map_Kd stonedew:block/botanical/leaf_4_4
+neoforge_TintIndex 3
+
+newmtl leaf_back_4_4
+Kd 0.72 0.8 0.67
+map_Kd stonedew:block/botanical/leaf_4_4
+neoforge_TintIndex 3
