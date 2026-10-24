@@ -22,5 +22,65 @@
     "creation": "Original imagegen pixel artwork guided by CODEX_REFERENCE_NEW; source PNG preserved unchanged",
     "date": "2026-10-22",
     "status": "Rejected 0.2.3 artwork, archived unchanged; not shipped or used in game"
+  },
+  {
+    "path": "docs/art/sources/materials-v9.png",
+    "purpose": "Shared stylized equipment material palette",
+    "sha256": "872d625f13c19f9f7094d9639110079d874e23517e232cd4aaf66fad99c52e9d",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "creation": "Original imagegen artwork; source preserved and packaged unchanged",
+    "date": "2026-10-23",
+    "status": "Current 0.2.9 source; native atlas windows or full journal UI painting"
+  },
+  {
+    "path": "docs/art/sources/cannabis-fan-v9.png",
+    "purpose": "Five-finger serrated fan with broad painted facets",
+    "sha256": "8043039f3c26d43e65f0aadf93f3bd2bcadef5c5ee991f20d20718b211979a92",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "creation": "Original imagegen artwork; source preserved and packaged unchanged",
+    "date": "2026-10-23",
+    "status": "Current 0.2.9 source; native atlas windows or full journal UI painting"
+  },
+  {
+    "path": "docs/art/sources/botanical-materials-v9.png",
+    "purpose": "Neutral bracts and sugar leaves; green stems and leaf surface",
+    "sha256": "887296469005ac233785605c0b2785daec8c65ec04c699f4d2a7bedea91e6322",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "creation": "Original imagegen artwork; source preserved and packaged unchanged",
+    "date": "2026-10-23",
+    "status": "Current 0.2.9 source; native atlas windows or full journal UI painting"
+  },
+  {
+    "path": "docs/art/sources/journal-v9.png",
+    "purpose": "Stonedew field-journal frame with quiet parchment and violet sidebar",
+    "sha256": "2c47955a7242354d800b97c8573f86040d9a4659343272b6cb4935a847dba1fd",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "creation": "Original imagegen artwork; source preserved and packaged unchanged",
+    "date": "2026-10-23",
+    "status": "Current 0.2.9 source; native atlas windows or full journal UI painting"
+  },
+  {
+    "path": "docs/art/sources/dewstone-v9.png",
+    "purpose": "Painted violet rock and amethyst / cyan crystal seams for Dewstone",
+    "sha256": "6cf10a77333d9815c39682fa5f19b6cfb7bed3833585d8b0c98112aaed2cfdd6",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "creation": "Original imagegen artwork; source preserved and packaged unchanged",
+    "date": "2026-10-23",
+    "status": "Current 0.2.9 source, native 512px window"
   }
 ]

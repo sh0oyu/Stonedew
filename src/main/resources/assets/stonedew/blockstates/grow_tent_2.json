@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "stonedew:block/catalog/placed_grow_tent_2"
+    },
+    "facing=east": {
+      "model": "stonedew:block/catalog/placed_grow_tent_2",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "stonedew:block/catalog/placed_grow_tent_2",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "stonedew:block/catalog/placed_grow_tent_2",
+      "y": 270
+    }
+  }
+}

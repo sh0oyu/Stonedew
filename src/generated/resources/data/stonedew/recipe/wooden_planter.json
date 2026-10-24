@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "stonedew:clay_pot"
+    },
+    "I": {
+      "item": "minecraft:iron_nugget"
+    },
+    "S": {
+      "item": "minecraft:oak_slab"
+    }
+  },
+  "pattern": [
+    "S S",
+    "SCS",
+    "III"
+  ],
+  "result": {
+    "count": 1,
+    "id": "stonedew:wooden_planter"
+  }
+}

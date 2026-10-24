@@ -1,3 +1,21 @@
+# Current original paintings — 0.2.9
+
+| File | Use | Original generation output |
+| --- | --- | --- |
+| `cannabis-fan-v9.png` | Five clear fingers, serration, broad green facets; original edit adds transparent padding | `exec-b5b61933-f22b-4ed8-b351-4332cc8fe6b4.png` |
+| `materials-v9.png` | Shared 4×4 cartoon equipment palette | `exec-d3a559de-a796-449d-abde-664a8fccf43f.png` |
+| `botanical-materials-v9.png` | Tintable bracts/sugar leaves and green stem/leaf surfaces | `exec-655a77c6-7958-4664-aa1f-9e4e13312911.png` |
+| `journal-v9.png` | Quiet parchment, walnut title, violet navigation, copper hardware | `exec-b89e114b-24ae-42ee-b62e-5f553689df60.png` |
+| `dewstone-v9.png` | Plum rock, amethyst and cyan seams | `exec-075f0fe0-a4e3-4537-a82b-f4a23e084321.png` |
+
+These imagegen originals remain byte-for-byte unchanged here and in runtime resources. Read-only alpha measurements author fan geometry. Minecraft's native atlas selects material windows; the UI draws its complete painting. Hashes/dimensions are recorded in `../painted-sources.json` and `../authored-sources.json`.
+
+Original generation files live under `/workspace/generated_images/` in the authoring environment. The fixed source paintings make regeneration independent of that directory.
+
+The following are historical source notes for rejected versions; v6/v7/v8 paintings remain preserved here and are retired from runtime use.
+
+---
+
 # Current painted material source
 
 `materials-v6.png` is a new original imagegen painting, created on 2026-10-23 with the owner's unchanged pot/tent and UV sheets as visual guidance. The request was a flat 4×4 atlas of stylized pixel materials: terracotta/rim, wood/end grain, dark/light steel, cloth/lining, blue-gray enamel, hardware, dry/wet soil, parchment, violet/cyan glass and dark recesses. It contains no copied reference scenes or other game's artwork.

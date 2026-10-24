@@ -1,22 +1,52 @@
 [
   {
-    "path": "src/main/resources/assets/stonedew/textures/art/cannabis_leaflet_v8.png",
+    "path": "src/main/resources/assets/stonedew/textures/art/botanical_materials_v9.png",
     "dimensions": [
       1254,
       1254
     ],
-    "sha256": "de157e094e82ab8761e564d2dcdeeafb7710625e62844e12058d42a447e0f06d",
-    "source": "docs/art/sources/cannabis-leaflet-v8.png",
+    "sha256": "887296469005ac233785605c0b2785daec8c65ec04c699f4d2a7bedea91e6322",
+    "source": "docs/art/sources/botanical-materials-v9.png",
     "creation": "Original reference-guided material painting, unchanged source; native UV swatches"
   },
   {
-    "path": "src/main/resources/assets/stonedew/textures/art/materials_v6.png",
+    "path": "src/main/resources/assets/stonedew/textures/art/cannabis_fan_v9.png",
     "dimensions": [
       1254,
       1254
     ],
-    "sha256": "7ae435cf19f8343e7f79baebd15b7675962c086d771c7acc56146e6dacaa6461",
-    "source": "docs/art/sources/materials-v6.png",
+    "sha256": "8043039f3c26d43e65f0aadf93f3bd2bcadef5c5ee991f20d20718b211979a92",
+    "source": "docs/art/sources/cannabis-fan-v9.png",
+    "creation": "Original reference-guided material painting, unchanged source; native UV swatches"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/art/dewstone_v9.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "6cf10a77333d9815c39682fa5f19b6cfb7bed3833585d8b0c98112aaed2cfdd6",
+    "source": "docs/art/sources/dewstone-v9.png",
+    "creation": "Original reference-guided material painting, unchanged source; native UV swatches"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/art/journal_v9.png",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "sha256": "2c47955a7242354d800b97c8573f86040d9a4659343272b6cb4935a847dba1fd",
+    "source": "docs/art/sources/journal-v9.png",
+    "creation": "Original reference-guided material painting, unchanged source; native UV swatches"
+  },
+  {
+    "path": "src/main/resources/assets/stonedew/textures/art/materials_v9.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "872d625f13c19f9f7094d9639110079d874e23517e232cd4aaf66fad99c52e9d",
+    "source": "docs/art/sources/materials-v9.png",
     "creation": "Original reference-guided material painting, unchanged source; native UV swatches"
   },
   {
@@ -195,7 +225,7 @@
       64,
       64
     ],
-    "sha256": "0dad6ff5e78159c2620d91a96bab58be201454e407c1f57243f2fb731b927e4e",
+    "sha256": "85d585f98f30550379aef9e168ea4ce3b434410882a0f187e7d56dc3f2743fae",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -205,7 +235,7 @@
       64,
       64
     ],
-    "sha256": "0dad6ff5e78159c2620d91a96bab58be201454e407c1f57243f2fb731b927e4e",
+    "sha256": "85d585f98f30550379aef9e168ea4ce3b434410882a0f187e7d56dc3f2743fae",
     "source": "tools/stylized_textures.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -415,7 +445,7 @@
       64,
       64
     ],
-    "sha256": "1f26ca2427dbf2972fd70c0c37530def1292517ba958781d9fb4588c65037f57",
+    "sha256": "b387b7612631ed1bbe7b7273c23542d48afe3cbd44ec3555098cd3a109625851",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -425,7 +455,7 @@
       64,
       64
     ],
-    "sha256": "cf40bc28a1ebb6fe21315db23251667956de89092b18f87f2fc207fa16ca7393",
+    "sha256": "b387b7612631ed1bbe7b7273c23542d48afe3cbd44ec3555098cd3a109625851",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -435,7 +465,7 @@
       64,
       64
     ],
-    "sha256": "31013a46876c0dcf46a5ffaf1ab1f653329c3fde8762e756e273840831fc2541",
+    "sha256": "b387b7612631ed1bbe7b7273c23542d48afe3cbd44ec3555098cd3a109625851",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -445,7 +475,7 @@
       64,
       64
     ],
-    "sha256": "ca4331371b9f7b147caf03416eac52e8bfe8c2cc0ceb397b5f99862f3aee66e1",
+    "sha256": "b387b7612631ed1bbe7b7273c23542d48afe3cbd44ec3555098cd3a109625851",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -455,7 +485,7 @@
       64,
       64
     ],
-    "sha256": "0da670cb89e10b7ba33673b80393772526527d7a85e703a671bd8eb14b127088",
+    "sha256": "9ce2482b304db517836dc068d7916e4779c98b8e23a39e4591b7b7a67aa45855",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -465,7 +495,7 @@
       64,
       64
     ],
-    "sha256": "0da670cb89e10b7ba33673b80393772526527d7a85e703a671bd8eb14b127088",
+    "sha256": "9ce2482b304db517836dc068d7916e4779c98b8e23a39e4591b7b7a67aa45855",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -475,7 +505,7 @@
       64,
       64
     ],
-    "sha256": "0da670cb89e10b7ba33673b80393772526527d7a85e703a671bd8eb14b127088",
+    "sha256": "9ce2482b304db517836dc068d7916e4779c98b8e23a39e4591b7b7a67aa45855",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -485,7 +515,7 @@
       64,
       64
     ],
-    "sha256": "5d836907ed3eb4951bdb9aea30e40a360cd5c6149baff0eac0c4b6cfe54195c9",
+    "sha256": "b40ff4b62a663802cdcd0f06b5c2ee271aad3506255bca59db197c9ba36b7db4",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -495,7 +525,7 @@
       64,
       64
     ],
-    "sha256": "5d836907ed3eb4951bdb9aea30e40a360cd5c6149baff0eac0c4b6cfe54195c9",
+    "sha256": "b40ff4b62a663802cdcd0f06b5c2ee271aad3506255bca59db197c9ba36b7db4",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -505,7 +535,7 @@
       64,
       64
     ],
-    "sha256": "5d836907ed3eb4951bdb9aea30e40a360cd5c6149baff0eac0c4b6cfe54195c9",
+    "sha256": "b40ff4b62a663802cdcd0f06b5c2ee271aad3506255bca59db197c9ba36b7db4",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -515,7 +545,7 @@
       64,
       64
     ],
-    "sha256": "682f36e905a63303e424113ba70cecb212fd5f70aaa41d7d1e3cbe989fdcff4d",
+    "sha256": "44ccabbc18530e381ea4abaa12a6429e1f2d4d0447a2b25a3796f6e001373a2c",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -525,7 +555,7 @@
       64,
       64
     ],
-    "sha256": "682f36e905a63303e424113ba70cecb212fd5f70aaa41d7d1e3cbe989fdcff4d",
+    "sha256": "44ccabbc18530e381ea4abaa12a6429e1f2d4d0447a2b25a3796f6e001373a2c",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -535,7 +565,7 @@
       64,
       64
     ],
-    "sha256": "682f36e905a63303e424113ba70cecb212fd5f70aaa41d7d1e3cbe989fdcff4d",
+    "sha256": "44ccabbc18530e381ea4abaa12a6429e1f2d4d0447a2b25a3796f6e001373a2c",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -545,7 +575,7 @@
       64,
       64
     ],
-    "sha256": "23cfc01a182fec3b01bbe9255bf6753b111a91682f2448d9422d4985c79c507b",
+    "sha256": "6fb923086465fa5152128d2ace02c5a713d8f85366f35035f9bb1d0ec1e48108",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -555,7 +585,7 @@
       64,
       64
     ],
-    "sha256": "23cfc01a182fec3b01bbe9255bf6753b111a91682f2448d9422d4985c79c507b",
+    "sha256": "6fb923086465fa5152128d2ace02c5a713d8f85366f35035f9bb1d0ec1e48108",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -565,7 +595,7 @@
       64,
       64
     ],
-    "sha256": "23cfc01a182fec3b01bbe9255bf6753b111a91682f2448d9422d4985c79c507b",
+    "sha256": "6fb923086465fa5152128d2ace02c5a713d8f85366f35035f9bb1d0ec1e48108",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -575,7 +605,7 @@
       64,
       64
     ],
-    "sha256": "db689f21cb08853898acbafa41c3c38bddd1f54fd7a3e3aa6661b43434fe60c0",
+    "sha256": "35a5faa498ea8763bd790b853117a4f43f07450acfd00650520b2f615743ac0f",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -585,7 +615,7 @@
       64,
       64
     ],
-    "sha256": "db689f21cb08853898acbafa41c3c38bddd1f54fd7a3e3aa6661b43434fe60c0",
+    "sha256": "35a5faa498ea8763bd790b853117a4f43f07450acfd00650520b2f615743ac0f",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -595,7 +625,7 @@
       64,
       64
     ],
-    "sha256": "db689f21cb08853898acbafa41c3c38bddd1f54fd7a3e3aa6661b43434fe60c0",
+    "sha256": "35a5faa498ea8763bd790b853117a4f43f07450acfd00650520b2f615743ac0f",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -605,7 +635,7 @@
       64,
       64
     ],
-    "sha256": "beadc05c1211330c5b14401180cfa2ac57d1d2726eda916dc5160e091c295d70",
+    "sha256": "b6fea68c6dc33650052edaecab38e836c912233cb1e53901426a1ac3b1487c9a",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -615,7 +645,7 @@
       64,
       64
     ],
-    "sha256": "beadc05c1211330c5b14401180cfa2ac57d1d2726eda916dc5160e091c295d70",
+    "sha256": "b6fea68c6dc33650052edaecab38e836c912233cb1e53901426a1ac3b1487c9a",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -625,7 +655,7 @@
       64,
       64
     ],
-    "sha256": "beadc05c1211330c5b14401180cfa2ac57d1d2726eda916dc5160e091c295d70",
+    "sha256": "b6fea68c6dc33650052edaecab38e836c912233cb1e53901426a1ac3b1487c9a",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -635,7 +665,7 @@
       64,
       64
     ],
-    "sha256": "cfac6ed6c9a754fd0a962ed30cc96654e932a1dbc0bfdca2f68d533528cc9093",
+    "sha256": "b1fc9a2d0cbd852fd57db5bbd2959676efb36da939066a3c3d0e3858f9b10370",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -645,7 +675,7 @@
       64,
       64
     ],
-    "sha256": "cfac6ed6c9a754fd0a962ed30cc96654e932a1dbc0bfdca2f68d533528cc9093",
+    "sha256": "b1fc9a2d0cbd852fd57db5bbd2959676efb36da939066a3c3d0e3858f9b10370",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -655,7 +685,7 @@
       64,
       64
     ],
-    "sha256": "cfac6ed6c9a754fd0a962ed30cc96654e932a1dbc0bfdca2f68d533528cc9093",
+    "sha256": "b1fc9a2d0cbd852fd57db5bbd2959676efb36da939066a3c3d0e3858f9b10370",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -665,7 +695,7 @@
       64,
       64
     ],
-    "sha256": "ba5a75c27e466274083f7f47277b9d82dc707c99d00b74797ff6ff3faaf38ba8",
+    "sha256": "9bfbb0e174db32fa49eb0c0b1dd116ff68350bbaa7385bc23d5a1e3de5c8924b",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -675,7 +705,7 @@
       64,
       64
     ],
-    "sha256": "ba5a75c27e466274083f7f47277b9d82dc707c99d00b74797ff6ff3faaf38ba8",
+    "sha256": "9bfbb0e174db32fa49eb0c0b1dd116ff68350bbaa7385bc23d5a1e3de5c8924b",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },
@@ -685,7 +715,7 @@
       64,
       64
     ],
-    "sha256": "ba5a75c27e466274083f7f47277b9d82dc707c99d00b74797ff6ff3faaf38ba8",
+    "sha256": "9bfbb0e174db32fa49eb0c0b1dd116ff68350bbaa7385bc23d5a1e3de5c8924b",
     "source": "tools/plant_art.py",
     "creation": "Original authored silhouettes, palettes and material marks; deterministic generation"
   },

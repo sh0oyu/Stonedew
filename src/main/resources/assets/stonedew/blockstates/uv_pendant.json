@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "stonedew:block/catalog/placed_uv_pendant"
+    },
+    "lit=true": {
+      "model": "stonedew:block/catalog/placed_uv_pendant_lit"
+    }
+  }
+}

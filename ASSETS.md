@@ -1,22 +1,22 @@
-# Asset manifest — 0.2.8 canopy revision
+# Asset manifest — 0.2.9
 
-The unchanged CODEX_REFERENCE_NEW sheets and supplied grow-room image remain authoritative. The owner rejected 0.2.7’s sparse plant proportions and flat leaf emblems. Current work remains subject to visual review; tests do not imply a 1:1 match. See [art direction](docs/art/ART_DIRECTION.md).
+The warm Stonedew banner and unchanged CODEX_REFERENCE_NEW sheets remain authoritative. The latest correction calls for five clear fingers, larger natural plants, smaller flowers, readable spacing, cartoon materials, a cohesive UI and affordable rendering. Actual game captures provide the visual review evidence.
 
-| Asset | Source | Runtime use |
+| Asset | Authoring source | Runtime use |
 | --- | --- | --- |
-| 64 plant meshes | `tools/plant_art.py` | Four compact branch layouts, overlapping fans built from separately curved fingers, raised bracts/sugar leaves/pistils/resin, all stages/loads and distant meshes |
-| Working equipment | `tools/equipment_art.py` | Pot/bed/lamp states, longer-spout can, cell, packet and Ledger |
-| Complete pot/UV/tent catalog | `tools/reference_catalog.py` | Labeled previews via `/stonedew debug art`; gathered cloth, hardware and local fixture glow |
-| New material painting | `docs/art/sources/materials-v6.png` | Original imagegen source, packaged unchanged; equipment and UI |
-| Cannabis leaflet painting | `docs/art/sources/cannabis-leaflet-v8.png` | Original unchanged transparent single finger, native 512×1024 window; seven independently folded fingers per fan, read-only alpha measurements in `tools/botanical_leaf.py` |
-| Native material bindings | `tools/material_atlas.py` | Sixteen distinct inset 256px swatches through Minecraft's built-in atlas loader |
-| Foliage, packet and effects | `tools/stylized_textures.py` | Original pixel textures and RGB radiance maps |
-| Baked spatial shading | `tools/bake_occlusion.py` | Vertex AO, authored canopy shadows and violet preview reflections |
-| Soil silhouettes | `tools/plant_art.py`, `TrayRenderer` | Geometry-derived soft shadows clipped to soil |
-| Fueled UV effects | `GrowLightCache`, `LampSpill`, `LampBeam`, `LampRenderer` | Conditional plant bounce, floor spill, additive halo and shaft |
+| 64 plant models | `tools/plant_art.py` | Four stages, four saved gestures, three mature flower loads, near/distant meshes |
+| Five-finger fans | `docs/art/sources/cannabis-fan-v9.png` | Original transparent painting, four folded patches near / one patch far, explicit front/back faces |
+| Bracts / stems / sugar leaves | `docs/art/sources/botanical-materials-v9.png` | Neutral tintable painted facets; merged exposed flower geometry with small hairs/resin |
+| Equipment material sheet | `docs/art/sources/materials-v9.png` | Shared terracotta, walnut, violet steel/canvas, silver lining, enamel, copper, soil and glass |
+| Working equipment / catalog | `tools/equipment_art.py`, `tools/reference_catalog.py` | All existing equipment plus normal item/block bindings for three pots, three lamps and four tents |
+| Dewstone | `docs/art/sources/dewstone-v9.png` | Painted plum rock with amethyst/cyan crystal seams |
+| Field journal | `docs/art/sources/journal-v9.png`, `LedgerScreen` | Personalized progress page and keyboard-accessible care/workshop tabs |
+| Plant HUD | `PaintedUi`, `PlantHud` | Quiet violet panels, green/copper identity, stage and care bars |
+| Spatial shading | `tools/bake_occlusion.py` | Vertex occlusion with separate foliage/flower ranges, authored key shading |
+| Local effects | `LampRenderer`, `GrowLightCache`, `LampSpill`, `LampBeam` | Fuel-dependent plant bounce, halo, floor spill and bounded shaft |
 
-Resources live under `src/main/resources/assets/stonedew`, plus a native atlas definition under `assets/minecraft/atlases/blocks.json`. Its distinct Stonedew sprite IDs do not replace vanilla sprites. The non-power-of-two source image is outside the block sprite directory; selected swatches retain mip level 4. No custom Java atlas importer is used.
+All five new imagegen paintings are preserved and packaged byte-for-byte. Native atlas windows expose 22 material sprites, with mip level 4. Pillow/NumPy only read the leaf alpha for geometry. Original uploads and rejected historical paintings remain intact in documentation.
 
-Budgets/provenance are under `docs/art`. The generator stages resources and requires successful Blender baking before installation. Python 3, Pillow, NumPy and Blender 4.x are authoring dependencies; normal builds use checked-in assets. The fixed material painting is copied unchanged, not regenerated procedurally.
+The staged generator installs resources after successful Blender baking. Ordinary builds use checked-in resources; Python authoring requirements and Blender are needed only for regeneration. Budget/provenance files live under `docs/art`.
 
-Original uploads and rejected historical imagegen sources remain intact. No reference crops or third-party game art are bundled. Advanced gallery tiers do not implement automation; bud loads do not invent harvest yield. Full-scene shadow maps/HDR bloom, shader compatibility, broad hardware/performance checks and owner aesthetic approval remain outstanding.
+Tent shells are static chunk geometry with collision cells and open interiors; pots and lamps are working P1 blocks. The legacy `/stonedew debug art` gallery also retains explicitly labeled future-tier display previews. Climate/automation behavior is not supplied by those previews. Full-scene shader effects, broader hardware checks and owner aesthetic acceptance remain open.

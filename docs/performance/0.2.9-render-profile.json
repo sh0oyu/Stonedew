@@ -1,0 +1,90 @@
+{
+  "scene": "24 mature potted plants, six columns x four rows",
+  "camera": [
+    205.5,
+    -57.5,
+    214.0,
+    0,
+    18
+  ],
+  "viewport": [
+    854,
+    480
+  ],
+  "fov": 70,
+  "render_distance_chunks": 12,
+  "max_fps": 120,
+  "renderer": "Xvfb + Mesa software rendering, LIBGL_ALWAYS_SOFTWARE=1",
+  "mip_levels": 4,
+  "baseline_version": "0.2.8-p1",
+  "baseline": [
+    {
+      "frames": 77,
+      "fps": 8,
+      "faces_per_frame": 246336.0,
+      "cpu_mean_ms": 48.57726954545455,
+      "cpu_p95_ms": 62.618363
+    },
+    {
+      "frames": 76,
+      "fps": 7,
+      "faces_per_frame": 246336.0,
+      "cpu_mean_ms": 49.329430828947366,
+      "cpu_p95_ms": 61.422356
+    },
+    {
+      "frames": 76,
+      "fps": 8,
+      "faces_per_frame": 246336.0,
+      "cpu_mean_ms": 50.25975889473684,
+      "cpu_p95_ms": 61.282422
+    },
+    {
+      "frames": 75,
+      "fps": 8,
+      "faces_per_frame": 246336.0,
+      "cpu_mean_ms": 50.2537502,
+      "cpu_p95_ms": 62.939612
+    },
+    {
+      "frames": 73,
+      "fps": 7,
+      "faces_per_frame": 246336.0,
+      "cpu_mean_ms": 51.31419084931507,
+      "cpu_p95_ms": 62.488689
+    },
+    {
+      "frames": 76,
+      "fps": 7,
+      "faces_per_frame": 246336.0,
+      "cpu_mean_ms": 50.12451306578947,
+      "cpu_p95_ms": 62.329631
+    }
+  ],
+  "candidate_version": "0.2.9-p1",
+  "candidate": [
+    {
+      "frames": 303,
+      "fps": 31,
+      "faces_per_frame": 17840.0,
+      "cpu_mean_ms": 4.291585561056106,
+      "cpu_p95_ms": 5.020437
+    },
+    {
+      "frames": 293,
+      "fps": 31,
+      "faces_per_frame": 17840.0,
+      "cpu_mean_ms": 4.434011003412969,
+      "cpu_p95_ms": 5.131298
+    },
+    {
+      "frames": 304,
+      "fps": 31,
+      "faces_per_frame": 17840.0,
+      "cpu_mean_ms": 4.383573101973684,
+      "cpu_p95_ms": 4.861911
+    }
+  ],
+  "status": "Final 0.2.9 rendering/assets, steady ten-second windows with all 24 trays visible",
+  "scope": "Steady client plant submission CPU time and reported FPS. Not a hardware-wide or 500-plant result."
+}

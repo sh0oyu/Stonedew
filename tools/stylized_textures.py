@@ -95,13 +95,13 @@ def material(name, palette, size=32):
 
 
 def leaf_fan(neutral=False):
-    """A 64px, broad seven-finger silhouette, with two quiet tones per finger.
+    """A 64px, broad five-finger silhouette, with two quiet tones per finger.
     The straight shared root and explicit serrations are authored at final texel scale.
     """
     size=64
     pixels=[[(0,0,0,0) for _ in range(size)] for _ in range(size)]
     root=(31.5,56)
-    for degrees,length,width in ((-80,20,3.5),(-56,31,4.4),(-29,42,5.2),(0,49,6.2),(29,42,5.2),(56,31,4.4),(80,20,3.5)):
+    for degrees,length,width in ((-66,27,4.0),(-32,41,5.2),(0,49,5.8),(32,41,5.2),(66,27,4.0)):
         angle=math.radians(degrees)
         dx,dy=math.sin(angle),-math.cos(angle)
         for y in range(size):

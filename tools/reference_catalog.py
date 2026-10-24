@@ -100,7 +100,7 @@ def append(m, other, offset=(0,0,0), scale=1):
         m.face(material,[((v[0]+8)*scale+offset[0],v[1]*scale+offset[1],(v[2]+8)*scale+offset[2]) for v in vertices],normals,uv)
 
 
-def tent(tier):
+def tent(tier, include_fixture=True):
     m=Prop();w=(18,24,29,34)[tier-1];d=(18,20,23,26)[tier-1];h=(36,37,40,43)[tier-1]
     # Outer fabric envelope, real panel seams and pale reflective inner lining.
     m.bevel((0,0,0),(w,1.5,d),.2,'fabric','iron_light')
@@ -141,8 +141,9 @@ def tent(tier):
         m.bevel((x-.1,h*.48-.02,-.17),(x+.8,h*.48+.6,-.03),.08,'iron')
         m.bevel((x-.5,h-7.3,.0),(x+2,h-4.8,2.8),.55,'fabric','iron')
     # Actual lamp geometry in the preview, matching the corresponding reference tier.
-    fixture=pendant() if tier==1 else lamp(True,True) if tier==2 else panel(tier)
-    append(m,fixture,((w-16)/2,h-20,(d-16)/2))
+    if include_fixture:
+        fixture=pendant() if tier==1 else lamp(True,True) if tier==2 else panel(tier)
+        append(m,fixture,((w-16)/2,h-20,(d-16)/2))
     # Reflective panel quilting has shallow, irregular seams, not busy white noise.
     for x in range(4,int(w)-2,6):m.beam((x,3,d-1.13),(x+.35,h-7,d-1.13),.12,'lining_seam')
     if tier==2:
@@ -178,7 +179,7 @@ def generate(root):
     meshes['uv_twin']=lamp(True,True)
     # Share exactly the same authored material library and maps as the working equipment.
     material=(root/'models/block/equipment/equipment.mtl').read_text()
-    for name,texture,color,emissive in [('fabric','fabric',(1,1,1),False),('fabric_fold','fabric',(.68,.67,.74),False),('lining','lining',(1,1,1),False),('lining_seam','lining',(.77,.77,.81),False),('cyan_emission','glow_cyan',(1,1,1),True),('white_emission','glow_core',(1,1,1),True)]:
+    for name,texture,color,emissive in [('fabric','fabric',(.72,.50,.48),False),('fabric_fold','fabric',(.49,.34,.35),False),('lining','lining',(.84,.72,.94),False),('lining_seam','lining',(.65,.55,.76),False),('cyan_emission','glow_cyan',(1,1,1),True),('white_emission','glow_core',(1,1,1),True)]:
         material+=f'\nnewmtl {name}\nKd '+' '.join(map(str,color))+f'\nmap_Kd {sprite(texture)}\nKa '+('1 1 1' if emissive else '0 0 0')+'\n'
     (directory/'catalog.mtl').write_text(material)
     overrides=[];report=[]
@@ -192,3 +193,60 @@ def generate(root):
         report.append({'model':name,'customModelData':code,'faces':len(mesh.faces),'status':'Art preview; not functional automation'})
     cell=root/'models/item/glow_cell.json';data=json.loads(cell.read_text());data['overrides']=overrides;cell.write_text(json.dumps(data,indent=2)+'\n')
     return report
+
+
+def generate_placements(root):
+    """Normal block/item bindings, separate from the legacy gallery overrides."""
+    from plant_art import Mesh
+    from copy import deepcopy
+    directory=root/'models/block/catalog'
+    def install(name, mesh, facing=False, lamp=False):
+        for lit in ((False,True) if lamp else (False,)):
+            suffix='_lit' if lit else ''
+            model=deepcopy(mesh)
+            if not lit:
+                model.faces=[('glass' if 'emission' in mat else mat,v,n,uv)
+                             for mat,v,n,uv in model.faces if mat not in ('emission_halo','emission_aura')]
+            stem='placed_'+name+suffix
+            model.write(directory/f'{stem}.obj','catalog.mtl')
+            binding={'credit':'Original Stonedew placeable workshop equipment.', 'loader':'neoforge:obj',
+                     'model':f'stonedew:models/block/catalog/{stem}.obj','automatic_culling':False,
+                     'shade_quads':True,'emissive_ambient':True,'textures':{'particle':sprite('iron')}}
+            binding=emission_pass(model,directory,stem,'catalog.mtl',binding)
+            (directory/f'{stem}.json').write_text(json.dumps(binding,indent=2)+'\n')
+        states={}
+        for direction,angle in (('north',0),('east',90),('south',180),('west',270)) if facing else ((None,0),):
+            for lit in ((False,True) if lamp else (False,)):
+                key=(f'facing={direction}' if facing else '')
+                if lamp:key=f'lit={str(lit).lower()}'
+                states[key]={'model':f'stonedew:block/catalog/placed_{name}'+('_lit' if lit else '')}
+                if angle:states[key]['y']=angle
+        (root/'blockstates').mkdir(exist_ok=True)
+        (root/f'blockstates/{name}.json').write_text(json.dumps({'variants':states},indent=2)+'\n')
+        display=deepcopy(DISPLAY)
+        if facing:
+            display['gui']={'rotation':[15,210,0],'translation':[7,-5,0],'scale':[.32]*3}
+            display['firstperson_righthand']={'rotation':[0,45,0],'translation':[-2,0,0],'scale':[.20]*3}
+            display['ground']={'translation':[-4,0,-4],'scale':[.24]*3}
+        data={'credit':'Original Stonedew placeable workshop item.', 'parent':f'stonedew:block/catalog/placed_{name}', 'display':display}
+        (root/f'models/item/{name}.json').write_text(json.dumps(data,indent=2)+'\n')
+    (root/'blockstates').mkdir(exist_ok=True)
+    # One full-size wooden crate holds one showcase plant; the existing bed
+    # remains a separate four-slot block. Both share the same authored geometry.
+    (root/'blockstates/wooden_planter.json').write_text(json.dumps({'variants':{
+        'wet=false':{'model':'stonedew:block/planter_bed'},
+        'wet=true':{'model':'stonedew:block/planter_bed_wet'}}},indent=2)+'\n')
+    (root/'models/item/wooden_planter.json').write_text(json.dumps({
+        'credit':'Original Stonedew single-plant wooden grow crate.',
+        'parent':'stonedew:block/planter_bed','display':DISPLAY},indent=2)+'\n')
+    install('fabric_pot',cloth_pot())
+    pot=automated_pot();pot.faces=[f for f in pot.faces if f[0]!='cyan_emission']
+    install('reinforced_pot',pot)
+    for name,model in (('uv_pendant',pendant()),('uv_panel_4',panel(3)),('uv_panel_6',panel(4))):install(name,model,lamp=True)
+    for tier in range(1,5):
+        m=tent(tier,include_fixture=False)
+        w=(18,24,29,34)[tier-1];d=(18,20,23,26)[tier-1]
+        m.faces=[(mat,[(x+(48-w)/2,y,z+(48-d)/2) for x,y,z in v],n,uv) for mat,v,n,uv in m.faces]
+        install(f'grow_tent_{tier}',m,facing=True)
+    (root/'models/block/empty.json').write_text(json.dumps({'credit':'Original Stonedew invisible tent shell cell.','textures':{'particle':sprite('fabric')},'elements':[]})+'\n')
+    (root/'blockstates/grow_tent_part.json').write_text(json.dumps({'variants':{'':{'model':'stonedew:block/empty'}}})+'\n')

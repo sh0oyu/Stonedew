@@ -1,49 +1,36 @@
-# Art direction and review — 0.2.8
+# Art direction and review — 0.2.9
 
-The unchanged CODEX_REFERENCE_NEW sheets and the warm Stonedew grow-room banner remain authoritative. The owner rejected 0.2.7: its long bare branches and rigid full-fan paintings did not match the reference's dense, overlapping foliage. This revision changes those proportions and the construction of individual leaves. Actual game captures are the review evidence; resource tests do not establish aesthetic acceptance.
+The warm Stonedew banner and CODEX_REFERENCE_NEW guide shape, color and material treatment. The owner's latest correction takes priority: five recognizable fingers, fuller and larger natural branches, smaller flowers, clear spacing, cartoon surfaces, consistent UI/equipment and improved FPS.
 
-## Plant forms
+## Current construction
 
-Four short, uneven side branches support overlapping leaf clusters. Twelve branch fans and ten staggered stem/apical fans fill the mature plant's center. Sizes taper gradually and attachments stay staggered, avoiding symmetric rings or an exposed branching diagram. Each fan has seven separate fingers, each with its own pitch, twist, arch, droop and real midrib fold. Branch gestures and saved size/rotation identities remain distinct across four layouts.
+Four saved asymmetric branch gestures carry staggered fans with varied pitch and roll. The mature plant uses twenty complete five-finger fans. Each fan has four gently folded patches and its own underside; distant fans use one patch and the same painting. Broad upper and lower leaf normals keep painted greens readable in vanilla lighting. Short sugar leaves remain separate solid silhouettes.
 
-The fixed original `sources/cannabis-leaflet-v8.png` supplies a single serrated finger with quiet green facets. Imagegen created and simplified the painting; Python never edits, resizes or rewrites it. Read-only alpha measurements determine six compact longitudinal mesh bands and one native 512×1024 atlas window. Front and underside faces have opposite normals and retain the original painting's colors. The rejected full-fan v7 painting remains unchanged in documentation, outside runtime resources.
+Mature flower loads remain 5/9/13. Smaller egg-shaped flowers retain the stepped bract contour. Coplanar exposed voxel faces merge into rectangles, and hidden surfaces disappear. Four short curved pistils, three sugar leaves and restrained resin accents provide fine detail without the former hundreds of detail faces per flower. Geometry peaks at **2,294 near / 106 distant faces**, versus **13,090 / 98** in the rejected 0.2.8 build. Distant detail begins at ten blocks. Saved genes, appearance identities and eventual harvest yield remain separate.
 
-Seedlings retain cotyledons; young plants have three staggered compound leaves. The leafy stage develops the same branch structure before flowers. Mature flowers keep the established egg-shaped bract volume but sit smaller within the foliage. Selected exposed bracts gain shallow raised crowns with sloping shoulders. Sugar leaves use the new painting too; paired curved pistils and sparse non-emissive resin points remain. Medium/high loads add small axillary flowers, retaining the 5/9/13 mature-load contract. The green flower palette is brighter. No planting, growth, harvesting or save-schema mechanics change.
+New shared paintings cover equipment, tools, pots, tents, lamps, botanical surfaces and Dewstone. Bold material planes and restrained marks replace the previous mixed surfaces. Tents use charcoal violet canvas, soft violet silver lining, steel frames and copper fittings. Existing equipment keeps its authored shape and receives the shared material revision.
 
-## Materials and equipment
+Four tents, three pots and three lamps now have normal registered items and placeable blocks. Tent shells reserve a 3×3×3 footprint with clear interiors and an upper center lamp socket. Breaking a shell removes its structure and preserves contents. New pots are manually tended; new lamps use the existing Glow Cell fuel loop. Future automation remains gated by P3.
 
-`docs/art/sources/materials-v6.png` is a **new original reference-guided painting**, created with imagegen. It is distinct from the rejected 0.2.3 artwork. Its original bytes are packaged unchanged at `textures/art/materials_v6.png`; the original output also remains in the execution workspace. Python does not resample, edit or regenerate that painting.
+## UI and source handling
 
-`tools/material_atlas.py` defines sixteen inset 256px UV swatches using Minecraft's built-in `minecraft:unstitch` source. All have separate `stonedew:block/painted/*` IDs. The non-power-of-two source stays outside `textures/block`, so global block mip levels remain **4**. Native UV windows avoid adjacent materials. This uses the engine's atlas loader, without a custom Java importer or overriding vanilla sprites. Terracotta, timber, dark metal, fittings, lining, soil, blue-gray enamel and parchment supply the equipment and UI surfaces. The seed-envelope print, small sugar-leaf/cotyledon materials, distant leaf cards and effects remain original authored pixel assets. The near fan uses the separate original painting described above.
+The Ledger uses a new original field-journal painting with walnut, copper fittings, violet navigation and quiet parchment. It shows the keeper's name, actual introductory progress, a care page and a workshop page. Tabs support mouse and keyboard navigation. The plant HUD uses matching colors, readable text and compact care bars.
 
-Working pots/beds retain tapered ceramic lips, recessed soil, broad wood planks, heavy posts/feet and slotted hardware. The watering can now has a longer visible neck and tilted nine-hole rose, open riveted handle, rolled seams and cast body. The cell, bound Ledger, seed packaging and open twin UV fixture use the revised materials too.
+Five original imagegen paintings live in `sources/`, recorded in `painted-sources.json`. Copies in runtime resources retain their original bytes. Minecraft's native atlas loader selects sixteen material windows, one full five-finger fan window, four botanical surfaces and one Dewstone window. Global mip level 4 remains. Alpha is read only to bound leaf geometry; Python does not edit paintings. The field-journal painting is drawn directly in the UI.
 
-All four pot, UV and tent tiers are available through `/stonedew debug art`. Tent art has broad gathered cloth flaps, straps, reflective floors/lining, poles, couplers, bolts, grilles, ribbed ducts, cables and cyan controls. The fan/control side follows the reference's front view. Advanced pots, lamps and tents remain **labeled art previews**, without automation functionality. The checked gallery refuses occupied or unloaded space; its display entities carry `stonedew_art_preview`. The floor/backdrop are ordinary blocks. P2/P3 and the P3 Fun Gate remain ahead of automation.
+## Shading and measurement
 
-## Shading and light
+Blender BVH bakes vertex occlusion and bounded authored key shadows. Foliage and flower ranges preserve the painted palette, with geometric shading on solid forms and upward-weighted artist normals on leaf fronts/backs. Runtime world light and actual fueled grow-light bounce remain conditional. Plant lighting samples are cached twice per second, outside the face loop. The HUD limits targeting queries to ten per second.
 
-Blender's BVH bakes sixteen-ray ambient occlusion into native OBJ `vc` colors. Plant meshes additionally receive a bounded three-ray authored key shadow. Foliage uses gentler ambient/key shadow ranges than solid props, preserving green interiors when many leaves overlap. This is baked stylized lighting. The entity shader applies diffuse surface lighting **once**; the removed CPU pass previously compounded it and dulled the colors. Cultivar colors, height-based world light and obstruction-aware fueled UV bounce remain runtime inputs.
+Soil contact/canopy silhouettes, additive fixture halos, bounded shafts and local floor spill remain. These are local techniques; full-scene shader shadows and HDR bloom require a compatible renderer/pack. Compatibility and broad hardware testing remain unverified. See [measured performance](../performance/0.2.9.md).
 
-Original geometry rasterization produces soft foliage-shaped soil shadows. The renderer maps them through the plant's saved rotation/spread and clips them to the actual pot/bed soil. They augment the small base contact shadow; they are not reference-image crops or global dynamic shadows.
-
-Lit catalog previews bake violet reflections from the actual emitting geometry onto their frame/lining. Native composite item models separate diffuse bodies from unlit additive emission. Small local glow meshes use RGB radiance falloff with black borders: Minecraft's ONE/ONE additive blending ignores alpha. Glow planes are excluded from occlusion rays and working lamp chunk geometry. Actual lamps use a fuel/atmosphere-gated additive halo, local spill and depth-bounded shaft; intensity controls the halo/shaft. No shader pack is required.
-
-These techniques do **not** implement a world shadow-map renderer, screen-space AO or full-scene HDR bloom. Shader-pack compatibility, broader hardware checks, the 500-plant performance target and aesthetic acceptance remain unverified. Model shape/material fidelity still matters independently of those scene effects.
-
-## Reproduction and review
-
-Normal builds use checked-in resources. Art regeneration requires Python 3, Pillow, NumPy and Blender 4.x:
+## Reproduction
 
 ```sh
 python3 -m pip install -r tools/requirements-art.txt
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
-./gradlew runData
-./gradlew build
+./gradlew runData build
 ```
 
-The generator stages resources, requires a successful bake and installs results afterward. Whole-prop AO caches include source/baker hashes; body-pass colors derive from the complete prop. The fixed material painting is copied unchanged. Reports record budgets and provenance. Measured plant maxima are **13,090 near / 98 distant faces**, within **14,000 / 100** limits; the detailed mesh changes after fourteen blocks. Equipment maximum: **1,337**; catalog maximum: **2,775**. These budgets are not a performance benchmark.
-
-Current `p1-canopy-*.png` images are unedited Minecraft captures. Inspect both flower palettes, front/back, close details, growth stages and saved loads against the reference. Studio views use 30° FOV with a lower viewing angle to compare the banner silhouette; the gameplay view uses 70°. The cave comparison scene uses ordinary Minecraft blocks, working P1 equipment and an existing tent display preview; it is a local art test, not new worldgen or functional automation. Earlier `p1-botanical-*` and other plant captures document rejected historical revisions. Equipment/catalog geometry is unchanged this revision.
-
-The tray renderer now rejects only degenerate surfaces: its old area threshold discarded most thin pistil faces and every resin facet in the inspected small bud. The lower threshold retains those valid surfaces and small leaf bands.
+Blender 4.x must be on PATH for art authoring. Normal builds use checked-in resources. The generator stages all work and installs after baking succeeds. Actual unedited current captures use `docs/screenshots/p1-unified-*`; older prefixes document rejected historical versions. Automated checks validate resource correctness and budgets; visual acceptance remains with the owner.

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:dirt"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "W": {
+      "item": "minecraft:black_wool"
+    }
+  },
+  "pattern": [
+    "S S",
+    "W W",
+    "DDD"
+  ],
+  "result": {
+    "count": 1,
+    "id": "stonedew:fabric_pot"
+  }
+}

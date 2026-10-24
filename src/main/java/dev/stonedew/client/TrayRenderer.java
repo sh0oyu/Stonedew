@@ -6,7 +6,6 @@ import dev.stonedew.Stonedew;
 import dev.stonedew.plant.GrowTrayBlockEntity;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -122,8 +121,9 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
       MultiBufferSource buffers,
       int light,
       int overlay) {
+    long profileStart = PlantRenderStats.ENABLED ? System.nanoTime() : 0;
+    int profileFaces = 0;
     var level = (net.minecraft.client.multiplayer.ClientLevel) tray.getLevel();
-    var lights = GrowLightCache.near(level, tray.getBlockPos());
     int grid = (int) Math.ceil(Math.sqrt(tray.capacity()));
     double distance =
         Minecraft.getInstance()
@@ -131,13 +131,12 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
             .getMainCamera()
             .getPosition()
             .distanceToSqr(tray.getBlockPos().getCenter());
-    int[] levels = new int[4];
-    for (int i = 0; i < 4; i++)
-      levels[i] = LevelRenderer.getLightColor(level, tray.getBlockPos().above(Math.max(1, i)));
+    var illumination = GrowLightCache.sample(level, tray.getBlockPos(), grid);
+    int[] levels = illumination.levels();
     for (int slot = 0; slot < tray.capacity(); slot++) {
       var plant = tray.view(slot);
       if (plant == null) continue;
-      String detail = distance > 14 * 14 ? "_lod" : "";
+      String detail = distance > 10 * 10 ? "_lod" : "";
       var model =
           Minecraft.getInstance()
               .getModelManager()
@@ -152,16 +151,17 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
                               + (plant.stage() >= 2 ? plant.budLoad() : 0)
                               + detail)));
       float offsetX = (slot % grid + .5F) / grid, offsetZ = (slot / grid + .5F) / grid;
-      float soil = grid == 1 ? 7.5F / 16 : 13.6F / 16;
+      float soil =
+          ((dev.stonedew.plant.GrowTrayBlock) tray.getBlockState().getBlock()).soilHeight();
       float grow = .93F + .07F * plant.progress() / 100F;
       float sx =
-          (grid == 1 ? 1.0F : .62F)
+          (grid == 1 ? 1.25F : .48F)
               * grow
               * plant.spread()
               / 100F
               * (plant.habit().equals("tall") ? .86F : 1);
       float sy =
-          (grid == 1 ? 1.10F : .94F)
+          (grid == 1 ? 1.30F : 1.05F)
               * grow
               * plant.height()
               / 100F
@@ -182,6 +182,7 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
       float[] brightness = new float[4];
       int[] lighting = new int[4];
       for (var surface : meshCache.computeIfAbsent(model, this::unpack)) {
+        if (PlantRenderStats.ENABLED) profileFaces++;
         var quad = surface.quad();
         boolean leaf = quad.getTintIndex() == 3;
         int color =
@@ -208,25 +209,10 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
         }
         float uv = 0;
         for (int v = 0; v < 4; v++) {
-          float x = surface.x()[v], y = surface.y()[v], z = surface.z()[v];
-          // The entity shader already lights the transformed geometric normal.
-          // Keep baked occlusion, without applying a second diffuse-light pass.
+          int height = Math.clamp((int) (soil + surface.y()[v] * sy + .25F), 1, 3);
           brightness[v] = 1;
-          lighting[v] = levels[Math.clamp((int) (soil + y * sy + .25F), 1, 3)];
-          uv +=
-              GrowLightCache.strength(
-                      lights,
-                      tray.getBlockPos().getX() + offsetX + (x * cos + z * sin) * sx,
-                      tray.getBlockPos().getY() + soil + y * sy,
-                      tray.getBlockPos().getZ() + offsetZ + (z * cos - x * sin) * sx)
-                  * .25F
-                  * (1
-                      - .65F
-                          * Math.max(
-                              0,
-                              net.minecraft.client.renderer.LightTexture.sky(lighting[v])
-                                  - level.getSkyDarken())
-                          / 15F);
+          lighting[v] = levels[height];
+          uv += illumination.uv()[slot * 4 + height] * .25F;
         }
         // Colored UV bounce remains conditional on actual fueled fixtures and obstruction checks.
         r = Math.min(1, r + .10F * uv);
@@ -236,5 +222,7 @@ public final class TrayRenderer implements BlockEntityRenderer<GrowTrayBlockEnti
       }
       pose.popPose();
     }
+    if (PlantRenderStats.ENABLED)
+      PlantRenderStats.tray(System.nanoTime() - profileStart, profileFaces);
   }
 }

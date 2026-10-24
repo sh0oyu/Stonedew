@@ -2,7 +2,7 @@
   "sources": [
     {
       "type": "minecraft:unstitch",
-      "resource": "stonedew:art/materials_v6",
+      "resource": "stonedew:art/materials_v9",
       "divisor_x": 1254,
       "divisor_y": 1254,
       "regions": [
@@ -122,16 +122,67 @@
     },
     {
       "type": "minecraft:unstitch",
-      "resource": "stonedew:art/cannabis_leaflet_v8",
+      "resource": "stonedew:art/dewstone_v9",
       "divisor_x": 1254,
       "divisor_y": 1254,
       "regions": [
         {
-          "sprite": "stonedew:block/botanical/leaflet_v8",
-          "x": 374,
-          "y": 122,
+          "sprite": "stonedew:block/painted/dewstone",
+          "x": 371,
+          "y": 371,
           "width": 512,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "stonedew:art/cannabis_fan_v9",
+      "divisor_x": 1254,
+      "divisor_y": 1254,
+      "regions": [
+        {
+          "sprite": "stonedew:block/botanical/fan_v9",
+          "x": 114,
+          "y": 114,
+          "width": 1024,
           "height": 1024
+        }
+      ]
+    },
+    {
+      "type": "minecraft:unstitch",
+      "resource": "stonedew:art/botanical_materials_v9",
+      "divisor_x": 1254,
+      "divisor_y": 1254,
+      "regions": [
+        {
+          "sprite": "stonedew:block/botanical/bud",
+          "x": 186,
+          "y": 186,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/botanical/stem",
+          "x": 812,
+          "y": 186,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/botanical/leaf",
+          "x": 186,
+          "y": 812,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "sprite": "stonedew:block/botanical/sugar",
+          "x": 812,
+          "y": 812,
+          "width": 256,
+          "height": 256
         }
       ]
     }

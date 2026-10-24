@@ -28,8 +28,15 @@ public final class BulbLampBlock extends BaseEntityBlock {
   public static final MapCodec<BulbLampBlock> CODEC = simpleCodec(BulbLampBlock::new);
   public static final BooleanProperty LIT = BooleanProperty.create("lit");
 
+  private final VoxelShape hull;
+
   public BulbLampBlock(Properties properties) {
+    this(properties, Block.box(1, 1, 5, 15, 16, 11));
+  }
+
+  public BulbLampBlock(Properties properties, VoxelShape hull) {
     super(properties);
+    this.hull = hull;
     registerDefaultState(stateDefinition.any().setValue(LIT, false));
   }
 
@@ -56,7 +63,7 @@ public final class BulbLampBlock extends BaseEntityBlock {
   @Override
   protected VoxelShape getShape(
       BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-    return Block.box(1, 1, 5, 15, 16, 11);
+    return hull;
   }
 
   @Override

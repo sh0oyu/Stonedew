@@ -16,12 +16,52 @@ final class GrowLightCache {
       new java.lang.ref.WeakReference<>(null);
   private static long visit = Long.MIN_VALUE;
   private static final java.util.Map<Long, List<Vec3>> CACHE = new java.util.HashMap<>();
+  private static final java.util.Map<Long, Illumination> SAMPLES = new java.util.HashMap<>();
+
+  record Illumination(int[] levels, float[] uv) {}
+
+  static Illumination sample(ClientLevel level, BlockPos tray, int grid) {
+    var lights = near(level, tray);
+    return SAMPLES.computeIfAbsent(
+        tray.asLong(),
+        ignored -> {
+          int[] levels = new int[4];
+          float[] uv = new float[grid * grid * 4];
+          for (int h = 0; h < 4; h++) {
+            levels[h] =
+                net.minecraft.client.renderer.LevelRenderer.getLightColor(
+                    level, tray.above(Math.max(1, h)));
+            float sky =
+                1
+                    - .65F
+                        * Math.max(
+                            0,
+                            net.minecraft.client.renderer.LightTexture.sky(levels[h])
+                                - level.getSkyDarken())
+                        / 15F;
+            for (int slot = 0; slot < grid * grid; slot++)
+              uv[slot * 4 + h] =
+                  strength(
+                          lights,
+                          tray.getX() + (slot % grid + .5) / grid,
+                          tray.getY() + h + .25,
+                          tray.getZ() + (slot / grid + .5) / grid)
+                      * sky;
+          }
+          return new Illumination(levels, uv);
+        });
+  }
 
   static List<Vec3> near(ClientLevel level, BlockPos tray) {
     if (level != cachedLevel.get() || level.getGameTime() / 10 != visit) {
       cachedLevel = new java.lang.ref.WeakReference<>(level);
       visit = level.getGameTime() / 10;
       CACHE.clear();
+      SAMPLES.clear();
+    }
+    if (CACHE.size() > 512) {
+      CACHE.clear();
+      SAMPLES.clear();
     }
     return CACHE.computeIfAbsent(tray.asLong(), ignored -> find(level, tray));
   }

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "stonedew:block/catalog/placed_uv_panel_4"
+    },
+    "lit=true": {
+      "model": "stonedew:block/catalog/placed_uv_panel_4_lit"
+    }
+  }
+}

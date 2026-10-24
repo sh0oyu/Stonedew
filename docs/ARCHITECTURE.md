@@ -68,3 +68,14 @@ Plant fans use a fixed original RGBA painting exposed through 25 native 256px at
 The rejected full-fan runtime painting is retired. A new fixed individual-leaflet painting binds through one native power-of-two atlas window. Read-only alpha measurements bound six longitudinal bands; each of seven fingers receives independent pose/curvature. Compact branches carry overlapping fans. Foliage has gentler baked occlusion than solid materials. Raised bract crowns supplement existing flower volume. These are art changes; save/network/simulation schemas remain unchanged.
 
 The tray renderer now rejects only degenerate surfaces: its old area threshold discarded most thin pistil faces and every resin facet in the inspected small bud. The lower threshold retains those valid surfaces and small leaf bands.
+
+
+## Current rendering and workshop integration — 0.2.9
+
+The current complete five-finger source supersedes the dated 0.2.7/0.2.8 construction notes above. A near fan has four folded double-sided patches; its distant counterpart has one. Artist normals preserve green undersides. Flower surfaces merge coplanar exposed bracts, retaining the stepped outline and attached hairs/resin. The maximum is 2,294 / 106 faces. A per-level/per-tray light sample cache refreshes every ten ticks and caps its map; vertices use its small height table. The HUD queries targeting at most ten times per second. Opt-in client timings are documented under `docs/performance`.
+
+`ModContent.CATALOG` registers ten normal block items and their recipes/Creative access. Pots reuse `GrowTrayBlockEntity`, with soil heights matching geometry; the crate has one slot and the bed has four. All lamp variants join the existing block-entity type, scheduled fuel loop, client effects and server growth-light query.
+
+`GrowTentBlock` places a facing-aware static model and reserved `GrowTentPartBlock` shell cells in a 3×3×3 footprint. The center and front doorway remain available, including the upper center socket for a real fueled lamp. Placement checks loaded space/world bounds before writing. Parts reference the anchor by rotated index; breaking a part removes the anchor/shell and drops one item, while Creative removal suppresses the drop. Contents remain ordinary independent blocks. Collision shapes are cached. This adds no per-frame tent block-entity renderer or automatic irrigation/climate simulation.
+
+`LedgerScreen` presents three local mouse/keyboard tabs over the original journal painting, showing player name and synced progress. P1 save/network schemas and the P3 Fun Gate are preserved.

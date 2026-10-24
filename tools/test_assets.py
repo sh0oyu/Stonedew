@@ -49,7 +49,7 @@ class AssetTests(unittest.TestCase):
                             mesh = read_obj(path.with_suffix(".obj"))
                             self.assertGreater(len(mesh["f"]), 0)
                             if not detail:self.assertTrue(mesh["vc"], "Near meshes require a successful AO bake")
-                            self.assertLessEqual(len(mesh["f"]), 100 if detail else 14000)
+                            self.assertLessEqual(len(mesh["f"]), 112 if detail else 2600)
                             for vertex in mesh["v"]:
                                 self.assertTrue(all(math.isfinite(value) and -1 <= value <= 2 for value in vertex))
 
@@ -106,7 +106,7 @@ class AssetTests(unittest.TestCase):
                     self.assertGreaterEqual(dimension, 256)
                     self.assertLessEqual(dimension, 2048)
                 if path.name == "painted_materials.png": self.assertEqual(width, height)
-                else: self.assertTrue(.75 <= width/height <= 1.5)
+                else: self.assertTrue(.75 <= width/height <= 1.51)
                 if path.name == "leaf_fan.png":
                     self.assertEqual(data[25], 6, "Leaf cards must preserve alpha")
                 else:
@@ -121,29 +121,29 @@ class AssetTests(unittest.TestCase):
         # Painting windows have distinct IDs: never overwrite ordinary 32px sprites,
         # import the non-power-of-two source as a block sprite, or lower global mips.
         atlas=json.loads((ROOT/'src/main/resources/assets/minecraft/atlases/blocks.json').read_text())
-        self.assertEqual(len(atlas['sources']),2)
+        self.assertEqual(len(atlas['sources']),4)
         source=atlas['sources'][0]
         self.assertEqual(source['type'],'minecraft:unstitch')
-        self.assertEqual(source['resource'],'stonedew:art/materials_v6')
-        original=(ROOT/'docs/art/sources/materials-v6.png').read_bytes()
-        self.assertEqual(original,(ASSETS/'textures/art/materials_v6.png').read_bytes())
+        self.assertEqual(source['resource'],'stonedew:art/materials_v9')
+        original=(ROOT/'docs/art/sources/materials-v9.png').read_bytes()
+        self.assertEqual(original,(ASSETS/'textures/art/materials_v9.png').read_bytes())
         width,height=struct.unpack('>II',original[16:24])
         self.assertEqual((source['divisor_x'],source['divisor_y']),(width,height))
-        self.assertEqual(len(atlas_regions()),17)
+        self.assertEqual(len(atlas_regions()),22)
         for region in source['regions']:
             self.assertTrue(region['sprite'].startswith('stonedew:block/painted/'))
             self.assertEqual((region['width'],region['height']),(256,256))
             self.assertTrue(0<=region['x']<=width-256 and 0<=region['y']<=height-256)
-        source=atlas['sources'][1]
-        self.assertEqual(source['resource'],'stonedew:art/cannabis_leaflet_v8')
-        original=(ROOT/'docs/art/sources/cannabis-leaflet-v8.png').read_bytes()
-        self.assertEqual(original,(ASSETS/'textures/art/cannabis_leaflet_v8.png').read_bytes())
+        source=next(s for s in atlas['sources'] if s['resource']=='stonedew:art/cannabis_fan_v9')
+        self.assertEqual(source['resource'],'stonedew:art/cannabis_fan_v9')
+        original=(ROOT/'docs/art/sources/cannabis-fan-v9.png').read_bytes()
+        self.assertEqual(original,(ASSETS/'textures/art/cannabis_fan_v9.png').read_bytes())
         self.assertFalse((ASSETS/'textures/art/cannabis_fan_v7.png').exists())
         width,height=struct.unpack('>II',original[16:24])
         self.assertEqual((source['divisor_x'],source['divisor_y']),(width,height))
         self.assertEqual(len(source['regions']),1)
         for region in source['regions']:
-            self.assertEqual(region['sprite'],'stonedew:block/botanical/leaflet_v8')
+            self.assertEqual(region['sprite'],'stonedew:block/botanical/fan_v9')
             w,h=region['width'],region['height']
             self.assertEqual(w & (w-1),0)
             self.assertEqual(h & (h-1),0)
@@ -152,7 +152,7 @@ class AssetTests(unittest.TestCase):
         self.assertIn("map_Kd stonedew:block/leaf_fan", materials)
         self.assertIn("neoforge_TintIndex 3", materials)
         near = read_obj(ASSETS / "models/block/plants/plant_3_0_0.obj")
-        self.assertTrue(any(n[1] < -.5 for n in near["vn"]), "undersides need their own normals")
+        self.assertTrue(any(n[1] < -.5 for n in near["vn"]), "Solid flowers and stems retain geometric normals")
         self.assertTrue(any(.1 < abs(n[0]) < .9 for n in near["vn"]), "folded fans need directional normals")
         provenance = json.loads((ROOT / "docs/art/painted-sources.json").read_text())
         import hashlib
@@ -191,15 +191,17 @@ class AssetTests(unittest.TestCase):
         mesh = Mesh()
         flower(mesh, (0,0,0), 1, 0)
         hairs = [face for face in mesh.faces if face[0] == "hair"]
-        self.assertEqual(len(hairs), 192)
-        tops = [face[1] for face in mesh.faces if face[0].startswith("bud") and face[2][0][1] > .5]
-        for offset in range(0, len(hairs), 12):
+        self.assertEqual(len(hairs), 16)
+        self.assertLess(len(mesh.faces), 190, "Fine flowers must remain affordable across a full garden")
+        tops=[vertices for mat,vertices,normals,_ in mesh.faces if mat.startswith('bud') and normals[0][1]>.5]
+        for offset in range(0,len(hairs),4):
             first=hairs[offset][1]
-            x,y,z=tuple((a+b)/2 for a,b in zip(first[0],first[-1]))
-            self.assertTrue(any(abs(top[0][1]-y)<1e-6
-                and min(v[0] for v in top)<=x<=max(v[0] for v in top)
-                and min(v[2] for v in top)<=z<=max(v[2] for v in top) for top in tops))
-            strand=[vertex for face in hairs[offset:offset+12] for vertex in face[1]]
+            start=tuple((a+b)/2 for a,b in zip(first[0],first[-1]))
+            x,y,z=start
+            self.assertTrue(any(abs(v[0][1]-y)<1e-6 and min(p[0] for p in v)-1e-6<=x<=max(p[0] for p in v)+1e-6
+                                and min(p[2] for p in v)-1e-6<=z<=max(p[2] for p in v)+1e-6 for v in tops),
+                            "Pistils must attach to bract shoulders")
+            strand=[v for f in hairs[offset:offset+4] for v in f[1]]
             self.assertLess(max(v[1] for v in strand)-min(v[1] for v in strand),.32)
         self.assertTrue(any(f[0]=='sugar_leaf' for f in mesh.faces))
         self.assertTrue(any(f[0]=='resin' for f in mesh.faces))

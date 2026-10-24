@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "stonedew:glow_cell"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    " I ",
+    " G ",
+    "III"
+  ],
+  "result": {
+    "count": 1,
+    "id": "stonedew:uv_pendant"
+  }
+}

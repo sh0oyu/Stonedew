@@ -2,9 +2,9 @@
 
 A Minecraft Java **1.21.1 / NeoForge 21.1.264** mod about a cozy underground cultivation cave, colorful strains and an unsettling mystery.
 
-**Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes one-slot pots, four-slot beds, persistent genome identity, a plant HUD and a working Ledger directive screen. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
+**Current milestone: P1 — Plant Core.** Plant seeds, water individual plants, fuel lamps, and grow through four visible stages to ripe buds. Includes plantable pot variants, four-slot beds, four fueled lamp designs, four placeable tents, persistent genome identity, a compact plant HUD and a personal field journal. Harvest/processing, room simulation, consumption, worldgen and automation remain in later phases.
 
-[**Download stonedew-0.2.8-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.8-p1.jar)
+[**Download stonedew-0.2.9-p1.jar**](https://github.com/sh0oyu/Stonedew/raw/refs/heads/main/downloads/stonedew-0.2.9-p1.jar)
 
 ## Install
 
@@ -16,11 +16,11 @@ Back up existing worlds before updating development builds. P0 worlds can load P
 
 ## First grow
 
-Start a disposable Creative world with commands enabled. The Stonedew tab contains equipment, four seed colors, a full can and Glow Cells. `/stonedew debug givekit 0` supplies a kit too.
+Start a disposable Creative world with commands enabled. The Stonedew tab contains all equipment and tent tiers, four seed colors, a full can and Glow Cells. New equipment also has Survival crafting recipes. `/stonedew debug givekit 0` supplies a kit too.
 
-1. Place a **Clay Pot** or **Planter Bed**. Right-click soil with a **Wild Seed**. Beds have four planting positions.
+1. Place a **Clay Pot**, **Wooden Grow Crate**, **Canvas Grow Pot**, **Reinforced Grow Pot** or **Planter Bed**. Right-click soil with a **Wild Seed**. Beds have four planting positions.
 2. Right-click foliage or soil with the **Tin Watering Can**. A successful pour adds water and uses one of eight pours in Survival. Refill at source water or a water cauldron.
-3. Place a **Bulb Lamp** above/near plants and right-click it with a **Glow Cell**. Each cell supplies one Minecraft day of fuel. The lit lamp contributes Lume within five blocks.
+3. Place a **Bulb Lamp**, **UV Pendant** or **Grow Panel** above/near plants and right-click it with a **Glow Cell**. Each cell supplies one Minecraft day of fuel. The lit lamp contributes Lume within five blocks.
 4. Aim at foliage to inspect stage, water, Lume and Vigor. Plants sway and change form as they grow. Poor care slows growth without killing plants. Normal growth takes roughly an hour with good care, longer with poor care.
 5. Open a placed **Ledger** to follow the introductory directive. Ripe plants are the P1 endpoint; harvesting arrives in P3.
 
@@ -39,17 +39,17 @@ See the [eight-step playtest and remaining placeholders](docs/P1_PLAYTEST.md). D
 
 ## Art direction
 
-The Stonedew banner and unchanged **CODEX_REFERENCE_NEW** sheets guide the art. Version 0.2.8 uses shorter branches and overlapping foliage through the center. Each cannabis fan is assembled from seven separately curved/folded fingers using a quieter original leaflet painting. Smaller flowers sit within the canopy; shallow raised bracts add surface volume to their established shape.
+The banner and unchanged **CODEX_REFERENCE_NEW** sheets guide the art. Version **0.2.9** has larger, wider plants with recognizable five-finger painted fans, staggered branch leaves, smaller stepped flowers, short pistils and sugar leaves. Four saved branch layouts and 5/9/13 mature flower loads persist. The new palette extends across pots, beds, tools, lamps, tents and Dewstone. The Ledger now opens a personal field journal with garden progress, care and workshop tabs.
 
-Foliage receives softer occlusion so the interior stays green. Flowers retain sugar leaves, curved pistils and non-emissive resin details. Four saved layouts and 5/9/13 mature flower loads persist; visual variation remains separate from genetics and eventual P3 harvest yield.
+**Tents are now placeable items in the Stonedew Creative tab and Survival recipes.** Keep a clear 3×3×3 space, place its frame on clear ground and enter through the opening facing you. Pots fit inside; add and fuel your own lamp in the upper center socket. Breaking the shell removes the tent and preserves its contents. Tent climate control and automatic irrigation belong to later phases; these enclosures and reinforced pots use the current manual care loop.
 
-`/stonedew debug art` builds a checked, labeled reference-art gallery in clear loaded space. It includes all four pot, all four UV and all four tent designs. Future-tier models are **display previews**, without automation gameplay. Working P1 equipment remains in the Creative tab.
+The plant renderer uses compact geometry, earlier distant detail and cached lighting. Measured comparison and reproduction conditions are in [the performance report](docs/performance/0.2.9.md).
 
-![Actual rebuilt plant in Minecraft](docs/screenshots/p1-canopy-detail.png)
+![Actual rebuilt plant in Minecraft](docs/screenshots/p1-unified-plant.png)
 
-[Whole plant](docs/screenshots/p1-canopy-kush.png) · [Violet plant](docs/screenshots/p1-canopy-violet.png) · [Bud detail](docs/screenshots/p1-canopy-detail.png) · [Normal FOV](docs/screenshots/p1-canopy-gameplay.png) · [Growth stages](docs/screenshots/p1-canopy-stages.png) · [Variations](docs/screenshots/p1-canopy-variation.png) · [Cave comparison](docs/screenshots/p1-canopy-scene.png) · [Reference catalog](docs/screenshots/p1-revision-catalog.png) · [Equipment](docs/screenshots/p1-revision-equipment.png) · [Rendering/source notes](docs/art/ART_DIRECTION.md)
+[Journal](docs/screenshots/p1-unified-journal.png) · [Workshop](docs/screenshots/p1-unified-workshop.png) · [Tents](docs/screenshots/p1-unified-tents.png) · [Creative inventory](docs/screenshots/p1-unified-inventory.png) · [Plant HUD](docs/screenshots/p1-unified-hud.png) · [Growth stages](docs/screenshots/p1-unified-stages.png) · [Art sources and shading](docs/art/ART_DIRECTION.md)
 
-These are actual game captures. Baked/local shading is included; the promotional image's full scene shadows and HDR bloom require a compatible shader renderer/pack. No shader pack is bundled or claimed tested. See [asset sources/status](ASSETS.md).
+Screenshots are unedited Minecraft captures. Local occlusion, painted shading and fuel-dependent grow-light effects are included. Full-scene shader shadows and bloom require a compatible renderer/pack; shader compatibility remains unverified. See [asset sources/status](ASSETS.md).
 
 ## Develop
 
@@ -60,7 +60,7 @@ python3 -m pip install -r tools/requirements-art.txt  # art authoring only
 python3 tools/generate_game_assets.py
 python3 -m unittest discover -s tools -p 'test_*.py'
 ./gradlew runData
-./gradlew build       # build/libs/stonedew-0.2.8-p1.jar
+./gradlew build       # build/libs/stonedew-0.2.9-p1.jar
 ./gradlew runClient
 ```
 

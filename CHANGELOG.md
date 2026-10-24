@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.9-p1 — cohesive art, usable catalog, field journal and rendering fix — 2026-10-23
+
+- Rebuilt five-finger fans around a new transparent cartoon painting: four folded patches near, one patch far, varied direction/roll and clearer branch spacing. Mature plants are larger/wider; beds use a narrower spread per slot. Four saved gestures and 5/9/13 flower loads persist.
+- Smaller stepped flowers retain the egg/bract contour. Exposed coplanar surfaces merge; short curved hairs, sugar leaves and restrained resin stay. Maximum near geometry falls **13,090→2,294 faces**; distant geometry uses 106 faces. Foliage normals and softer botanical occlusion preserve readable painted greens.
+- New original equipment, botanical, Dewstone and journal paintings unify walnut, terracotta, violet steel/canvas, copper, green and cyan. All five original PNGs are packaged unchanged through native atlas windows/direct UI drawing; mip level 4 remains.
+- Added **four placeable/craftable tent tiers, three plantable pot variants and three fueled lamp variants** to the Stonedew tab. The Wooden Grow Crate holds one full-size plant; the Planter Bed retains four slots. Canvas and reinforced pots use manual care. Lamps accept Glow Cells and contribute P1 growth light. Tents have static geometry, reserved shell cells, clear interiors and a lamp socket; breaking the shell removes its structure and preserves contents. Climate control and automation remain in later phases.
+- Replaced the Ledger UI with a personalized field journal: garden progress, care and workshop tabs, mouse/keyboard navigation. Compact matching HUD panels show stage/care bars and status.
+- Cached plant light samples outside the face loop, earlier distant detail, bounded targeting queries and cached tent collision shapes address rendering cost. Optional `-Dstonedew.profileRender=true` records actual client submission timings; ordinary play does not enable it. Measurements and limits are in `docs/performance/0.2.9.md`.
+
+Validation: Java 21 / NeoForge build and datagen pass, with 58 JUnit tests and 11 asset checks. All 327 generated files reproduce byte-identically; 394 packaged resource files match sources. Actual client checks cover all four tent tiers, 66 rotated shell cells after reload, shell removal preserving contents, all four fueled fixture designs, Canvas Pot and Wooden Crate Survival planting/watering (one seed/pour consumed), preserved appearance identity, journal navigation and corrected Creative icons. The controlled 24-pot test improves 7–8→31 FPS on the cloud software renderer, with median plant submission time 50.2→4.38 ms.
+
+Current unedited game captures use `p1-unified-*`. Historical rejected sources and captures remain documented. Original master brief/reference uploads, P1 save schemas and the P3 Fun Gate remain intact.
+
+
 
 ## 0.2.8-p1 — overlapping canopy and independently folded fingers — 2026-10-23
 

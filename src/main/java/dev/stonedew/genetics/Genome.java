@@ -68,7 +68,7 @@ public record Genome(String schema, long lineageSeed, Map<String, Alleles> genes
       case "teal" -> 0x4FE8E0;
       case "amber" -> 0xFFC247;
       case "violet" -> 0xB642FF;
-      default -> 0xA1CD43;
+      default -> 0xB9D953;
     };
   }
 

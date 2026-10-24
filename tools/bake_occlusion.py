@@ -80,9 +80,10 @@ def bake(path):
         # Emissive lenses and light cores must not receive baked shadows.
         emission=material.startswith('emission') or material in ('cyan_emission','white_emission')
         foliage=material.startswith(('leaf','sugar_leaf'))
+        floral=material.startswith('bud')
         center=sum((Vector(verts[v[0]-1]) for v in face),Vector())/len(face)
         for v in face:
-            p=Vector(verts[v[0]-1]);n=Vector(normals[v[2]-1]);key=(foliage,)+tuple(round(t,5) for t in (*p,*n))
+            p=Vector(verts[v[0]-1]);n=Vector(normals[v[2]-1]);key=(1 if foliage else 2 if floral else 0,)+tuple(round(t,5) for t in (*p,*n))
             if emission or material=='hair':ao=1
             elif key in cache:ao=cache[key]
             else:
@@ -94,7 +95,7 @@ def bake(path):
                     direction=tangent*x+bitangent*y+n*z
                     location,_,_,distance=tree.ray_cast(origin,direction,.33)
                     visibility+=1 if location is None else min(1,(distance/.33)**.60)
-                ao=(.75+.25*visibility/len(samples)) if foliage else (.53+.47*visibility/len(samples))
+                ao=(.88+.12*visibility/len(samples)) if foliage else (.78+.22*visibility/len(samples)) if floral else (.53+.47*visibility/len(samples))
                 cache[key]=ao
             if plant and not emission and material!='hair':
                 # Cast foliage/flower shadows are separate from ambient occlusion.
@@ -109,7 +110,7 @@ def bake(path):
                         hits+=hit is None
                     shadow_cache[key]=hits/3
                 shade=shadow_cache[key]
-                ao*= (.72+.28*shade) if foliage else (.76+.24*shade)
+                ao*= (.88+.12*shade) if foliage else (.84+.16*shade) if floral else (.76+.24*shade)
             # Static lit reference previews also bake occlusion-aware violet reflections.
             # Working P1 plants still get their actual fuel-dependent UV light at runtime.
             uv=0

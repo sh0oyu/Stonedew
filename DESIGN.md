@@ -3,12 +3,13 @@
 ## Approved scope and current implementation status — 2026-10-23
 
 - User approved the kickoff plan: NeoForge / Minecraft Java 1.21.1; Uneasy default; full story and endings, Remember overlay and Hollow Runs included; Stonedew name; cannabis theme with optional Herbal Mode.
-- Current art direction: the warm Stonedew banner and **CODEX_REFERENCE_NEW** remain authoritative. The owner rejected 0.2.7’s sparse bare branches and flat leaf emblems. Version 0.2.8 shortens branch reaches and fills the canopy with overlapping fans built from independently curved fingers and a quieter original painting. Flowers are smaller within the foliage, with raised bracts and existing sugar leaves/pistils/resin; foliage shading is softer. Saved identities remain. Future-tier gallery models remain art previews.
+- Current art/UI: **0.2.9** uses larger natural plants, painted five-finger fans, smaller merged bract flowers, shared cartoon equipment materials and a personal field journal. Four tent tiers, three additional plantable pots and three fueled lamps are now placeable/craftable. Rendering uses compact meshes and cached lighting. The warm banner and CODEX_REFERENCE_NEW remain authoritative; visual acceptance remains with the owner.
 - Work proceeds phase by phase. Automation remains gated on the user's explicit P3 Fun Gate approval. Full scope is retained, including the M3 Annex and later Wings; nothing has been cut.
 - Current implementation: **P1 Plant Core** — planting, watering, fueled lamps, four-stage growth, persistent genome identity, HUD and Ledger. Harvest/processing and full room simulation remain future phases. See CHANGELOG.md and ASSETS.md for exact implementation and validation status.
 - Part II overrides conflicting Part I systems; section 50 reconciles the three parts. The original Part I/II/III text follows unchanged.
 
 ---
+
 
 # STONEDEW: Master Design Bible and Build Brief
 

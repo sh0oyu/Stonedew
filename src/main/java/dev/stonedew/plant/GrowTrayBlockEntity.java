@@ -88,7 +88,7 @@ public final class GrowTrayBlockEntity extends BlockEntity implements StatusSour
             worldPosition.offset(p.lampRadius(), p.lampRadius() + 2, p.lampRadius()))) {
       // Check loaded blocks only: a grow tray must never force neighboring chunks to load.
       if (level.hasChunkAt(lamp)
-          && level.getBlockState(lamp).is(ModContent.BULB_LAMP.get())
+          && level.getBlockState(lamp).getBlock() instanceof BulbLampBlock
           && level.getBlockState(lamp).getValue(BulbLampBlock.LIT))
         light += p.lampOutput() / (1 + p.lampFalloff() * lamp.distSqr(worldPosition));
     }

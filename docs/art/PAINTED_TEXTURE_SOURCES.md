@@ -1,3 +1,11 @@
+# Current painted sources — 0.2.9
+
+Five new original paintings provide the complete fan, equipment palette, botanical surfaces, journal and Dewstone. See [source inventory](sources/README.md) and [recorded hashes](painted-sources.json). Runtime copies retain their original bytes. Four native atlas sources expose 22 named sprites at mip level 4; the journal is a direct UI texture. Python reads the source alpha to author geometry and does not edit paintings.
+
+The notes below document historical source acquisition for rejected earlier versions.
+
+---
+
 # Painted sources
 
 The current original paintings are `sources/materials-v6.png` and `sources/cannabis-leaflet-v8.png`. See [its provenance](sources/README.md) and [current bindings/rendering notes](ART_DIRECTION.md). It is packaged unchanged and exposed through native atlas UV windows; its dimensions/hash are in `authored-sources.json`.

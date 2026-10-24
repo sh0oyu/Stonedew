@@ -24,11 +24,21 @@ public final class GrowTrayBlock extends BaseEntityBlock {
       simpleCodec(properties -> new GrowTrayBlock(properties, 1));
   public static final BooleanProperty WET = BooleanProperty.create("wet");
   private final int slots;
+  private final float soilHeight;
 
   public GrowTrayBlock(Properties properties, int slots) {
+    this(properties, slots, slots == 1 ? 7.5F / 16 : 13.6F / 16);
+  }
+
+  public GrowTrayBlock(Properties properties, int slots, float soilHeight) {
     super(properties);
     this.slots = slots;
+    this.soilHeight = soilHeight;
     registerDefaultState(stateDefinition.any().setValue(WET, false));
+  }
+
+  public float soilHeight() {
+    return soilHeight;
   }
 
   public int slots() {
@@ -58,7 +68,15 @@ public final class GrowTrayBlock extends BaseEntityBlock {
   @Override
   protected VoxelShape getShape(
       BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-    return slots == 1 ? Block.box(3, 0, 3, 13, 9, 13) : Block.box(0, 0, 0, 16, 14.7, 16);
+    return slots == 1
+        ? Block.box(
+            soilHeight > .8F ? 0 : 2,
+            0,
+            soilHeight > .8F ? 0 : 2,
+            soilHeight > .8F ? 16 : 14,
+            soilHeight * 16 + 1.5F,
+            soilHeight > .8F ? 16 : 14)
+        : Block.box(0, 0, 0, 16, 14.7, 16);
   }
 
   @Override

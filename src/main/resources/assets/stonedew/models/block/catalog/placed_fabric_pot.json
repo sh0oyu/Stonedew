@@ -1,0 +1,11 @@
+{
+  "credit": "Original Stonedew placeable workshop equipment.",
+  "loader": "neoforge:obj",
+  "model": "stonedew:models/block/catalog/placed_fabric_pot.obj",
+  "automatic_culling": false,
+  "shade_quads": true,
+  "emissive_ambient": true,
+  "textures": {
+    "particle": "stonedew:block/painted/iron"
+  }
+}

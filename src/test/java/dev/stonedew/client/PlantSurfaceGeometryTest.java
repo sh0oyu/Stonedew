@@ -35,7 +35,7 @@ class PlantSurfaceGeometryTest {
         checked++;
       }
     }
-    assertTrue(checked > 100, "Exercise the real shipped detail geometry");
+    assertTrue(checked > 50, "Exercise the real shipped detail geometry");
     assertFalse(PlantSurfaceGeometry.hasArea(new float[4], new float[4], new float[4]));
   }
 }

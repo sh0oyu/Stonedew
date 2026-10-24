@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "stonedew:bulb_lamp"
+    },
+    "P": {
+      "item": "stonedew:uv_panel_4"
+    }
+  },
+  "pattern": [
+    "ALA",
+    "IPI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "stonedew:uv_panel_6"
+  }
+}

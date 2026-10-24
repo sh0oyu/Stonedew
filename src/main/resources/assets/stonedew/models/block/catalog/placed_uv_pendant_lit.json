@@ -1,0 +1,35 @@
+{
+  "credit": "Original Stonedew placeable workshop equipment.",
+  "textures": {
+    "particle": "stonedew:block/painted/iron"
+  },
+  "loader": "neoforge:composite",
+  "children": {
+    "body": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/catalog/placed_uv_pendant_lit_body.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/painted/iron"
+      },
+      "render_type": "minecraft:cutout"
+    },
+    "light": {
+      "loader": "neoforge:obj",
+      "model": "stonedew:models/block/catalog/placed_uv_pendant_lit_emission.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "emissive_ambient": true,
+      "textures": {
+        "particle": "stonedew:block/painted/iron"
+      },
+      "render_type": "stonedew:emissive"
+    }
+  },
+  "item_render_order": [
+    "body",
+    "light"
+  ]
+}

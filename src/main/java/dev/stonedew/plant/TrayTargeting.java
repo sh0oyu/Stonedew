@@ -58,13 +58,14 @@ public final class TrayTargeting {
         height *= appearanceHeight;
         radius *= appearanceSpread;
         if (habit.equals("tall")) height *= 1.25;
+        double soil = ((GrowTrayBlock) tray.getBlockState().getBlock()).soilHeight();
         var bounds =
             new AABB(
                 centerX - radius,
-                pos.getY() + (grid == 1 ? 0.35 : 0.80),
+                pos.getY() + soil - .10,
                 centerZ - radius,
                 centerX + radius,
-                pos.getY() + (grid == 1 ? 0.5 : 0.86) + height,
+                pos.getY() + soil + height,
                 centerZ + radius);
         var hit = bounds.clip(eye, end);
         if (hit.isPresent() && eye.distanceToSqr(hit.get()) < closest) {

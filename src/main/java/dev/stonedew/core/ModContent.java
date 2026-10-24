@@ -107,6 +107,103 @@ public final class ModContent {
                       .strength(2F)
                       .sound(SoundType.WOOD)
                       .noOcclusion()));
+  public static final DeferredBlock<GrowTrayBlock> WOODEN_PLANTER =
+      BLOCKS.register(
+          "wooden_planter",
+          () ->
+              new GrowTrayBlock(
+                  BlockBehaviour.Properties.of()
+                      .mapColor(MapColor.WOOD)
+                      .strength(2F)
+                      .sound(SoundType.WOOD)
+                      .noOcclusion(),
+                  1,
+                  13.6F / 16));
+  public static final DeferredBlock<GrowTrayBlock> FABRIC_POT =
+      BLOCKS.register(
+          "fabric_pot",
+          () ->
+              new GrowTrayBlock(
+                  BlockBehaviour.Properties.of().strength(1F).sound(SoundType.WOOL).noOcclusion(),
+                  1,
+                  10F / 16));
+  public static final DeferredBlock<GrowTrayBlock> REINFORCED_POT =
+      BLOCKS.register(
+          "reinforced_pot",
+          () ->
+              new GrowTrayBlock(
+                  BlockBehaviour.Properties.of().strength(2F).sound(SoundType.METAL).noOcclusion(),
+                  1,
+                  12.4F / 16));
+  public static final DeferredBlock<BulbLampBlock> UV_PENDANT = catalogLamp("uv_pendant");
+  public static final DeferredBlock<BulbLampBlock> UV_PANEL_4 = catalogLamp("uv_panel_4");
+  public static final DeferredBlock<BulbLampBlock> UV_PANEL_6 = catalogLamp("uv_panel_6");
+  public static final DeferredBlock<GrowTentBlock> TENT_1 = tent("grow_tent_1", 1);
+  public static final DeferredBlock<GrowTentBlock> TENT_2 = tent("grow_tent_2", 2);
+  public static final DeferredBlock<GrowTentBlock> TENT_3 = tent("grow_tent_3", 3);
+  public static final DeferredBlock<GrowTentBlock> TENT_4 = tent("grow_tent_4", 4);
+  public static final DeferredBlock<GrowTentPartBlock> TENT_PART =
+      BLOCKS.register(
+          "grow_tent_part",
+          () ->
+              new GrowTentPartBlock(
+                  BlockBehaviour.Properties.of()
+                      .strength(1.5F)
+                      .sound(SoundType.WOOL)
+                      .noOcclusion()
+                      .noLootTable()));
+  public static final java.util.List<DeferredBlock<? extends Block>> CATALOG =
+      java.util.List.of(
+          WOODEN_PLANTER,
+          FABRIC_POT,
+          REINFORCED_POT,
+          UV_PENDANT,
+          UV_PANEL_4,
+          UV_PANEL_6,
+          TENT_1,
+          TENT_2,
+          TENT_3,
+          TENT_4);
+  private static final java.util.List<DeferredItem<BlockItem>> CATALOG_ITEMS =
+      CATALOG.stream()
+          .map(
+              block ->
+                  ITEMS.<BlockItem>register(
+                      block.getId().getPath(),
+                      () -> new WorkshopBlockItem(block.get(), new Item.Properties())))
+          .toList();
+
+  private static DeferredBlock<BulbLampBlock> catalogLamp(String name) {
+    return BLOCKS.register(
+        name,
+        () ->
+            new BulbLampBlock(
+                BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .strength(1.5F)
+                    .sound(SoundType.LANTERN)
+                    .noOcclusion()
+                    .lightLevel(state -> state.getValue(BulbLampBlock.LIT) ? 12 : 0),
+                switch (name) {
+                  case "uv_pendant" -> Block.box(4, 0, 4, 12, 12, 12);
+                  case "uv_panel_4" -> Block.box(-1, 4, 1, 17, 13, 15);
+                  default -> Block.box(-3.5, 4, -1, 19.5, 13, 17);
+                }));
+  }
+
+  private static DeferredBlock<GrowTentBlock> tent(String name, int tier) {
+    return BLOCKS.register(
+        name,
+        () ->
+            new GrowTentBlock(
+                BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .strength(1.5F)
+                    .sound(SoundType.WOOL)
+                    .noOcclusion(),
+                tier));
+  }
+
   public static final DeferredItem<BlockItem> DEWSTONE_ITEM =
       ITEMS.registerSimpleBlockItem(DEWSTONE);
   public static final DeferredItem<BlockItem> CLAY_POT_ITEM =
@@ -138,14 +235,24 @@ public final class ModContent {
               "grow_tray",
               () ->
                   BlockEntityType.Builder.of(
-                          GrowTrayBlockEntity::new, CLAY_POT.get(), PLANTER_BED.get())
+                          GrowTrayBlockEntity::new,
+                          CLAY_POT.get(),
+                          PLANTER_BED.get(),
+                          WOODEN_PLANTER.get(),
+                          FABRIC_POT.get(),
+                          REINFORCED_POT.get())
                       .build(null));
   public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BulbLampBlockEntity>>
       LAMP_ENTITY =
           ENTITIES.register(
               "bulb_lamp",
               () ->
-                  BlockEntityType.Builder.of(BulbLampBlockEntity::new, BULB_LAMP.get())
+                  BlockEntityType.Builder.of(
+                          BulbLampBlockEntity::new,
+                          BULB_LAMP.get(),
+                          UV_PENDANT.get(),
+                          UV_PANEL_4.get(),
+                          UV_PANEL_6.get())
                       .build(null));
   public static final DeferredHolder<MenuType<?>, MenuType<LedgerMenu>> LEDGER_MENU =
       MENUS.register("ledger", () -> new MenuType<>(LedgerMenu::new, FeatureFlags.DEFAULT_FLAGS));
@@ -162,6 +269,7 @@ public final class ModContent {
                         output.accept(PLANTER_BED_ITEM);
                         output.accept(BULB_LAMP_ITEM);
                         output.accept(LEDGER_ITEM);
+                        CATALOG_ITEMS.forEach(item -> output.accept(item));
                         for (String pigment :
                             java.util.List.of("violet", "teal", "amber", "green")) {
                           var seed = WILD_SEED.toStack();
